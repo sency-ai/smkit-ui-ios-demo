@@ -1,0 +1,42 @@
+PODS:
+  - LASwift (0.3.2)
+  - SMBaseDev (0.4.2):
+    - LASwift
+    - SwiftyJSON
+  - SMBaseUIDev (0.1.4):
+    - SMBaseDev (= 0.4.2)
+  - SMKitDev (0.1.0):
+    - SMBaseDev (= 0.4.2)
+  - SMKitUIDev (0.1.0):
+    - SMBaseUIDev (= 0.1.4)
+    - SMKitDev (= 0.1.0)
+    - ZIPFoundation
+  - SwiftyJSON (5.0.1)
+  - ZIPFoundation (0.9.18)
+
+DEPENDENCIES:
+  - SMKitUIDev (= 0.1.0)
+
+SPEC REPOS:
+  https://bitbucket.org/sency-ios/sency_ios_dev_sdk.git:
+    - SMBaseDev
+    - SMBaseUIDev
+    - SMKitDev
+    - SMKitUIDev
+  https://github.com/CocoaPods/Specs.git:
+    - LASwift
+    - SwiftyJSON
+    - ZIPFoundation
+
+SPEC CHECKSUMS:
+  LASwift: 216b431849a03b8a06f5b8cd6d949f60583c998a
+  SMBaseDev: 80dd421de148b07ea06779ecfaed6285e471d8ed
+  SMBaseUIDev: 1878fe47fd0fd38d2e0c42a35717c1c8d951a83c
+  SMKitDev: 7f7e9a4423d2e367fb713a757709a17facf6da34
+  SMKitUIDev: 7f46c802342e521d98448522a314c9d808145f6e
+  SwiftyJSON: 2f33a42c6fbc52764d96f13368585094bfd8aa5e
+  ZIPFoundation: fa9ae5af13b7cf168245f24d1c672a4fb972e37f
+
+PODFILE CHECKSUM: e7817e9074044c33993214c3e927566387cecdf0
+
+COCOAPODS: 1.14.3
