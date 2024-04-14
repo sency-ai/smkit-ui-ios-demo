@@ -1,12 +1,11 @@
 source 'https://bitbucket.org/sency-ios/sency_ios_sdk.git'
-source 'https://bitbucket.org/sency-ios/sency_ios_dev_sdk.git'
 source 'https://github.com/CocoaPods/Specs.git'
 
 workspace 'SMKitUIDemo.xcworkspace'
 
 target 'SMKitUIDemoApp' do
   use_frameworks!
-  pod 'SMKitUIDev' , '0.1.0'
+  pod 'SMKitUI' , '0.1.0'
 end
 
 post_install do |installer|

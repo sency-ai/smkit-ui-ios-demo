@@ -79,7 +79,7 @@ extension ViewController:SMKitUIWorkoutDelegate{
     }
 
     // Exit workout callback
-    func didExitWorkout(summary: SMKitUIDev.WorkoutSummaryData) {
+    func didExitWorkout(summary: WorkoutSummaryData) {
         //Will close SMKitUI.
         SMKitUIModel.exitSDK()
     }
@@ -129,6 +129,29 @@ let workout = SMWorkout(
 do{
     try SMKitUIModel.startWorkout(viewController: self,workout: workout, delegate: self)
 }catch{
+    print(error)
+}
+```
+
+### Start Program
+**startWorkoutFromProgram** starts a workout program according to yor **WorkoutConig**.
+
+first let's create a `WorkoutConfig`:
+
+```Swift
+let workoutConfig = WorkoutConfig(
+    week: 1, // The program week
+    bodyZone: .FullBody, // The program bodyZone
+    difficultyLevel: .HighDifficulty, // The program difficulty
+    workoutDuration: .Short, // The program duration
+    programID: "YOUR_PROGRAM_ID"
+)
+```
+
+Now we can start the program:
+
+```Swift
+SMKitUIModel.startWorkoutFromProgram(viewController: self, workoutConfig: workoutConfig, delegate: self) { error in
     print(error)
 }
 ```
