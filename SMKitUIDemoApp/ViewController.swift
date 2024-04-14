@@ -83,6 +83,21 @@ class ViewController: UIViewController {
         }
     }
     
+    func startProgramWasPressed(){
+        let workoutConfig = WorkoutConfig(
+            week: 6, // The program week
+            bodyZone: .FullBody, // The program bodyZone
+            difficultyLevel: .HighDifficulty, // The program difficulty
+            workoutDuration: .Short, // The program duration
+            programID: "YOUR_PROGRAM_ID"
+        )
+
+
+        SMKitUIModel.startWorkoutFromProgram(viewController: self, workoutConfig: workoutConfig, delegate: self) { error in
+            self.showAlert(title: error.localizedDescription)
+        }
+    }
+    
     func showAlert(title:String, message:String? = nil){
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))
