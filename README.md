@@ -83,6 +83,10 @@ extension ViewController:SMKitUIWorkoutDelegate{
         //Will close SMKitUI.
         SMKitUIModel.exitSDK()
     }
+    
+    //When the user finish a exercise this  function will be called with the exercise data.
+    func exerciseDidFinish(data: ExerciseData) {
+    }
 }
 ```
     
