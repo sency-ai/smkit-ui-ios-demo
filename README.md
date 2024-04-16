@@ -9,7 +9,7 @@
 ## 1. Installation
 
 ### Cocoapods
-```
+```ruby
 // [1] add the source to the top of your Podfile.
 source 'https://bitbucket.org/sency-ios/sency_ios_sdk.git'
 source 'https://github.com/CocoaPods/Specs.git'
