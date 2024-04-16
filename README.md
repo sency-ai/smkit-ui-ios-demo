@@ -132,7 +132,29 @@ do{
     print(error)
 }
 ```
+----------
 
+## Available Data Types
+### `ExerciseData`
+
+| Type              | Format                                                         | Description                                                                                                  |
+|-------------------|----------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
+| activityID        | `String`                                                       | A unique identifier for the activity. Internal use only.                                                     |
+| sessionId         | `String`                                                       | The identifier for the session in which the exercise was performed.                                          |
+| prettyName        | `String`                                                       | The user-friendly name of the exercise activity.                                                             |
+| name              | `String`                                                       | The technical name identifier for the exercise activity.                                                     |
+| targetTime        | `Double?`                                                      | The targeted duration for the exercise session in seconds (optional).                                        |
+| startTime         | `String`                                                       | The start time of the exercise session in "YYYY-MM-dd HH:mm:ss.SSSZ" format.                                 |
+| endTime           | `String`                                                       | The end time of the exercise session in "YYYY-MM-dd HH:mm:ss.SSSZ" format.                                   |
+| totalTime         | `Double`                                                       | The total time taken for the exercise session in seconds.                                                    |
+| performanceScore  | `Float`                                                        | The score representing the user's performance in the exercise.                                               |
+| techniqueScore    | `Float`                                                        | The score representing the user's technique during the exercise.                                             |
+| totalScore        | `Float`                                                        | The final calculated score for the exercise session, considering both performance and technique.             |
+| scoreFactor       | `Float` (internal)                                             | An internal modifier used in calculating the `totalScore`.                                                   |
+| startDate         | `Date?` (private)                                              | The start date of the exercise session. Optional and for internal use.                                       |
+
+
+## Additional functionalities
 ### Start Program
 **startWorkoutFromProgram** starts a workout program according to yor **WorkoutConig**.
 
