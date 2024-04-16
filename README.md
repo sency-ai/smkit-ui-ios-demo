@@ -1,9 +1,9 @@
 # [SMKitUI iOS Demo](https://github.com/sency-ai/smkit-sdk)
 
-1. [ Installation. ](#inst)
-2. [ Setup. ](#setup)
-3. [ Configure. ](#conf)
-4. [ Start. ](#start)
+1. [ Installation ](#inst)
+2. [ Setup ](#setup)
+3. [ Configure ](#conf)
+4. [ Start ](#start)
 
 <a name="inst"></a>
 ## 1. Installation
