@@ -5,6 +5,7 @@
 2. [ Setup ](#setup)
 3. [ Configure ](#conf)
 4. [ Start ](#start)
+5. [ Data ](#data)
 
 
 ## 1. Installation <a name="inst"></a>
@@ -134,7 +135,7 @@ do{
 ```
 ----------
 
-## Available Data Types
+## Available Data Types <a name="data"></a>
 #### `ExerciseData`
 | Type              | Format                                                         | Description                                                                                                  |
 |-------------------|----------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
@@ -159,15 +160,14 @@ do{
 | startTime         | `String`                               | The start time of the workout session in "YYYY-MM-dd HH:mm:ss.SSSZ" format.                                  |
 | endTime           | `String`                               | The end time of the workout session in "YYYY-MM-dd HH:mm:ss.SSSZ" format.                                    |
 | totalTime         | `Double`                               | The total time taken for the workout session in seconds.                                                     |
-| startDate         | `Date` (constant)                      | The start date and time of the workout session.                                                             |
-| finishedExercises | `Float` (variable)                     | The count of exercises that have been completed in the session.                                             |
+| startDate         | `Date`                                 | The start date and time of the workout session.                                                             |
+| finishedExercises | `Float`                                | The count of exercises that have been completed in the session.                                             |
 
 ## Additional functionalities
 ### Start Program
-**startWorkoutFromProgram** starts a workout program according to yor **WorkoutConig**.
+**startWorkoutFromProgram** starts a workout program according to yor **WorkoutConfig**.
 
-first let's create a `WorkoutConfig`:
-
+Create a `WorkoutConfig`:
 ```Swift
 let workoutConfig = WorkoutConfig(
     week: 1, // The program week
@@ -178,12 +178,12 @@ let workoutConfig = WorkoutConfig(
 )
 ```
 
-Now we can start the program:
-
+Start the program:
 ```Swift
 SMKitUIModel.startWorkoutFromProgram(viewController: self, workoutConfig: workoutConfig, delegate: self) { error in
     print(error)
 }
 ```
+--------
 
 Having issues? [Contact us](mailto:support@sency.ai) and let us know what the problem is.
