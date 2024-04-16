@@ -135,8 +135,7 @@ do{
 ----------
 
 ## Available Data Types
-### `ExerciseData`
-
+#### `ExerciseData`
 | Type              | Format                                                         | Description                                                                                                  |
 |-------------------|----------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
 | sessionId         | `String`                                                       | The identifier for the session in which the exercise was performed.                                          |
@@ -150,6 +149,18 @@ do{
 | techniqueScore    | `Float`                                                        | The score representing the user's technique during the exercise.                                             |
 | totalScore        | `Float`                                                        | The final calculated score for the exercise session, considering both performance and technique.             |
 
+#### `WorkoutSummaryData`
+| Type              | Format                                 | Description                                                                                                  |
+|-------------------|----------------------------------------|--------------------------------------------------------------------------------------------------------------|
+| sessionId         | `String`                               | A unique identifier for the workout session, generated as a UUID string.                                     |
+| exercises         | `[ExerciseData]`                       | An array of `ExerciseData` objects representing each exercise performed in the session.                      |
+| score             | `Int`                                  | The overall score for the workout session based on the exercises' scores.                                    |
+| completionRatio   | `Float`                                | A float value representing the ratio of exercises completed successfully over the total number of exercises. |
+| startTime         | `String`                               | The start time of the workout session in "YYYY-MM-dd HH:mm:ss.SSSZ" format.                                  |
+| endTime           | `String`                               | The end time of the workout session in "YYYY-MM-dd HH:mm:ss.SSSZ" format.                                    |
+| totalTime         | `Double`                               | The total time taken for the workout session in seconds.                                                     |
+| startDate         | `Date` (constant)                      | The start date and time of the workout session.                                                             |
+| finishedExercises | `Float` (variable)                     | The count of exercises that have been completed in the session.                                             |
 
 ## Additional functionalities
 ### Start Program
