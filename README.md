@@ -1,4 +1,4 @@
-# [SMKitUI iOS Demo](https://github.com/sency-ai/smkit-sdk)
+# [smkit-ui-ios-demo](https://github.com/sency-ai/smkit-sdk)
 
 1. [ Installation ](#inst)
 2. [ Setup ](#setup)
