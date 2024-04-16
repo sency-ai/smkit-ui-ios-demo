@@ -1,12 +1,13 @@
 # [smkit-ui-ios-demo](https://github.com/sency-ai/smkit-sdk)
 
+## Table of contents
 1. [ Installation ](#inst)
 2. [ Setup ](#setup)
 3. [ Configure ](#conf)
 4. [ Start ](#start)
 
-<a name="inst"></a>
-## 1. Installation
+
+## 1. Installation <a name="inst"></a>
 
 ### Cocoapods
 ```ruby
@@ -34,20 +35,17 @@ end
 
 ### SPM
 
-Comming soon
+```Comming soon```
 
 
-<a name="setup"></a>
-## 2. Setup
+## 2. Setup <a name="setup"></a>
 Add camera permission request to `Info.plist`
 ```Xml
 <key>NSCameraUsageDescription</key>
 <string>Camera access is needed</string>
 ```
 
-
-<a name="conf"></a>
-## 3. Configure
+## 3. Configure <a name="conf"></a>
 ```Swift
 SMKitUIModel.configure(authKey: "YOUR_KEY") {
     // The configuration was successful
@@ -61,9 +59,7 @@ To reduce wait time we recommend to call `configure` on app launch.
 
 **⚠️ SMKitUI will not work if you don't first call configure.**
 
-
-<a name="start"></a>
-## 4. Start
+## 4. Start <a name="start"></a>
 Implement **SMKitUIWorkoutDelegate**.
 ```Swift
 extension ViewController:SMKitUIWorkoutDelegate{
