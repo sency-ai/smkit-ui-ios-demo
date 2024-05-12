@@ -70,13 +70,13 @@ extension ViewController:SMKitUIWorkoutDelegate{
     }
 
     // Workout session end callback
-    func workoutDidFinish(summary: WorkoutSummaryData) {
+    func workoutDidFinish(data: WorkoutSummaryData) {
         // Will close SMKitUI.
         SMKitUIModel.exitSDK()
     }
 
     // Exit workout callback
-    func didExitWorkout(summary: WorkoutSummaryData) {
+    func didExitWorkout(data: WorkoutSummaryData) {
         //Will close SMKitUI.
         SMKitUIModel.exitSDK()
     }
@@ -92,8 +92,11 @@ extension ViewController:SMKitUIWorkoutDelegate{
 ```Swift
 func startAssessmentWasPressed(){
     do{
+        let userData = UserData(gender: .Female, birthday: Date()) // This is optinal if not provided the SDK will requst from the user his age and gender.
         // Start assessment
-        try SMKitUIModel.startAssessmet(viewController: self, type: AssessmentTypes.Fitness, delegate: self)
+        try SMKitUIModel.startAssessmet(viewController: self, type: AssessmentTypes.Fitness, userData: userData, delegate: self, onFailure: { error in
+
+        })
     }catch{
         showAlert(title: error.localizedDescription)
     }
