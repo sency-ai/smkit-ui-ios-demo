@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import SMKitUIDev
+import SMKitUI
 
 class ViewController: UIViewController {
 
@@ -106,8 +106,11 @@ class ViewController: UIViewController {
     
     func startAssessmentWasPressed(){
         do{
+            let userData = UserData(gender: .Female, birthday: Date()) // This is optinal if not provided the SDK will requst from the user his age and gender
             //Start a Assessment workout with AssessmentTypes
-            try SMKitUIModel.startAssessmet(viewController: self, type: AssessmentTypes.Fitness, delegate: self)
+            try SMKitUIModel.startAssessmet(viewController: self, type: AssessmentTypes.Fitness, userData: userData, delegate: self, onFailure: { error in
+                
+            })
         }catch{
             showAlert(title: error.localizedDescription)
         }
@@ -126,12 +129,12 @@ extension ViewController:SMKitUIWorkoutDelegate{
         
     }
     //When the user finishes the workout, this function will be called with a summary.
-    func workoutDidFinish(summary: WorkoutSummaryData) {
+    func workoutDidFinish(data: WorkoutSummaryData) {
         //Will close SMKitUI.
         SMKitUIModel.exitSDK()
     }
     //When the user exits the workout before finishing, this function will be called with a summary.
-    func didExitWorkout(summary: SMKitUIDev.WorkoutSummaryData) {
+    func didExitWorkout(data: WorkoutSummaryData) {
         //Will close SMKitUI.
         SMKitUIModel.exitSDK()
     }

@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import SMKitUIDev
+import SMKitUI
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {

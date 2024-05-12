@@ -1,15 +1,17 @@
-# [SMKitUI iOS Demo](https://github.com/sency-ai/smkit-sdk)
+# [smkit-ui-ios-demo](https://github.com/sency-ai/smkit-sdk)
 
-1. [ Installation. ](#inst)
-2. [ Setup. ](#setup)
-3. [ Configure. ](#conf)
-4. [ Start. ](#start)
+## Table of contents
+1. [ Installation ](#inst)
+2. [ Setup ](#setup)
+3. [ Configure ](#conf)
+4. [ Start ](#start)
+5. [ Data ](#data)
 
-<a name="inst"></a>
-## 1. Installation
+
+## 1. Installation <a name="inst"></a>
 
 ### Cocoapods
-```
+```ruby
 // [1] add the source to the top of your Podfile.
 source 'https://bitbucket.org/sency-ios/sency_ios_sdk.git'
 source 'https://github.com/CocoaPods/Specs.git'
@@ -34,20 +36,17 @@ end
 
 ### SPM
 
-Comming soon
+```Comming soon```
 
 
-<a name="setup"></a>
-## 2. Setup
+## 2. Setup <a name="setup"></a>
 Add camera permission request to `Info.plist`
 ```Xml
 <key>NSCameraUsageDescription</key>
 <string>Camera access is needed</string>
 ```
 
-
-<a name="conf"></a>
-## 3. Configure
+## 3. Configure <a name="conf"></a>
 ```Swift
 SMKitUIModel.configure(authKey: "YOUR_KEY") {
     // The configuration was successful
@@ -61,9 +60,7 @@ To reduce wait time we recommend to call `configure` on app launch.
 
 **⚠️ SMKitUI will not work if you don't first call configure.**
 
-
-<a name="start"></a>
-## 4. Start
+## 4. Start <a name="start"></a>
 Implement **SMKitUIWorkoutDelegate**.
 ```Swift
 extension ViewController:SMKitUIWorkoutDelegate{
@@ -73,31 +70,39 @@ extension ViewController:SMKitUIWorkoutDelegate{
     }
 
     // Workout session end callback
-    func workoutDidFinish(summary: WorkoutSummaryData) {
+    func workoutDidFinish(data: WorkoutSummaryData) {
         // Will close SMKitUI.
         SMKitUIModel.exitSDK()
     }
 
     // Exit workout callback
-    func didExitWorkout(summary: SMKitUIDev.WorkoutSummaryData) {
+    func didExitWorkout(data: WorkoutSummaryData) {
         //Will close SMKitUI.
         SMKitUIModel.exitSDK()
+    }
+    
+    //When the user finish a exercise this  function will be called with the exercise data.
+    func exerciseDidFinish(data: ExerciseData) {
     }
 }
 ```
     
-### Start Assessment
+### [Start Assessment](https://github.com/sency-ai/smkit-sdk/blob/main/AI-Fitness-Assessment.md)
 **startAssessment** starts one of Sency's blueprint assessments.
 ```Swift
 func startAssessmentWasPressed(){
     do{
+        let userData = UserData(gender: .Female, birthday: Date()) // This is optinal if not provided the SDK will requst from the user his age and gender.
         // Start assessment
-        try SMKitUIModel.startAssessmet(viewController: self, type: AssessmentTypes.Fitness, delegate: self)
+        try SMKitUIModel.startAssessmet(viewController: self, type: AssessmentTypes.Fitness, userData: userData, delegate: self, onFailure: { error in
+
+        })
     }catch{
         showAlert(title: error.localizedDescription)
     }
 }
 ```
+> Check out [this info page](https://github.com/sency-ai/smkit-sdk/blob/main/AI-Fitness-Assessment.md) if you want to learn more about **Sency's AI Fitness Assessment**
 
 ### Start Custom Workout
 **startWorkout** starts a custom workout.
@@ -132,5 +137,57 @@ do{
     print(error)
 }
 ```
+----------
 
-Having issues? [Contact us](support@sency.ai) and let us know what the problem is.
+## Available Data Types <a name="data"></a>
+#### `ExerciseData`
+| Type              | Format                                                         | Description                                                                                                  |
+|-------------------|----------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
+| sessionId         | `String`                                                       | The identifier for the session in which the exercise was performed.                                          |
+| prettyName        | `String`                                                       | The user-friendly name of the exercise activity.                                                             |
+| name              | `String`                                                       | The technical name identifier for the exercise activity.                                                     |
+| targetTime        | `Double?`                                                      | The targeted duration for the exercise session in seconds (optional).                                        |
+| startTime         | `String`                                                       | The start time of the exercise session in "YYYY-MM-dd HH:mm:ss.SSSZ" format.                                 |
+| endTime           | `String`                                                       | The end time of the exercise session in "YYYY-MM-dd HH:mm:ss.SSSZ" format.                                   |
+| totalTime         | `Double`                                                       | The total time taken for the exercise session in seconds.                                                    |
+| performanceScore  | `Float`                                                        | The score representing the user's performance in the exercise.                                               |
+| techniqueScore    | `Float`                                                        | The score representing the user's technique during the exercise.                                             |
+| totalScore        | `Float`                                                        | The final calculated score for the exercise session, considering both performance and technique.             |
+
+#### `WorkoutSummaryData`
+| Type              | Format                                 | Description                                                                                                  |
+|-------------------|----------------------------------------|--------------------------------------------------------------------------------------------------------------|
+| sessionId         | `String`                               | A unique identifier for the workout session, generated as a UUID string.                                     |
+| exercises         | `[ExerciseData]`                       | An array of `ExerciseData` objects representing each exercise performed in the session.                      |
+| score             | `Int`                                  | The overall score for the workout session based on the exercises' scores.                                    |
+| completionRatio   | `Float`                                | A float value representing the ratio of exercises completed successfully over the total number of exercises. |
+| startTime         | `String`                               | The start time of the workout session in "YYYY-MM-dd HH:mm:ss.SSSZ" format.                                  |
+| endTime           | `String`                               | The end time of the workout session in "YYYY-MM-dd HH:mm:ss.SSSZ" format.                                    |
+| totalTime         | `Double`                               | The total time taken for the workout session in seconds.                                                     |
+| startDate         | `Date`                                 | The start date and time of the workout session.                                                             |
+| finishedExercises | `Float`                                | The count of exercises that have been completed in the session.                                             |
+
+## Additional functionalities
+### Start Program
+**startWorkoutFromProgram** starts a workout program according to yor **WorkoutConfig**.
+
+Create a `WorkoutConfig`:
+```Swift
+let workoutConfig = WorkoutConfig(
+    week: 1, // The program week
+    bodyZone: .FullBody, // The program bodyZone
+    difficultyLevel: .HighDifficulty, // The program difficulty
+    workoutDuration: .Short, // The program duration
+    programID: "YOUR_PROGRAM_ID"
+)
+```
+
+Start the program:
+```Swift
+SMKitUIModel.startWorkoutFromProgram(viewController: self, workoutConfig: workoutConfig, delegate: self) { error in
+    print(error)
+}
+```
+--------
+
+Having issues? [Contact us](mailto:support@sency.ai) and let us know what the problem is.
