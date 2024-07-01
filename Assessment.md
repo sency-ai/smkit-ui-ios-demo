@@ -28,9 +28,8 @@ extension ViewController:SMKitUIWorkoutDelegate{
     
 ### Start Assessment
 **startAssessment** starts one of Sency's blueprint assessments.
-```Swift
 You can choose the type of assessment by changing  `AssessmentTypes.Fitness` to `AssessmentTypes.Custom`
-
+```Swift
 func startAssessmentWasPressed(){
     do{
         let userData = UserData(gender: .Female, birthday: Date()) // This is optinal if not provided the SDK will requst from the user his age and gender.
