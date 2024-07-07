@@ -11,7 +11,8 @@ struct MainView: View {
     @ObservedObject var authModel = AuthManager.shared
     let startWasPressed:()->Void
     let startAssessmentWasPressed:()->Void
-
+    let startCustomAssessmet:()->Void
+    
     var body: some View {
         VStack{
             Button {
@@ -65,10 +66,36 @@ struct MainView: View {
                 },
                 alignment: .trailing
             )
+            
+            Button {
+                if authModel.didFinishAuth{
+                    startCustomAssessmet()
+                }
+            } label: {
+                Text("START CUSTOM ASSESSMET")
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .padding()
+                    .background(
+                        RoundedRectangle(cornerRadius: 15)
+                            .stroke()
+                    )
+            }
+            .overlay(
+                ZStack{
+                    if !authModel.didFinishAuth{
+                        ProgressView()
+                            .progressViewStyle(.circular)
+                            .tint(.white)
+                            .padding()
+                    }
+                },
+                alignment: .trailing
+            )
         }
     }
 }
 
 #Preview {
-    MainView(startWasPressed: {}, startAssessmentWasPressed: {})
+    MainView(startWasPressed: {}, startAssessmentWasPressed: {}, startCustomAssessmet: {})
 }

@@ -12,7 +12,11 @@ import SMBase
 class ViewController: UIViewController {
 
     lazy var mainView:UIView = {
-        guard let view = UIHostingController(rootView: MainView(startWasPressed: startWasPressed, startAssessmentWasPressed: startAssessmentWasPressed)).view else {return UIView()}
+        guard let view = UIHostingController(rootView: MainView(
+            startWasPressed: startWasPressed,
+            startAssessmentWasPressed: startAssessmentWasPressed,
+            startCustomAssessmet: startCustomAssessmet
+        )).view else {return UIView()}
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .clear
         return view
@@ -43,7 +47,6 @@ class ViewController: UIViewController {
                 videoInstruction: Bundle.main.path(forResource: "HighKnees", ofType: "mp4"),
                 uiElements: [.repsCounter, .timer],
                 detector: "HighKnees",
-                repBased: true,
                 exerciseClosure: nil // Custom sound
             ),
             .init(
@@ -54,7 +57,6 @@ class ViewController: UIViewController {
                 videoInstruction: Bundle.main.path(forResource: "SquatRegularStatic", ofType: "mp4"),
                 uiElements: [.gaugeOfMotion, .timer],
                 detector: "SquatRegularStatic",
-                repBased: false,
                 exerciseClosure: nil // Custom sound
             ),
             .init(
@@ -65,7 +67,6 @@ class ViewController: UIViewController {
                 videoInstruction: Bundle.main.path(forResource: "PlankHighStatic", ofType: "mp4"),
                 uiElements: [.repsCounter, .timer],
                 detector: "PlankHighStatic",
-                repBased: false,
                 exerciseClosure: nil // Custom sound
             )
         ]
@@ -112,6 +113,65 @@ class ViewController: UIViewController {
             try SMKitUIModel.startAssessmet(viewController: self, type: AssessmentTypes.Fitness, userData: userData, delegate: self, onFailure: { error in
                 
             })
+        }catch{
+            showAlert(title: error.localizedDescription)
+        }
+    }
+    
+    func startCustomAssessmet(){
+        let dynamicScoringParams = ScoringParams(type: .reps, scoreFactor: 0.8, targetTime: nil, targetReps: 10, targetRom: nil)
+        let staticScoringParams = ScoringParams(type: .time, scoreFactor: 0.8, targetTime: 10, targetReps: 0, targetRom: nil)
+        
+        let intro = Bundle.main.path(forResource: "customWorkoutIntro", ofType: "mp3")
+        let soundtrack = Bundle.main.path(forResource: "full-body-long", ofType: "mp3")
+        let exercises:[SMExercise] = [
+            .init(
+                name: "High Knees",
+                exerciseIntro: nil, // Custom sound,
+                totalSeconds: 30,
+                introSeconds: 5,
+                videoInstruction: Bundle.main.path(forResource: "HighKnees", ofType: "mp4"),
+                uiElements: [.repsCounter, .timer],
+                detector: "HighKnees",
+                exerciseClosure: nil, // Custom sound
+                scoringParams: dynamicScoringParams
+            ),
+            .init(
+                name: "Squat Regular Static",
+                exerciseIntro: nil, // Custom sound,
+                totalSeconds: 30,
+                introSeconds: 5,
+                videoInstruction: Bundle.main.path(forResource: "SquatRegularStatic", ofType: "mp4"),
+                uiElements: [.gaugeOfMotion, .timer],
+                detector: "SquatRegularStatic",
+                exerciseClosure: nil, // Custom sound
+                scoringParams: staticScoringParams
+            ),
+            .init(
+                name: "Plank High Static",
+                exerciseIntro: nil, // Custom sound,
+                totalSeconds: 30,
+                introSeconds: 5,
+                videoInstruction: Bundle.main.path(forResource: "PlankHighStatic", ofType: "mp4"),
+                uiElements: [.repsCounter, .timer],
+                detector: "PlankHighStatic",
+                exerciseClosure: nil, // Custom sound
+                scoringParams: staticScoringParams
+            )
+        ]
+        let assessment = SMWorkout(
+            id: "",
+            name: "TEST",
+            workoutIntro: intro,
+            soundtrack: soundtrack,
+            exercises: exercises,
+            workoutClosure:nil // Custom sound
+        )
+        
+        do{
+            try SMKitUIModel.startCustomAssessment(viewController: self, assessment: assessment, delegate: self) { error in
+                self.showAlert(title: error.localizedDescription)
+            }
         }catch{
             showAlert(title: error.localizedDescription)
         }

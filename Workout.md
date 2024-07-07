@@ -39,7 +39,6 @@ let exercises:[SMExercise] = [
         videoInstruction: "", // (optinal) a path to instruction video file
         uiElements: [.gaugeOfMotion, .timer, .repsCounter], // the UI elements to show
         detector: "", // SMExerciseType
-        repBased: true, // is the exerise repetition based
         exerciseClosure: "" // (optinal) a path to outro audio file
     )
 ]

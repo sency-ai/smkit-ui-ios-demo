@@ -5,7 +5,7 @@ workspace 'SMKitUIDemo.xcworkspace'
 
 target 'SMKitUIDemoApp' do
   use_frameworks!
-  pod 'SMKitUI', '0.1.8'
+  pod 'SMKitUI', '0.1.9'
 end
 
 post_install do |installer|
