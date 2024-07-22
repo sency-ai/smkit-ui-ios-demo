@@ -34,7 +34,13 @@ func startAssessmentWasPressed(){
     do{
         let userData = UserData(gender: .Female, birthday: Date()) // This is optinal if not provided the SDK will requst from the user his age and gender.
         // Start assessment
-        try SMKitUIModel.startAssessmet(viewController: self, type: AssessmentTypes.Fitness, userData: userData, delegate: self, onFailure: { error in
+        try SMKitUIModel.startAssessmet(
+        viewController: self,
+        type: AssessmentTypes.Fitness,
+        customAssessmentID // This is optinal if you have multiple 'Custom Assessment' you can provide the assessment ID in order to start the assessment
+        userData: userData,
+        delegate: self,
+        onFailure: { error in
 
         })
     }catch{
