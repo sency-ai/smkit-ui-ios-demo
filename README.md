@@ -62,11 +62,11 @@ To reduce wait time we recommend to call `configure` on app launch.
 
 ## 4. Start <a name="start"></a>
 
-### [Start Assessment](https://github.com/sency-ai/smkit-ui-ios-demo/blob/main/Assessment.md)
+- [Start Assessment](https://github.com/sency-ai/smkit-ui-ios-demo/blob/main/Assessment.md)
 
-### [Start Workout](https://github.com/sency-ai/smkit-ui-ios-demo/blob/main/Workout.md)
+- [Start Workout](https://github.com/sency-ai/smkit-ui-ios-demo/blob/main/Workout.md)
 
-### [Start Custom Assessment](https://github.com/sency-ai/smkit-ui-ios-demo/blob/main/CustomAssessment.md)
+- [Build Custom Assessment](https://github.com/sency-ai/smkit-ui-ios-demo/blob/main/CustomAssessment.md)
 --------
 
 Having issues? [Contact us](mailto:support@sency.ai) and let us know what the problem is.
