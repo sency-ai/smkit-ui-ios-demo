@@ -20,7 +20,7 @@ extension ViewController:SMKitUIWorkoutDelegate{
         SMKitUIModel.exitSDK()
     }
     
-    //When the user finish a exercise this  function will be called with the exercise data.
+    // When the user finish a exercise this  function will be called with the exercise data.
     func exerciseDidFinish(data: ExerciseData) {
     }
 }
@@ -33,7 +33,7 @@ You can choose the type of assessment by changing  `AssessmentTypes.Fitness` to 
 // Fitness Assessmet exemple
 func startFitnessAssessment(){
     do{
-        let userData = UserData(gender: .Female, birthday: Date()) // This is optinal if not provided the SDK will requst from the user his age and gender.
+        let userData = UserData(gender: .Female, birthday: Date()) // This is optional if not provided the SDK will requst from the user his age and gender.
         // Start assessment
         try SMKitUIModel.startAssessmet(
         viewController: self,
@@ -51,12 +51,12 @@ func startFitnessAssessment(){
 // Custom Assessmet exemple
 func startCustomAssessment(){
     do{
-        let userData = UserData(gender: .Female, birthday: Date()) // This is optinal if not provided the SDK will requst from the user his age and gender.
+        let userData = UserData(gender: .Female, birthday: Date()) // This is optional if not provided the SDK will requst from the user his age and gender.
         // Start assessment
         try SMKitUIModel.startAssessmet(
         viewController: self,
         type: AssessmentTypes.Custom,
-        customAssessmentID: "YOUR_CUSTOM_ASSESSMENT" // This is optinal if you have multiple 'Custom Assessment' you can provide the assessment ID in order to start the assessment
+        customAssessmentID: "YOUR_CUSTOM_ASSESSMENT" // This is optional if you have multiple 'Custom Assessment' you can provide the assessment ID in order to start the assessment
         userData: userData,
         delegate: self,
         onFailure: { error in
