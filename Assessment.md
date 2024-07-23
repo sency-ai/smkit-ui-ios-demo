@@ -30,14 +30,33 @@ extension ViewController:SMKitUIWorkoutDelegate{
 **startAssessment** starts one of Sency's blueprint assessments.
 You can choose the type of assessment by changing  `AssessmentTypes.Fitness` to `AssessmentTypes.Custom`
 ```Swift
-func startAssessmentWasPressed(){
+// Fitness Assessmet exemple
+func startFitnessAssessment(){
     do{
         let userData = UserData(gender: .Female, birthday: Date()) // This is optinal if not provided the SDK will requst from the user his age and gender.
         // Start assessment
         try SMKitUIModel.startAssessmet(
         viewController: self,
         type: AssessmentTypes.Fitness,
-        customAssessmentID // This is optinal if you have multiple 'Custom Assessment' you can provide the assessment ID in order to start the assessment
+        userData: userData,
+        delegate: self,
+        onFailure: { error in
+
+        })
+    }catch{
+        showAlert(title: error.localizedDescription)
+    }
+}
+
+// Custom Assessmet exemple
+func startCustomAssessment(){
+    do{
+        let userData = UserData(gender: .Female, birthday: Date()) // This is optinal if not provided the SDK will requst from the user his age and gender.
+        // Start assessment
+        try SMKitUIModel.startAssessmet(
+        viewController: self,
+        type: AssessmentTypes.Custom,
+        customAssessmentID: "YOUR_CUSTOM_ASSESSMENT" // This is optinal if you have multiple 'Custom Assessment' you can provide the assessment ID in order to start the assessment
         userData: userData,
         delegate: self,
         onFailure: { error in
