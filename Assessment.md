@@ -39,6 +39,8 @@ func startFitnessAssessment(){
         viewController: self,
         type: AssessmentTypes.Fitness,
         userData: userData,
+        forceShowUserDataScreen:false, // if true it will allways show UserData screen.
+        showSummary:true, // if true at the end of the workout the summary screen will be presented
         delegate: self,
         onFailure: { error in
 
