@@ -28,7 +28,7 @@ extension ViewController:SMKitUIWorkoutDelegate{
     
 ### Start Assessment
 **startAssessment** starts one of Sency's blueprint assessments.
-You can choose the type of assessment by changing  `AssessmentTypes.Fitness` to `AssessmentTypes.Custom`
+You can select the assessment `type` by setting the type to any value from the `AssessmentTypes` enum.
 ```Swift
 // Fitness Assessmet exemple
 func startFitnessAssessment(){
@@ -69,4 +69,13 @@ func startCustomAssessment(){
     }
 }
 ```
+
+### AssessmentTypes
+| Name                |
+|---------------------|
+| Fitness             |
+| Custom              |
+| HMA                 |
+
+
 > Check out [this info page](https://github.com/sency-ai/smkit-sdk/blob/main/AI-Fitness-Assessment.md) if you want to learn more about **Sency's AI Fitness Assessment**
