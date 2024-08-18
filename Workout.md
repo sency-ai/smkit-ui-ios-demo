@@ -35,7 +35,6 @@ let exercises:[SMExercise] = [
         name: "", // display name of the exercise
         exerciseIntro: "", // (optinal) a path to intro audio file
         totalSeconds: 30, // exercise time (seconds)
-        introSeconds: 10, // (optinal) total display time (seconds) of the instruction video before the exercise starts
         videoInstruction: "", // (optinal) a path to instruction video file
         uiElements: [.gaugeOfMotion, .timer, .repsCounter], // the UI elements to show
         detector: "", // SMExerciseType

@@ -5,7 +5,8 @@
 2. [ Setup ](#setup)
 3. [ Configure ](#conf)
 4. [ Start ](#start)
-5. [ Data ](https://github.com/sency-ai/smkit-ui-ios-demo/blob/main/DataTypes.md)
+5. [ Excluding Feedback ](#feedback)
+6. [ Data ](https://github.com/sency-ai/smkit-ui-ios-demo/blob/main/DataTypes.md)
 
 
 ## 1. Installation <a name="inst"></a>
@@ -67,6 +68,26 @@ To reduce wait time we recommend to call `configure` on app launch.
 - [Start Workout](https://github.com/sency-ai/smkit-ui-ios-demo/blob/main/Workout.md)
 
 - [Build Custom Assessment](https://github.com/sency-ai/smkit-ui-ios-demo/blob/main/CustomAssessment.md)
+
+## 5. Excluding Feedback <a name="feedback"></a>
+
+You have the ability to exclude specific exercise feedbacks.
+To do this, follow the example below:
+
+```swift
+// Before starting any workout or assessment, call one of these functions:
+
+// The feedbacks to exclude
+let excludedFeedbacks:[FormFeedbackTypeBr] = [.pushupKneesOnFloor]
+
+// Exclude the feedback from both data and UI
+SMKitUIModel.setExcludedFeedbacks(excludedFeedbacks: excludedFeedbacks)
+
+// Exclude the feedback from the UI only
+SMKitUIModel.setFeedbacksUIToExclude(feedbacksUIToExclude: excludedFeedbacks)
+
+```
+
 --------
 
 Having issues? [Contact us](mailto:support@sency.ai) and let us know what the problem is.
