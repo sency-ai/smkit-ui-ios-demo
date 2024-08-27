@@ -43,7 +43,6 @@ class ViewController: UIViewController {
                 name: "High Knees",
                 exerciseIntro: nil, // Custom sound,
                 totalSeconds: 30,
-                introSeconds: 5,
                 videoInstruction: Bundle.main.path(forResource: "HighKnees", ofType: "mp4"),
                 uiElements: [.repsCounter, .timer],
                 detector: "HighKnees",
@@ -53,7 +52,6 @@ class ViewController: UIViewController {
                 name: "Squat Regular Static",
                 exerciseIntro: nil, // Custom sound,
                 totalSeconds: 30,
-                introSeconds: 5,
                 videoInstruction: Bundle.main.path(forResource: "SquatRegularStatic", ofType: "mp4"),
                 uiElements: [.gaugeOfMotion, .timer],
                 detector: "SquatRegularStatic",
@@ -63,7 +61,6 @@ class ViewController: UIViewController {
                 name: "Plank High Static",
                 exerciseIntro: nil, // Custom sound,
                 totalSeconds: 30,
-                introSeconds: 5,
                 videoInstruction: Bundle.main.path(forResource: "PlankHighStatic", ofType: "mp4"),
                 uiElements: [.repsCounter, .timer],
                 detector: "PlankHighStatic",
@@ -109,6 +106,7 @@ class ViewController: UIViewController {
     func startAssessmentWasPressed(){
         do{
             let userData = UserData(gender: .Female, birthday: Date()) // This is optinal if not provided the SDK will requst from the user his age and gender
+            SMKitUIModel.setFeedbacksUIToExclude(feedbacksUIToExclude: [.pushupKneesOnFloor])
             //Start a Assessment workout with AssessmentTypes
             try SMKitUIModel.startAssessmet(viewController: self, type: AssessmentTypes.Fitness, userData: userData, delegate: self, onFailure: { error in
                 
@@ -129,7 +127,6 @@ class ViewController: UIViewController {
                 name: "High Knees",
                 exerciseIntro: nil, // Custom sound,
                 totalSeconds: 30,
-                introSeconds: 5,
                 videoInstruction: Bundle.main.path(forResource: "HighKnees", ofType: "mp4"),
                 uiElements: [.repsCounter, .timer],
                 detector: "HighKnees",
@@ -140,7 +137,6 @@ class ViewController: UIViewController {
                 name: "Squat Regular Static",
                 exerciseIntro: nil, // Custom sound,
                 totalSeconds: 30,
-                introSeconds: 5,
                 videoInstruction: Bundle.main.path(forResource: "SquatRegularStatic", ofType: "mp4"),
                 uiElements: [.gaugeOfMotion, .timer],
                 detector: "SquatRegularStatic",
@@ -151,7 +147,6 @@ class ViewController: UIViewController {
                 name: "Plank High Static",
                 exerciseIntro: nil, // Custom sound,
                 totalSeconds: 30,
-                introSeconds: 5,
                 videoInstruction: Bundle.main.path(forResource: "PlankHighStatic", ofType: "mp4"),
                 uiElements: [.repsCounter, .timer],
                 detector: "PlankHighStatic",
@@ -195,7 +190,7 @@ extension ViewController:SMKitUIWorkoutDelegate{
         SMKitUIModel.exitSDK()
     }
     //When the user exits the workout before finishing, this function will be called with a summary.
-    func didExitWorkout(data: WorkoutSummaryData) {
+    func didExitWorkout(data:WorkoutSummaryData?) {
         //Will close SMKitUI.
         SMKitUIModel.exitSDK()
     }
