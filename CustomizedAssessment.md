@@ -1,4 +1,4 @@
-# Custom Assessmet
+# Customized Assessmet
 
 > The custom assessment enables you to create a personalized evaluation using the exercises and movements from our [Movement catalog](https://github.com/sency-ai/smkit-sdk/blob/main/SDK-Movement-Catalog.md), tailored to your professional standards or personal preferences.
 
@@ -30,7 +30,7 @@ extension ViewController:SMKitUIWorkoutDelegate{
 }
 ```
 
-### Start Custom Assessment
+### Start Customized Assessment
 **startAssessment** starts Sency's assessments with custom exercises.
 ```Swift
 //[1] create a list of exercise with ScoringParams
