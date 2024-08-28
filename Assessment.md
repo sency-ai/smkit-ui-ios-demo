@@ -3,7 +3,7 @@
 
 >**Sency Blueprint Assessments:** Developed in collaboration with Sency’s medical and fitness experts, these assessments provide a standardized, professional way to measure core aspects of movement, fitness, and a healthy lifestyle. Simply follow the "start assessment" instructions and select the type of assessment you need.
 
->**Sency Custom Assessments:** For those who prefer to tailor their assessments, you can create a customized evaluation using the exercises and movements from our movement catalog, according to your specific requirements (check the CustomAssessment.md file for more info).
+>**Sency Customized Assessments:** For those who prefer to tailor their assessments, you can create a customized evaluation using the exercises and movements from our movement catalog, according to your specific requirements (check the CustomizedAssessment.md file for more info).
 
 
 
