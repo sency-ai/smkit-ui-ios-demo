@@ -71,7 +71,7 @@ func startCustomAssessment(){
 ```
 
 ### AssessmentTypes
-| Name                | Description |More info|
+| Name (enum)         | Description |More info|
 |---------------------|---------------------|---------------------|
 | Fitness             | For individuals of any activity level who seek to enhance their physical abilities, strength, and endurance through a tailored plan.| [Link](https://github.com/sency-ai/smkit-sdk/blob/main/Assessments/AI-Fitness-Assessment.md) |
 | Body360                 | Designed for individuals of any age and activity level, this assessment determines the need for a preventative plan or medical support.| [Link](https://github.com/sency-ai/smkit-sdk/blob/main/Assessments/360-Body-Assessment.md) |
