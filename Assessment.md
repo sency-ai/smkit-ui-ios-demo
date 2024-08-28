@@ -71,11 +71,9 @@ func startCustomAssessment(){
 ```
 
 ### AssessmentTypes
-| Name                |
-|---------------------|
-| Fitness             |
-| Custom              |
-| HMA                 |
-
-
-> Check out [this info page](https://github.com/sency-ai/smkit-sdk/blob/main/AI-Fitness-Assessment.md) if you want to learn more about **Sency's AI Fitness Assessment**
+| Name                | Description |More info|
+|---------------------|---------------------|---------------------|
+| Fitness             | For individuals of any activity level who seek to enhance their physical abilities, strength, and endurance through a tailored plan.| [Link](https://github.com/sency-ai/smkit-sdk/blob/AGrinker-patch-1/Assessments/AI-Fitness-Assessment.md) |
+| 360                 | Designed for individuals of any age and activity level, this assessment determines the need for a preventative plan or medical support.| [Link](https://github.com/sency-ai/smkit-sdk/blob/AGrinker-patch-1/Assessments/360-Body-Assessment.md) |
+| Strength            |For individuals of any activity level who seek to assess their strength capabilities (core and endurance)| [Link](https://github.com/sency-ai/smkit-sdk/blob/AGrinker-patch-1/Assessments/Strength.md) |
+| Custom              |If Sency created a tailored assessment for you, you probably know it, and you should use this enum.|  |
