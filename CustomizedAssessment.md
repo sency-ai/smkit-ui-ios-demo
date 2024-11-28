@@ -13,19 +13,23 @@ extension ViewController:SMKitUIWorkoutDelegate{
     }
 
     // Workout session end callback
-    func workoutDidFinish(data: WorkoutSummaryData) {
+    func workoutDidFinish() {
         // Will close SMKitUI.
         SMKitUIModel.exitSDK()
     }
 
     // Exit workout callback
-    func didExitWorkout(data: WorkoutSummaryData) {
+    func didExitWorkout() {
         //Will close SMKitUI.
         SMKitUIModel.exitSDK()
     }
     
     //When the user finish a exercise this  function will be called with the exercise data.
     func exerciseDidFinish(data: ExerciseData) {
+    }
+    
+    //When the summary is avilable this function will be called.
+    func didReceiveSummaryData(data: WorkoutSummaryData?) {
     }
 }
 ```
@@ -40,7 +44,7 @@ let staticScoringParams = ScoringParams(type: .time, scoreFactor: 0.8, targetTim
 
 let intro = Bundle.main.path(forResource: "customWorkoutIntro", ofType: "mp3")
 let soundtrack = Bundle.main.path(forResource: "full-body-long", ofType: "mp3")
-let exercises:[SMExercise] = [
+let exercises:[SMAssessmentExercise] = [
     .init(
         name: "High Knees",
         exerciseIntro: nil, // Custom sound,
@@ -49,6 +53,10 @@ let exercises:[SMExercise] = [
         uiElements: [.repsCounter, .timer],
         detector: "HighKnees",
         exerciseClosure: nil, // Custom sound
+        summaryTitle: "High Knees",
+        summarySubTitle: "This a subtitle",
+        summaryTitleMainMetric: "Reps",
+        summarySubTitleMainMetric: "clean reps",
         scoringParams: dynamicScoringParams
     ),
     .init(
@@ -59,6 +67,9 @@ let exercises:[SMExercise] = [
         uiElements: [.gaugeOfMotion, .timer],
         detector: "SquatRegularStatic",
         exerciseClosure: nil, // Custom sound
+        summaryTitle: "Squat Regular Static",
+        summarySubTitle: "This a subtitle",
+        summaryTitleMainMetric: "Time",
         scoringParams: staticScoringParams
     ),
     .init(
@@ -69,17 +80,20 @@ let exercises:[SMExercise] = [
         uiElements: [.repsCounter, .timer],
         detector: "PlankHighStatic",
         exerciseClosure: nil, // Custom sound
+        summaryTitle: "Plank High Static",
+        summarySubTitle: "This a subtitle",
+        summaryTitleMainMetric: "Time",
         scoringParams: staticScoringParams
     )
 ]
 
 // [2] Create assessment with the list of exerxises
-let assessment = SMWorkout(
+let assessment = SMWorkoutAssessmet(
     id: "",
     name: "TEST",
     workoutIntro: intro,
     soundtrack: soundtrack,
-    exercises: exercises,
+    assessmentsExercises: exercises,
     workoutClosure:nil // Custom sound
 )
 

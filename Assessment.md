@@ -16,19 +16,23 @@ extension ViewController:SMKitUIWorkoutDelegate{
     }
 
     // Workout session end callback
-    func workoutDidFinish(data: WorkoutSummaryData) {
+    func workoutDidFinish() {
         // Will close SMKitUI.
         SMKitUIModel.exitSDK()
     }
 
     // Exit workout callback
-    func didExitWorkout(data: WorkoutSummaryData) {
+    func didExitWorkout() {
         //Will close SMKitUI.
         SMKitUIModel.exitSDK()
     }
     
     // When the user finish a exercise this  function will be called with the exercise data.
     func exerciseDidFinish(data: ExerciseData) {
+    }
+    
+    //When the summary is avilable this function will be called.
+    func didReceiveSummaryData(data: WorkoutSummaryData?) {
     }
 }
 ```
