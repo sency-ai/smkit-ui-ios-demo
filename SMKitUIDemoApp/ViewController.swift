@@ -122,7 +122,7 @@ class ViewController: UIViewController {
         
         let intro = Bundle.main.path(forResource: "customWorkoutIntro", ofType: "mp3")
         let soundtrack = Bundle.main.path(forResource: "full-body-long", ofType: "mp3")
-        let exercises:[SMExercise] = [
+        let exercises:[SMAssessmentExercise] = [
             .init(
                 name: "High Knees",
                 exerciseIntro: nil, // Custom sound,
@@ -131,6 +131,10 @@ class ViewController: UIViewController {
                 uiElements: [.repsCounter, .timer],
                 detector: "HighKnees",
                 exerciseClosure: nil, // Custom sound
+                summaryTitle: "High Knees",
+                summarySubTitle: "This a subtitle",
+                summaryTitleMainMetric: "Reps",
+                summarySubTitleMainMetric: "clean reps",
                 scoringParams: dynamicScoringParams
             ),
             .init(
@@ -141,6 +145,9 @@ class ViewController: UIViewController {
                 uiElements: [.gaugeOfMotion, .timer],
                 detector: "SquatRegularStatic",
                 exerciseClosure: nil, // Custom sound
+                summaryTitle: "Squat Regular Static",
+                summarySubTitle: "This a subtitle",
+                summaryTitleMainMetric: "Time",
                 scoringParams: staticScoringParams
             ),
             .init(
@@ -151,15 +158,18 @@ class ViewController: UIViewController {
                 uiElements: [.repsCounter, .timer],
                 detector: "PlankHighStatic",
                 exerciseClosure: nil, // Custom sound
+                summaryTitle: "Plank High Static",
+                summarySubTitle: "This a subtitle",
+                summaryTitleMainMetric: "Time",
                 scoringParams: staticScoringParams
             )
         ]
-        let assessment = SMWorkout(
+        let assessment = SMWorkoutAssessmet (
             id: "",
             name: "TEST",
             workoutIntro: intro,
             soundtrack: soundtrack,
-            exercises: exercises,
+            assessmentsExercises: exercises,
             workoutClosure:nil // Custom sound
         )
         
@@ -184,18 +194,22 @@ extension ViewController:SMKitUIWorkoutDelegate{
     func handleWorkoutErrors(error: Error) {
         
     }
-    //When the user finishes the workout, this function will be called with a summary.
-    func workoutDidFinish(data: WorkoutSummaryData) {
+    //When the user finishes the workout, this function will be called.
+    func workoutDidFinish() {
         //Will close SMKitUI.
         SMKitUIModel.exitSDK()
     }
-    //When the user exits the workout before finishing, this function will be called with a summary.
-    func didExitWorkout(data:WorkoutSummaryData?) {
+    //When the user exits the workout before finishing, this function will be called.
+    func didExitWorkout() {
         //Will close SMKitUI.
         SMKitUIModel.exitSDK()
     }
     
-    //When the user finish a exercise this  function will be called with the exercise data.
+    //When the user finish a exercise this function will be called with the exercise data.
     func exerciseDidFinish(data: ExerciseData) {
+    }
+    
+    //When the summary is avilable this function will be called.
+    func didReceiveSummaryData(data: WorkoutSummaryData?) {
     }
 }
