@@ -164,7 +164,7 @@ class ViewController: UIViewController {
                 scoringParams: staticScoringParams
             )
         ]
-        let assessment = SMWorkoutAssessmet (
+        let assessment = SMWorkoutAssessment (
             id: "",
             name: "TEST",
             workoutIntro: intro,
@@ -209,7 +209,7 @@ extension ViewController:SMKitUIWorkoutDelegate{
     func exerciseDidFinish(data: ExerciseData) {
     }
     
-    //When the summary is avilable this function will be called.
+    // When the summary is avilable this function will be called.
     func didReceiveSummaryData(data: WorkoutSummaryData?) {
     }
 }
