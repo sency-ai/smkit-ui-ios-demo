@@ -10,6 +10,8 @@
 
 ## 1. Installation <a name="inst"></a>
 
+*Latest pod version: SMKitUI '0.3.0'*
+
 ### Cocoapods
 ```ruby
 // [1] add the source to the top of your Podfile.
@@ -33,6 +35,8 @@ post_install do |installer|
   end
 end
 ```
+
+Run ```pod install --repo-update```
 
 ### SPM
 
@@ -63,26 +67,30 @@ To reduce wait time we recommend to call `configure` on app launch.
 ## 4. Start <a name="start"></a>
 Implement **SMKitUIWorkoutDelegate**.
 ```Swift
-extension ViewController:SMKitUIWorkoutDelegate{
+extension ViewController:SMKitUIWorkoutDelegate {
     // Runtime error callback
     func handleWorkoutErrors(error: Error) {
         
     }
 
     // Workout session end callback
-    func workoutDidFinish(data: WorkoutSummaryData) {
+    func workoutDidFinish() {
         // Will close SMKitUI.
         SMKitUIModel.exitSDK()
     }
 
     // Exit workout callback
-    func didExitWorkout(data: WorkoutSummaryData) {
+    func didExitWorkout() {
         //Will close SMKitUI.
         SMKitUIModel.exitSDK()
     }
     
-    //When the user finish a exercise this  function will be called with the exercise data.
+    // When the user finish a exercise this  function will be called with the exercise data.
     func exerciseDidFinish(data: ExerciseData) {
+    }
+
+    // When the summary payload is avilable this function will be called.
+    func didReceiveSummaryData(data: WorkoutSummaryData?) {
     }
 }
 ```
@@ -92,11 +100,13 @@ extension ViewController:SMKitUIWorkoutDelegate{
 ```Swift
 func startAssessmentWasPressed(){
     do{
-        let userData = UserData(gender: .Female, birthday: Date()) // This is optinal if not provided the SDK will requst from the user his age and gender.
-        // Start assessment
+        let userData = UserData(gender: .Female, birthday: Date()) // This is optinal if not provided the SDK will requst from the user his age and gender
+        
+        // Start a Assessment workout with AssessmentTypes
         try SMKitUIModel.startAssessmet(viewController: self, type: AssessmentTypes.Fitness, userData: userData, delegate: self, onFailure: { error in
-
-        })
+            // Handle failure error
+    
+            })
     }catch{
         showAlert(title: error.localizedDescription)
     }
@@ -111,13 +121,12 @@ func startAssessmentWasPressed(){
 let exercises:[SMExercise] = [
     SMExercise(
         name: "", // display name of the exercise
-        exerciseIntro: "", // (optinal) a path to intro audio file
+        exerciseIntro: nil, // (optinal) a path to intro audio file
         totalSeconds: 30, // exercise time (seconds)
-        introSeconds: 10, // (optinal) total display time (seconds) of the instruction video before the exercise starts
-        videoInstruction: "", // (optinal) a path to instruction video file
+        videoInstruction: nil, // (optinal) a path to instruction video file
         uiElements: [.gaugeOfMotion, .timer, .repsCounter], // the UI elements to show
         detector: "", // SMExerciseType
-        exerciseClosure: "" // (optinal) a path to outro audio file
+        exerciseClosure: nil // (optinal) a path to outro audio file
     )
 ]
 
@@ -194,7 +203,7 @@ let assessment = SMWorkout(
 )
 
 do{
-// [3] call startCustomAssessment function with the cystom assessmet from step 2
+// [3] call startCustomAssessment function with the customized assessmet from step 2
     try SMKitUIModel.startCustomAssessment(viewController: self, assessment: assessment, delegate: self) { error in
         self.showAlert(title: error.localizedDescription)
     }
