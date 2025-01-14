@@ -6,13 +6,14 @@
 3. [ Configure ](#conf)
 4. [ Start ](#start)
 5. [ Excluding Feedback ](#feedback)
-6. [ Data ](https://github.com/sency-ai/smkit-ui-ios-demo/blob/main/DataTypes.md)
+6. [Setting Text Language](#language)
+7. [ Data ](https://github.com/sency-ai/smkit-ui-ios-demo/blob/main/DataTypes.md)
 
 
 ## 1. Installation <a name="inst"></a>
 
 ### Cocoapods
-*Latest pod version: SMKitUI '0.3.0'*
+*Latest pod version: SMKitUI '0.3.2'*
 ```ruby
 // [1] add the source to the top of your Podfile.
 source 'https://bitbucket.org/sencyai/ios_sdks_release.git'
@@ -91,6 +92,17 @@ SMKitUIModel.setExcludedFeedbacks(excludedFeedbacks: excludedFeedbacks)
 // Exclude the feedback from the UI only
 SMKitUIModel.setFeedbacksUIToExclude(feedbacksUIToExclude: excludedFeedbacks)
 
+```
+
+## 6. Setting Text Language <a name="language"></a>
+
+You can change the text language (default is English).
+To do this, follow the example below:
+
+```swift
+let lang = SencySupportedLanguage.English
+
+SMKitUIModel.setSessionLanguge(languge: lang)
 ```
 
 --------
