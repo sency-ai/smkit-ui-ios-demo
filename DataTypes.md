@@ -94,3 +94,9 @@
 | target_time         | `Int?`            | Optional, positive number.                                                                                   |
 | target_rom          | `FormFeedbackType?` | Optional, feedback type.                                                                                     |
 | pass_criteria       | `[FormFeedbackType]?` | Optional, list of form checks to be used as pass criteria for scoring.                                        |
+
+### SencySupportedLanguage
+| Name       |
+|------------|
+| English    |
+| Hebrew     |
