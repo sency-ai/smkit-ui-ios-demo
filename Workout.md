@@ -1,5 +1,7 @@
 # Workout
 
+> To understand the behavior of instruction videos, please refer to [Instruction Video Behavior](https://github.com/sency-ai/smkit-ui-ios-demo/blob/main/InstructionVideoBehavior.md)
+
 Implement **SMKitUIWorkoutDelegate**.
 ```Swift
 extension ViewController:SMKitUIWorkoutDelegate{
