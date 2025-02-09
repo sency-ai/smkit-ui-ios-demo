@@ -2,6 +2,7 @@
 
 > The customized assessment enables you to create a personalized evaluation using the exercises and movements from our [Movement catalog](https://github.com/sency-ai/smkit-sdk/blob/main/SDK-Movement-Catalog.md), tailored to your professional standards or personal preferences.
 > To understand the behavior of instruction videos, please refer to [Instruction Video Behavior](https://github.com/sency-ai/smkit-ui-ios-demo/blob/main/InstructionVideoBehavior.md)
+> To see all Assessmet workout options, please refer to [Assessment Workout Options](https://github.com/sency-ai/smkit-ui-ios-demo/blob/main/Assessment-Workout-Options.md)
 
 
 Implement **SMKitUIWorkoutDelegate**.
@@ -53,6 +54,7 @@ let exercises:[SMAssessmentExercise] = [
         uiElements: [.repsCounter, .timer],
         detector: "HighKnees",
         exerciseClosure: nil, // Custom sound
+        closureFailedSound: nil, // Only applicable for EndExercisePreferences TargetBased will be played if user did not reach target
         summaryTitle: "High Knees",
         summarySubTitle: "This a subtitle",
         summaryTitleMainMetric: "Reps",
@@ -67,6 +69,7 @@ let exercises:[SMAssessmentExercise] = [
         uiElements: [.gaugeOfMotion, .timer],
         detector: "SquatRegularStatic",
         exerciseClosure: nil, // Custom sound
+        closureFailedSound: nil, // Only applicable for EndExercisePreferences TargetBased will be played if user did not reach target
         summaryTitle: "Squat Regular Static",
         summarySubTitle: "This a subtitle",
         summaryTitleMainMetric: "Time",
@@ -80,6 +83,7 @@ let exercises:[SMAssessmentExercise] = [
         uiElements: [.repsCounter, .timer],
         detector: "PlankHighStatic",
         exerciseClosure: nil, // Custom sound
+        closureFailedSound: nil, // Only applicable for EndExercisePreferences TargetBased will be played if user did not reach target
         summaryTitle: "Plank High Static",
         summarySubTitle: "This a subtitle",
         summaryTitleMainMetric: "Time",
