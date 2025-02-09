@@ -5,7 +5,7 @@
 
 >**Sency Customized Assessments:** For those who prefer to beuild their own assessments, you can create a customized evaluation using the exercises and movements from our movement catalog, according to your specific requirements (check the CustomizedAssessment.md file for more info).
 
-
+> To see all Assessmet workout options, please refer to [Assessment Workout Options](https://github.com/sency-ai/smkit-ui-ios-demo/blob/main/Assessment-Workout-Options.md)
 
 Implement **SMKitUIWorkoutDelegate**.
 ```Swift
