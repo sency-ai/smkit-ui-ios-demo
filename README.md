@@ -7,13 +7,14 @@
 4. [ Start ](#start)
 5. [ Excluding Feedback ](#feedback)
 6. [Setting Text Language](#language)
-7. [ Data ](https://github.com/sency-ai/smkit-ui-ios-demo/blob/main/DataTypes.md)
+7. [ Setting Puase Types ](#pause)
+8. [ Data ](https://github.com/sency-ai/smkit-ui-ios-demo/blob/main/DataTypes.md)
 
 
 ## 1. Installation <a name="inst"></a>
 
 ### Cocoapods
-*Latest pod version: SMKitUI '0.3.4'*
+*Latest pod version: SMKitUI '0.3.7'*
 ```ruby
 // [1] add the source to the top of your Podfile.
 source 'https://bitbucket.org/sencyai/ios_sdks_release.git'
@@ -104,6 +105,23 @@ let lang = SencySupportedLanguage.English
 
 SMKitUIModel.setSessionLanguge(languge: lang)
 ```
+
+## 7. Setting Pause Types
+In SMKitUI you have the ability to choose what buttons will appear on the pause alert to do so you need to call setAllowedPauseTypes before the session starts like so:
+
+```swift
+let pauseTypes:[PauseAlertType] = [.StartOver, .Skip, .Quit]
+try SMKitUIModel.setAllowedPauseTypes(types: pauseTypes)
+```
+
+### `PauseAlertType`
+| Type                | Description                           |
+|---------------------|---------------------------------------|
+| Resume              | will reasume the workout              |
+| StartOver           | will start over the exercise          |
+| Skip                | will skip the exercise                |
+| Quit                | will quit the Assessmet               |
+
 
 --------
 
