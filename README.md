@@ -14,7 +14,7 @@
 ## 1. Installation <a name="inst"></a>
 
 ### Cocoapods
-*Latest pod version: SMKitUI '0.3.7'*
+*Latest pod version: SMKitUI '1.3.8'*
 ```ruby
 // [1] add the source to the top of your Podfile.
 source 'https://bitbucket.org/sencyai/ios_sdks_release.git'
