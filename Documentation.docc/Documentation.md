@@ -10,7 +10,7 @@
 
 ## 1. Installation <a name="inst"></a>
 
-*Latest pod version: SMKitUI '0.3.0'*
+*Latest pod version: SMKitUI '1.3.8'*
 
 ### Cocoapods
 ```ruby
