@@ -141,7 +141,8 @@ try SMKitUIModel.setAllowedPauseTypes(types: pauseTypes)
 }
 ```
 
-- CLI: run `npx @modelcontextprotocol/cli client http --url https://sency-mcp-production.up.railway.app/mcp --header "X-API-Key: Your-API-Key"`.
+- CLI: run 
+```npx @modelcontextprotocol/cli client http --url https://sency-mcp-production.up.railway.app/mcp --header "X-API-Key: Your-API-Key"```.
 
 --------
 
