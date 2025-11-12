@@ -122,6 +122,27 @@ try SMKitUIModel.setAllowedPauseTypes(types: pauseTypes)
 | Skip                | will skip the exercise                |
 | Quit                | will quit the Assessmet               |
 
+## MCP Server Access
+
+- Cursor: add the server definition below to `~/.cursor/mcp.json` and reload Cursor.
+[Contact us](mailto:support@sency.ai) to receive your API key.
+
+```json
+{
+  "mcpServers": {
+    "smkitui": {
+      "type": "streamable-http",
+      "url": "https://sency-mcp-production.up.railway.app/mcp",
+      "headers": {
+        "X-API-Key": "Your-API-Key"
+      }
+    }
+  }
+}
+```
+
+- CLI: run 
+```npx @modelcontextprotocol/cli client http --url https://sency-mcp-production.up.railway.app/mcp --header "X-API-Key: Your-API-Key"```.
 
 --------
 
