@@ -75,8 +75,10 @@ class ViewController: UIViewController {
             exercises: exercises,
             workoutClosure:nil // Custom sound
         )
+        
+        let modifications: [String: Any] = [:]
         do{
-            try SMKitUIModel.startWorkout(viewController: self,workout: workout, delegate: self)
+            try SMKitUIModel.startWorkout(viewController: self, workout: workout, delegate: self, modifications: modifications)
         }catch{
             print("error")
         }
@@ -173,10 +175,11 @@ class ViewController: UIViewController {
             workoutClosure:nil // Custom sound
         )
         
+        let modifications: [String: Any] = [:]
         do{
-            try SMKitUIModel.startCustomAssessment(viewController: self, assessment: assessment, delegate: self) { error in
+            try SMKitUIModel.startCustomAssessment(viewController: self, assessment: assessment, delegate: self, onFailure:  { error in
                 self.showAlert(title: error.localizedDescription)
-            }
+            }, modifications: modifications.isEmpty ? nil : modifications)
         }catch{
             showAlert(title: error.localizedDescription)
         }

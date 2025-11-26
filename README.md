@@ -5,7 +5,7 @@
 2. [ Setup ](#setup)
 3. [ Configure ](#conf)
 4. [ Start ](#start)
-5. [ Excluding Feedback ](#feedback)
+5. [ Exercise Configuration ](#config)
 6. [Setting Text Language](#language)
 7. [ Setting Puase Types ](#pause)
 8. [ Data ](https://github.com/sency-ai/smkit-ui-ios-demo/blob/main/DataTypes.md)
@@ -14,7 +14,7 @@
 ## 1. Installation <a name="inst"></a>
 
 ### Cocoapods
-*Latest pod version: SMKitUI '1.4.1'*
+*Latest pod version: SMKitUI '1.4.3'*
 ```ruby
 // [1] add the source to the top of your Podfile.
 source 'https://bitbucket.org/sencyai/ios_sdks_release.git'
@@ -76,24 +76,16 @@ To reduce wait time we recommend to call `configure` on app launch.
 
 - [Build Your Own Assessment](https://github.com/sency-ai/smkit-ui-ios-demo/blob/main/CustomizedAssessment.md)
 
-## 5. Excluding Feedback <a name="feedback"></a>
+## 5. Exercise Configuration <a name="config"></a>
 
-You have the ability to exclude specific exercise feedbacks.
-To do this, follow the example below:
+You can customize exercise feedback parameters by modifying the default configuration values. This allows you to adjust the sensitivity and thresholds for exercise feedback to match your specific requirements.
 
-```swift
-// Before starting any workout or assessment, call one of these functions:
+For detailed information about exercise configuration, including:
+- How to modify exercise parameters
+- Complete list of default configurations for all exercises
+- Usage examples and best practices
 
-// The feedbacks to exclude
-let excludedFeedbacks:[FormFeedbackTypeBr] = [.pushupKneesOnFloor]
-
-// Exclude the feedback from both data and UI
-SMKitUIModel.setExcludedFeedbacks(excludedFeedbacks: excludedFeedbacks)
-
-// Exclude the feedback from the UI only
-SMKitUIModel.setFeedbacksUIToExclude(feedbacksUIToExclude: excludedFeedbacks)
-
-```
+See: [Exercise Configuration Guide](https://github.com/sency-ai/smkit-ui-ios-demo/blob/main/ExerciseConfiguration.md)
 
 ## 6. Setting Text Language <a name="language"></a>
 
@@ -106,7 +98,7 @@ let lang = SencySupportedLanguage.English
 SMKitUIModel.setSessionLanguge(languge: lang)
 ```
 
-## 7. Setting Pause Types
+## 7. Setting Pause Types <a name="pause"></a>
 In SMKitUI you have the ability to choose what buttons will appear on the pause alert to do so you need to call setAllowedPauseTypes before the session starts like so:
 
 ```swift
