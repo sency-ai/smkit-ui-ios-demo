@@ -98,7 +98,7 @@ let lang = SencySupportedLanguage.English
 SMKitUIModel.setSessionLanguge(languge: lang)
 ```
 
-## 7. Setting Pause Types <a name="pause"></a>
+## 7. Setting Pause Types
 In SMKitUI you have the ability to choose what buttons will appear on the pause alert to do so you need to call setAllowedPauseTypes before the session starts like so:
 
 ```swift
