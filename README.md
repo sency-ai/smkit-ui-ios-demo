@@ -6,9 +6,11 @@
 3. [ Configure ](#conf)
 4. [ Start ](#start)
 5. [ Excluding Feedback ](#feedback)
-6. [Setting Text Language](#language)
-7. [ Setting Puase Types ](#pause)
-8. [ Data ](https://github.com/sency-ai/smkit-ui-ios-demo/blob/main/DataTypes.md)
+6. [ Modifying Feedback Parameters ](#modify)
+7. [ Setting Text Language ](#language)
+8. [ Setting Puase Types ](#pause)
+9. [  MCP Server Access ](#mcp)
+10. [ Data ](https://github.com/sency-ai/smkit-ui-ios-demo/blob/main/DataTypes.md)
 
 
 ## 1. Installation <a name="inst"></a>
@@ -95,7 +97,26 @@ SMKitUIModel.setFeedbacksUIToExclude(feedbacksUIToExclude: excludedFeedbacks)
 
 ```
 
-## 6. Setting Text Language <a name="language"></a>
+## 6. Modifying Feedback Parameters <a name="modify"></a>
+
+You have the ability to modify specific feedback parameters for exercises.
+This allows you to customize the thresholds and ranges for feedback detection.
+
+To modify feedback parameters, use the following example:
+
+```swift
+let modifications: [String: Any] = [
+    "Crunches": [
+        // Feedback/parameter name: [parameter values]
+        "DepthCrunchesShallowDepth": ["low": 0.1, "high": 0.9],
+        // Add more parameters as needed
+    ]
+]
+```
+
+**Note:** We will release our feedbacks catalog soon. Feel free to reach us for assistant in applying modifications.
+
+## 7. Setting Text Language <a name="language"></a>
 
 You can change the text language (default is English).
 To do this, follow the example below:
@@ -106,7 +127,7 @@ let lang = SencySupportedLanguage.English
 SMKitUIModel.setSessionLanguge(languge: lang)
 ```
 
-## 7. Setting Pause Types
+## 8. Setting Pause Types
 In SMKitUI you have the ability to choose what buttons will appear on the pause alert to do so you need to call setAllowedPauseTypes before the session starts like so:
 
 ```swift
@@ -122,7 +143,7 @@ try SMKitUIModel.setAllowedPauseTypes(types: pauseTypes)
 | Skip                | will skip the exercise                |
 | Quit                | will quit the Assessmet               |
 
-## MCP Server Access
+## 9. MCP Server Access
 
 - Cursor: add the server definition below to `~/.cursor/mcp.json` and reload Cursor.
 [Contact us](mailto:support@sency.ai) to receive your API key.
