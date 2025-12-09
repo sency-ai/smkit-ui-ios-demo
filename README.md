@@ -127,7 +127,7 @@ let lang = SencySupportedLanguage.English
 SMKitUIModel.setSessionLanguge(languge: lang)
 ```
 
-## 8. Setting Pause Types
+## 8. Setting Pause Types <a name="pause"></a>
 In SMKitUI you have the ability to choose what buttons will appear on the pause alert to do so you need to call setAllowedPauseTypes before the session starts like so:
 
 ```swift
@@ -143,7 +143,7 @@ try SMKitUIModel.setAllowedPauseTypes(types: pauseTypes)
 | Skip                | will skip the exercise                |
 | Quit                | will quit the Assessmet               |
 
-## 9. MCP Server Access
+## 9. MCP Server Access <a name="mcp"></a>
 
 - Cursor: add the server definition below to `~/.cursor/mcp.json` and reload Cursor.
 [Contact us](mailto:support@sency.ai) to receive your API key.
