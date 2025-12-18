@@ -25,6 +25,10 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         AuthManager.shared.delegate = self
+        
+        // MARK: - UI Color Theme Configuration
+        // Uncomment and set your preferred color theme here (blue, green, purple, orange, silver, gold, pink):
+//         SMKitUIModel.colorTheme = .blue   // Blue theme
 
         self.view.addSubview(mainView)
         NSLayoutConstraint.activate([
@@ -76,7 +80,12 @@ class ViewController: UIViewController {
             workoutClosure:nil // Custom sound
         )
         do{
-            try SMKitUIModel.startWorkout(viewController: self,workout: workout, delegate: self)
+            try SMKitUIModel.startWorkout(
+                viewController: self,
+                workout: workout,
+                delegate: self,
+                showPhoneCalibration: true  // Set to false to skip phone calibration
+            )
         }catch{
             print("error")
         }
@@ -108,17 +117,32 @@ class ViewController: UIViewController {
             let userData = UserData(gender: .Female, birthday: Date()) // This is optinal if not provided the SDK will requst from the user his age and gender
             SMKitUIModel.setFeedbacksUIToExclude(feedbacksUIToExclude: [.pushupKneesOnFloor])
             //Start a Assessment workout with AssessmentTypes
-            try SMKitUIModel.startAssessmet(viewController: self, type: AssessmentTypes.Fitness, userData: userData, delegate: self, onFailure: { error in
-                
-            })
+            try SMKitUIModel.startAssessmet(
+                viewController: self,
+                type: AssessmentTypes.Fitness,
+                userData: userData,
+                delegate: self,
+                onFailure: { error in
+                    
+                },
+                showPhoneCalibration: true
+            )
         }catch{
             showAlert(title: error.localizedDescription)
         }
     }
     
     func startCustomAssessmet(){
+        // MARK: - Target-Based Configuration Example
+        // For target-based mode to work, ScoringParams must include:
+        // - targetReps for dynamic exercises (like High Knees)
+        // - targetTime for static exercises (like Plank, Squat Static)
         let dynamicScoringParams = ScoringParams(type: .reps, scoreFactor: 0.8, targetTime: nil, targetReps: 10, targetRom: nil)
         let staticScoringParams = ScoringParams(type: .time, scoreFactor: 0.8, targetTime: 10, targetReps: 0, targetRom: nil)
+        
+        // Enable target-based mode: exercises will end when target is reached
+        // Uncomment the line below to enable target-based exercise ending:
+        // SMKitUIModel.setEndExercisePreferences(endExercisePreferences: .TargetBased)
         
         let intro = Bundle.main.path(forResource: "customWorkoutIntro", ofType: "mp3")
         let soundtrack = Bundle.main.path(forResource: "full-body-long", ofType: "mp3")
@@ -174,9 +198,15 @@ class ViewController: UIViewController {
         )
         
         do{
-            try SMKitUIModel.startCustomAssessment(viewController: self, assessment: assessment, delegate: self) { error in
-                self.showAlert(title: error.localizedDescription)
-            }
+            try SMKitUIModel.startCustomAssessment(
+                viewController: self,
+                assessment: assessment,
+                delegate: self,
+                onFailure: { error in
+                    self.showAlert(title: error.localizedDescription)
+                },
+                showPhoneCalibration: true
+            )
         }catch{
             showAlert(title: error.localizedDescription)
         }
