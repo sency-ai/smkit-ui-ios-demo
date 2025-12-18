@@ -26,7 +26,6 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         AuthManager.shared.delegate = self
         
-        // MARK: - UI Color Theme Configuration
         // Uncomment and set your preferred color theme here (blue, green, purple, orange, silver, gold, pink):
 //         SMKitUIModel.colorTheme = .blue   // Blue theme
 
@@ -133,14 +132,12 @@ class ViewController: UIViewController {
     }
     
     func startCustomAssessmet(){
-        // MARK: - Target-Based Configuration Example
         // For target-based mode to work, ScoringParams must include:
         // - targetReps for dynamic exercises (like High Knees)
         // - targetTime for static exercises (like Plank, Squat Static)
         let dynamicScoringParams = ScoringParams(type: .reps, scoreFactor: 0.8, targetTime: nil, targetReps: 10, targetRom: nil)
         let staticScoringParams = ScoringParams(type: .time, scoreFactor: 0.8, targetTime: 10, targetReps: 0, targetRom: nil)
         
-        // Enable target-based mode: exercises will end when target is reached
         // Uncomment the line below to enable target-based exercise ending:
         // SMKitUIModel.setEndExercisePreferences(endExercisePreferences: .TargetBased)
         
