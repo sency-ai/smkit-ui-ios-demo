@@ -16,7 +16,9 @@
 ## 1. Installation <a name="inst"></a>
 
 ### Cocoapods
-*Latest pod version: SMKitUI '1.4.1'*
+*Latest pod version: SMKitUI '1.4.5'*
+
+**New in 1.4.5:** New exercises, customize UI colors, and toggle phone calibration on/off.
 ```ruby
 // [1] add the source to the top of your Podfile.
 source 'https://bitbucket.org/sencyai/ios_sdks_release.git'
