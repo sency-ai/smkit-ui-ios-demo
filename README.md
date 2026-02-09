@@ -49,7 +49,7 @@ Run ```pod install --repo-update```
 
 In your Package Dependencies add this url https://bitbucket.org/sencyai/smkit_ui_package and then press Add package
 
-Latest version: smkit_ui_package '0.3.3'
+Latest version: smkit_ui_package '1.4.6'
 
 ## 2. Setup <a name="setup"></a>
 Add camera permission request to `Info.plist`
