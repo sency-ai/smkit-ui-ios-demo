@@ -8,17 +8,18 @@
 5. [ Excluding Feedback ](#feedback)
 6. [ Modifying Feedback Parameters ](#modify)
 7. [ Setting Text Language ](#language)
-8. [ Setting Puase Types ](#pause)
-9. [  MCP Server Access ](#mcp)
+8. [ Setting Pause Types ](#pause)
+9. [ Advanced Configuration (1.5.0) ](#advanced)
+10. [  MCP Server Access ](#mcp)
 10. [ Data ](https://github.com/sency-ai/smkit-ui-ios-demo/blob/main/DataTypes.md)
 
 
 ## 1. Installation <a name="inst"></a>
 
 ### Cocoapods
-*Latest pod version: SMKitUI '1.4.6'*
+*Latest pod version: SMKitUI '1.5.0'*
 
-**New in 1.4.6:** New exercises, customize UI colors, and toggle phone calibration on/off.
+**New in 1.5.0:** Multiple new exercises, pause exercise by hovering palm on the X icon, intelligence rest and exercise modifications, external audio mixing control, accurate pose estimation mode, and a full skeleton visualisation customization system.
 ```ruby
 // [1] add the source to the top of your Podfile.
 source 'https://bitbucket.org/sencyai/ios_sdks_release.git'
@@ -126,7 +127,7 @@ To do this, follow the example below:
 ```swift
 let lang = SencySupportedLanguage.English
 
-SMKitUIModel.setSessionLanguge(languge: lang)
+SMKitUIModel.setSessionLanguage(languge: lang)
 ```
 
 ## 8. Setting Pause Types <a name="pause"></a>
@@ -145,7 +146,52 @@ try SMKitUIModel.setAllowedPauseTypes(types: pauseTypes)
 | Skip                | will skip the exercise                |
 | Quit                | will quit the Assessmet               |
 
-## 9. MCP Server Access <a name="mcp"></a>
+## 9. Advanced Configuration (1.5.0) <a name="advanced"></a>
+
+These properties must be set **before** starting a session.
+
+### Intelligence / Fatigue Detection
+```swift
+SMKitUIModel.enableIntelligenceRest = true  // Enable in-session rest suggestions based on fatigue
+```
+
+### Audio Mixing
+```swift
+SMKitUIModel.allowAudioMixing = true           // Allow external apps (music, podcasts) to keep playing
+SMKitUIModel.showExternalAudioControl = true   // Show in-session audio source picker to the user
+```
+
+### Accurate Pose Estimation
+```swift
+SMKitUIModel.accuratePoseEstimation = true  // Higher accuracy, higher CPU cost
+```
+
+### Skeleton Visualisation
+Use a preset for quick theming:
+```swift
+SMKitUIModel.skeletonPreset = .neonGlow   // One of 26 built-in presets
+```
+
+Or fine-tune individual properties:
+```swift
+SMKitUIModel.skeletonHidden = false
+SMKitUIModel.skeletonConnectionStyle = .solid    // none, dotted, dashed, solid, longDashed, thinDots, dotDashed, rounded
+SMKitUIModel.skeletonJointShape = .circle        // circle, square, triangle, diamond, star, hexagon
+SMKitUIModel.skeletonDotsOpacity = 1.0
+SMKitUIModel.skeletonConnectionsOpacity = 0.8
+SMKitUIModel.skeletonDotsGlow = 0.5
+SMKitUIModel.skeletonConnectionsGlow = 0.3
+SMKitUIModel.skeletonLineWidthScale = 1.0
+SMKitUIModel.skeletonOutlineScale = 1.0
+SMKitUIModel.skeletonSoftness = 0.0
+SMKitUIModel.skeletonAnimationDuration = 0.15
+SMKitUIModel.skeletonDotsInnerColorOption = .white
+SMKitUIModel.skeletonDotsOuterColorOption = .cyan
+SMKitUIModel.skeletonConnectionsInnerColorOption = .white
+SMKitUIModel.skeletonConnectionsOuterColorOption = .cyan
+```
+
+## 10. MCP Server Access <a name="mcp"></a>
 
 - Cursor: add the server definition below to `~/.cursor/mcp.json` and reload Cursor.
 [Contact us](mailto:support@sency.ai) to receive your API key.
