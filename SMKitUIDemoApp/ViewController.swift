@@ -15,7 +15,8 @@ class ViewController: UIViewController {
         guard let view = UIHostingController(rootView: MainView(
             startWasPressed: startWasPressed,
             startAssessmentWasPressed: startAssessmentWasPressed,
-            startCustomAssessmet: startCustomAssessmet
+            startCustomAssessmet: startCustomAssessmet,
+            uiSettingsWasPressed: uiSettingsWasPressed
         )).view else {return UIView()}
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .clear
@@ -25,9 +26,49 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         AuthManager.shared.delegate = self
-        
+
         // Uncomment and set your preferred color theme here (blue, green, purple, orange, silver, gold, pink):
 //         SMKitUIModel.colorTheme = .blue   // Blue theme
+
+        // ── SMKitUI 1.5.0 configuration options ─────────────────────────────
+        // Intelligence / fatigue detection:
+//         SMKitUIModel.enableIntelligenceRest = true
+
+        // Audio mixing (allow other apps to keep playing music):
+//         SMKitUIModel.allowAudioMixing = true
+//         SMKitUIModel.showExternalAudioControl = true  // Shows in-session audio source picker
+
+        // Rowing phone-calibration screen:
+//         SMKitUIModel.showRowingPhoneCalibration = true
+
+        // Accurate pose estimation (higher CPU cost):
+//         SMKitUIModel.accuratePoseEstimation = true
+
+        // Apple Watch heart-rate integration:
+//         SMKitUIModel.enableWatchCompanion = true
+//         SMKitUIModel.enableHeartRateRest = true
+//         SMKitUIModel.heartRateRestThreshold = 100  // bpm threshold for rest detection
+
+        // Skeleton visualisation – preset shortcut:
+//         SMKitUIModel.skeletonPreset = .neonGlow
+
+        // Fine-grained skeleton customisation:
+//         SMKitUIModel.skeletonHidden = false
+//         SMKitUIModel.skeletonConnectionStyle = .solid
+//         SMKitUIModel.skeletonJointShape = .circle
+//         SMKitUIModel.skeletonDotsOpacity = 1.0
+//         SMKitUIModel.skeletonConnectionsOpacity = 0.8
+//         SMKitUIModel.skeletonDotsGlow = 0.5
+//         SMKitUIModel.skeletonConnectionsGlow = 0.3
+//         SMKitUIModel.skeletonLineWidthScale = 1.0
+//         SMKitUIModel.skeletonOutlineScale = 1.0
+//         SMKitUIModel.skeletonSoftness = 0.0
+//         SMKitUIModel.skeletonAnimationDuration = 0.15
+//         SMKitUIModel.skeletonDotsInnerColorOption = .white
+//         SMKitUIModel.skeletonDotsOuterColorOption = .cyan
+//         SMKitUIModel.skeletonConnectionsInnerColorOption = .white
+//         SMKitUIModel.skeletonConnectionsOuterColorOption = .cyan
+        // ────────────────────────────────────────────────────────────────────
 
         self.view.addSubview(mainView)
         NSLayoutConstraint.activate([
@@ -43,21 +84,11 @@ class ViewController: UIViewController {
         let soundtrack = Bundle.main.path(forResource: "full-body-long", ofType: "mp3")
         let exercises:[SMExercise] = [
             .init(
-                name: "High Knees",
-                exerciseIntro: nil, // Custom sound,
-                totalSeconds: 30,
-                videoInstruction: Bundle.main.path(forResource: "HighKnees", ofType: "mp4"),
-                uiElements: [.repsCounter, .timer],
-                detector: "HighKnees",
-                exerciseClosure: nil // Custom sound
-            ),
-            .init(
                 name: "Squat Regular Static",
                 exerciseIntro: nil, // Custom sound,
                 totalSeconds: 30,
-                videoInstruction: Bundle.main.path(forResource: "SquatRegularStatic", ofType: "mp4"),
-                uiElements: [.gaugeOfMotion, .timer],
-                detector: "SquatRegularStatic",
+                videoInstruction: nil,
+                detector: "ButtKicks",
                 exerciseClosure: nil // Custom sound
             ),
             .init(
@@ -90,6 +121,13 @@ class ViewController: UIViewController {
         }
     }
     
+    func uiSettingsWasPressed() {
+        let settingsVC = UISettingsViewController()
+        let nav = UINavigationController(rootViewController: settingsVC)
+        nav.modalPresentationStyle = .formSheet
+        present(nav, animated: true)
+    }
+
     func startProgramWasPressed(){
         let workoutConfig = WorkoutConfig(
             week: 6, // The program week

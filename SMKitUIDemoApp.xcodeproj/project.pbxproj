@@ -21,6 +21,8 @@
 		BE59E6682BA84A9A005205AA /* full-body-long.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BE59E6672BA84A9A005205AA /* full-body-long.mp3 */; };
 		BEE22D672BBE9D7F00A80369 /* Documentation.docc in Sources */ = {isa = PBXBuildFile; fileRef = BEE22D662BBE9D7F00A80369 /* Documentation.docc */; };
 		C65C4709C15078F191450BFF /* Pods_SMKitUIDemoApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22B2CB3A9CBF87275597A5C9 /* Pods_SMKitUIDemoApp.framework */; };
+		D238CADD2F50834F0071A476 /* UISettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D238CADC2F50834F0071A476 /* UISettingsViewController.swift */; };
+		D238CAE02F5083500071A476 /* SkeletonStylePreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D238CADF2F5083500071A476 /* SkeletonStylePreviewView.swift */; };
 		D2D6A69C2EF43A3300038DC6 /* customWorkoutIntro.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D2D6A69B2EF43A3300038DC6 /* customWorkoutIntro.mp3 */; };
 /* End PBXBuildFile section */
 
@@ -43,6 +45,8 @@
 		BE59E6672BA84A9A005205AA /* full-body-long.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "full-body-long.mp3"; sourceTree = "<group>"; };
 		BEE22D662BBE9D7F00A80369 /* Documentation.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Documentation.docc; sourceTree = "<group>"; };
 		CBF7EA24582189D95E8CF0B2 /* Pods-SMKitUIDemoApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SMKitUIDemoApp.debug.xcconfig"; path = "Target Support Files/Pods-SMKitUIDemoApp/Pods-SMKitUIDemoApp.debug.xcconfig"; sourceTree = "<group>"; };
+		D238CADC2F50834F0071A476 /* UISettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UISettingsViewController.swift; sourceTree = "<group>"; };
+		D238CADF2F5083500071A476 /* SkeletonStylePreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeletonStylePreviewView.swift; sourceTree = "<group>"; };
 		D2D6A69B2EF43A3300038DC6 /* customWorkoutIntro.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = customWorkoutIntro.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -97,6 +101,8 @@
 		BE59E63A2BA838CE005205AA /* SMKitUIDemoApp */ = {
 			isa = PBXGroup;
 			children = (
+				D238CADC2F50834F0071A476 /* UISettingsViewController.swift */,
+				D238CADF2F5083500071A476 /* SkeletonStylePreviewView.swift */,
 				BE59E6672BA84A9A005205AA /* full-body-long.mp3 */,
 				BE59E6532BA84795005205AA /* HighKnees.mp4 */,
 				BE59E6552BA84795005205AA /* PlankHighStatic.mp4 */,
@@ -239,6 +245,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D238CADD2F50834F0071A476 /* UISettingsViewController.swift in Sources */,
+				D238CAE02F5083500071A476 /* SkeletonStylePreviewView.swift in Sources */,
 				BE59E6402BA838CE005205AA /* ViewController.swift in Sources */,
 				BEE22D672BBE9D7F00A80369 /* Documentation.docc in Sources */,
 				BE59E6502BA838DE005205AA /* MainView.swift in Sources */,
