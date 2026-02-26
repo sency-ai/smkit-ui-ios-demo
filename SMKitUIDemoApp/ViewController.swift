@@ -84,11 +84,21 @@ class ViewController: UIViewController {
         let soundtrack = Bundle.main.path(forResource: "full-body-long", ofType: "mp3")
         let exercises:[SMExercise] = [
             .init(
+                name: "High Knees",
+                exerciseIntro: nil, // Custom sound,
+                totalSeconds: 30,
+                videoInstruction: Bundle.main.path(forResource: "HighKnees", ofType: "mp4"),
+                uiElements: [.repsCounter, .timer],
+                detector: "HighKnees",
+                exerciseClosure: nil // Custom sound
+            ),
+            .init(
                 name: "Squat Regular Static",
                 exerciseIntro: nil, // Custom sound,
                 totalSeconds: 30,
-                videoInstruction: nil,
-                detector: "ButtKicks",
+                videoInstruction: Bundle.main.path(forResource: "SquatRegularStatic", ofType: "mp4"),
+                uiElements: [.gaugeOfMotion, .timer],
+                detector: "SquatRegularStatic",
                 exerciseClosure: nil // Custom sound
             ),
             .init(
