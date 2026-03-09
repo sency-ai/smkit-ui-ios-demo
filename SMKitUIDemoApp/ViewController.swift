@@ -30,7 +30,7 @@ class ViewController: UIViewController {
         // Uncomment and set your preferred color theme here (blue, green, purple, orange, silver, gold, pink):
 //         SMKitUIModel.colorTheme = .blue   // Blue theme
 
-        // ── SMKitUI 1.5.0 configuration options ─────────────────────────────
+        // ── SMKitUI 1.5.3 configuration options ─────────────────────────────
         // Intelligence / fatigue detection:
 //         SMKitUIModel.enableIntelligenceRest = true
 
@@ -48,6 +48,10 @@ class ViewController: UIViewController {
 //         SMKitUIModel.enableWatchCompanion = true
 //         SMKitUIModel.enableHeartRateRest = true
 //         SMKitUIModel.heartRateRestThreshold = 100  // bpm threshold for rest detection
+
+        // Instruction video cycling (1.5.3):
+//         SMKitUIModel.instructionVideoConfig = InstructionVideoConfig()  // Default mode
+//         SMKitUIModel.instructionVideoConfig = InstructionVideoConfig(displayMode: .mediumCycle, mediumSizeCycles: 3)
 
         // Skeleton visualisation – preset shortcut:
 //         SMKitUIModel.skeletonPreset = .neonGlow
