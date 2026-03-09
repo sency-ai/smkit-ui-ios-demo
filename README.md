@@ -17,7 +17,9 @@
 ## 1. Installation <a name="inst"></a>
 
 ### Cocoapods
-*Latest pod version: SMKitUI '1.5.0'*
+*Latest pod version: SMKitUI '1.5.3'*
+
+**New in 1.5.3:** Improved SDK error handling and enhanced instruction video cycling control.
 
 **New in 1.5.0:** Multiple new exercises, pause exercise by hovering palm on the X icon, intelligence rest and exercise modifications, external audio mixing control, accurate pose estimation mode, and a full skeleton visualisation customization system.
 ```ruby
@@ -50,7 +52,7 @@ Run ```pod install --repo-update```
 
 In your Package Dependencies add this url https://bitbucket.org/sencyai/smkit_ui_package and then press Add package
 
-Latest version: smkit_ui_package '1.4.6'
+Latest version: smkit_ui_package '1.5.3'
 
 ## 2. Setup <a name="setup"></a>
 Add camera permission request to `Info.plist`
@@ -146,7 +148,7 @@ try SMKitUIModel.setAllowedPauseTypes(types: pauseTypes)
 | Skip                | will skip the exercise                |
 | Quit                | will quit the Assessmet               |
 
-## 9. Advanced Configuration (1.5.0) <a name="advanced"></a>
+## 9. Advanced Configuration (1.5.3) <a name="advanced"></a>
 
 These properties must be set **before** starting a session.
 
@@ -165,6 +167,24 @@ SMKitUIModel.showExternalAudioControl = true   // Show in-session audio source p
 ```swift
 SMKitUIModel.accuratePoseEstimation = true  // Higher accuracy, higher CPU cost
 ```
+
+### Instruction Video Cycling
+Control how the instruction video transitions after the instruction phase ends:
+```swift
+// Default mode: video shrinks to small corner immediately
+SMKitUIModel.instructionVideoConfig = InstructionVideoConfig()
+
+// Medium cycle mode: video stays at 75% size while exercise video loops N times, then shrinks
+SMKitUIModel.instructionVideoConfig = InstructionVideoConfig(
+    displayMode: .mediumCycle,
+    mediumSizeCycles: 3  // Video stays medium-sized for 3 loops (range 1-5)
+)
+```
+
+| Mode | Behavior |
+|------|----------|
+| `.default` | Instruction video immediately shrinks to small corner (original behavior) |
+| `.mediumCycle` | Instruction video transitions to 75% size, stays medium while exercise loops N times, then shrinks |
 
 ### Skeleton Visualisation
 Use a preset for quick theming:
