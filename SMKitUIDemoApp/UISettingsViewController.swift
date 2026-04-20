@@ -89,6 +89,7 @@ final class UISettingsViewController: UIViewController {
         addColorChipsRow(isConnectionsInner: true)
         addSectionHeader("Connections outer color")
         addColorChipsRow(isConnectionsOuter: true)
+        addSessionBehaviorSection()
 
         refreshSelection()
     }
@@ -742,5 +743,61 @@ final class UISettingsViewController: UIViewController {
         guard let v = g.view else { return }
         SMKitUIModel.skeletonConnectionsOuterColorOption = (v.tag == 0) ? nil : SkeletonColorOption(rawValue: v.tag - 1)
         refreshSelection()
+    }
+
+    private func addSessionBehaviorSection() {
+        addSectionHeader("Session behavior")
+        addToggleRow(title: "Play phone calibration audio",
+                     isOn: SMKitUIModel.playPhoneCalibrationAudio,
+                     selector: #selector(playPhoneCalibrationAudioChanged(_:)))
+        addToggleRow(title: "Play body calibration audio",
+                     isOn: SMKitUIModel.playBodyCalibrationAudio,
+                     selector: #selector(playBodyCalibrationAudioChanged(_:)))
+        addToggleRow(title: "Start timer on first activity",
+                     isOn: SMKitUIModel.startTimerOnFirstActivity,
+                     selector: #selector(startTimerOnFirstActivityChanged(_:)))
+        addToggleRow(title: "Prevent rep count while phone moves",
+                     isOn: SMKitUIModel.enablePhoneMovementCountPrevention,
+                     selector: #selector(enablePhoneMovementCountPreventionChanged(_:)))
+    }
+
+    private func addToggleRow(title: String, isOn: Bool, selector: Selector) {
+        let row = UIView()
+        let lab = UILabel()
+        lab.text = title
+        lab.font = .systemFont(ofSize: 15, weight: .semibold)
+        lab.translatesAutoresizingMaskIntoConstraints = false
+        let toggle = UISwitch()
+        toggle.isOn = isOn
+        toggle.translatesAutoresizingMaskIntoConstraints = false
+        toggle.addTarget(self, action: selector, for: .valueChanged)
+        row.addSubview(lab)
+        row.addSubview(toggle)
+        NSLayoutConstraint.activate([
+            row.heightAnchor.constraint(equalToConstant: rowHeight),
+            lab.leadingAnchor.constraint(equalTo: row.leadingAnchor),
+            lab.centerYAnchor.constraint(equalTo: row.centerYAnchor),
+            lab.trailingAnchor.constraint(lessThanOrEqualTo: toggle.leadingAnchor, constant: -12),
+            toggle.trailingAnchor.constraint(equalTo: row.trailingAnchor),
+            toggle.centerYAnchor.constraint(equalTo: row.centerYAnchor),
+        ])
+        contentStack.addArrangedSubview(row)
+        contentStack.setCustomSpacing(12, after: row)
+    }
+
+    @objc private func playPhoneCalibrationAudioChanged(_ sender: UISwitch) {
+        SMKitUIModel.playPhoneCalibrationAudio = sender.isOn
+    }
+
+    @objc private func playBodyCalibrationAudioChanged(_ sender: UISwitch) {
+        SMKitUIModel.playBodyCalibrationAudio = sender.isOn
+    }
+
+    @objc private func startTimerOnFirstActivityChanged(_ sender: UISwitch) {
+        SMKitUIModel.startTimerOnFirstActivity = sender.isOn
+    }
+
+    @objc private func enablePhoneMovementCountPreventionChanged(_ sender: UISwitch) {
+        SMKitUIModel.enablePhoneMovementCountPrevention = sender.isOn
     }
 }
