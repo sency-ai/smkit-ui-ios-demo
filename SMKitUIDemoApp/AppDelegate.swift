@@ -11,7 +11,12 @@ import SMKitUI
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        SMKitUIModel.configure(authKey: "YOUR_KEY") {
+        SMKitUIModel.playPhoneCalibrationAudio = false
+        SMKitUIModel.playBodyCalibrationAudio = false
+        SMKitUIModel.startTimerOnFirstActivity = false
+        SMKitUIModel.enablePhoneMovementCountPrevention = false
+
+        SMKitUIModel.configure(authKey: "") {
             //The configurtion was seccessful
             DispatchQueue.main.async {
                 AuthManager.shared.didFinishAuth = true

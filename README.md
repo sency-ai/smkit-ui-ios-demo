@@ -17,7 +17,7 @@
 ## 1. Installation <a name="inst"></a>
 
 ### Cocoapods
-*Latest pod version: SMKitUI '1.5.3'*
+*Latest pod version: SMKitUI '1.6.5'*
 
 **New in 1.5.3:** Improved SDK error handling and enhanced instruction video cycling control.
 
