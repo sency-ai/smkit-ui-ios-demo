@@ -1,0 +1,4 @@
+#include "../../Pods/Target Support Files/Pods-SMKitUIDemoApp/Pods-SMKitUIDemoApp.release.xcconfig"
+
+SMKIT_UI_AUTH_KEY =
+#include? "AuthKey.local.xcconfig"

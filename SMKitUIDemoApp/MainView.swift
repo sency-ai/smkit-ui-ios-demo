@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MainView: View {
     @ObservedObject var authModel = AuthManager.shared
-    let startWasPressed:()->Void
+    let buildWorkoutWasPressed:()->Void
     let startAssessmentWasPressed:()->Void
     let startCustomAssessmet:()->Void
     let uiSettingsWasPressed:()->Void
@@ -39,7 +39,7 @@ struct MainView: View {
 
     var body: some View {
         VStack(spacing: 16) {
-            workoutButton("START", action: startWasPressed)
+            workoutButton("BUILD WORKOUT", action: buildWorkoutWasPressed)
             workoutButton("START ASSESSMENT", action: startAssessmentWasPressed)
             workoutButton("START CUSTOM ASSESSMENT", action: startCustomAssessmet)
 
@@ -55,5 +55,5 @@ struct MainView: View {
 }
 
 #Preview {
-    MainView(startWasPressed: {}, startAssessmentWasPressed: {}, startCustomAssessmet: {}, uiSettingsWasPressed: {})
+    MainView(buildWorkoutWasPressed: {}, startAssessmentWasPressed: {}, startCustomAssessmet: {}, uiSettingsWasPressed: {})
 }

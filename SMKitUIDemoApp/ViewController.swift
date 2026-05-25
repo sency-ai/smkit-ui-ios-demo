@@ -7,13 +7,14 @@
 
 import SwiftUI
 import SMKitUI
+import SMKit
 import SMBase
 
 class ViewController: UIViewController {
 
     lazy var mainView:UIView = {
         guard let view = UIHostingController(rootView: MainView(
-            startWasPressed: startWasPressed,
+            buildWorkoutWasPressed: buildWorkoutWasPressed,
             startAssessmentWasPressed: startAssessmentWasPressed,
             startCustomAssessmet: startCustomAssessmet,
             uiSettingsWasPressed: uiSettingsWasPressed
@@ -26,53 +27,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         AuthManager.shared.delegate = self
-
-        // Uncomment and set your preferred color theme here (blue, green, purple, orange, silver, gold, pink):
-//         SMKitUIModel.colorTheme = .blue   // Blue theme
-
-        // ── SMKitUI 1.5.3 configuration options ─────────────────────────────
-        // Intelligence / fatigue detection:
-//         SMKitUIModel.enableIntelligenceRest = true
-
-        // Audio mixing (allow other apps to keep playing music):
-//         SMKitUIModel.allowAudioMixing = true
-//         SMKitUIModel.showExternalAudioControl = true  // Shows in-session audio source picker
-
-        // Rowing phone-calibration screen:
-//         SMKitUIModel.showRowingPhoneCalibration = true
-
-        // Accurate pose estimation (higher CPU cost):
-//         SMKitUIModel.accuratePoseEstimation = true
-
-        // Apple Watch heart-rate integration:
-//         SMKitUIModel.enableWatchCompanion = true
-//         SMKitUIModel.enableHeartRateRest = true
-//         SMKitUIModel.heartRateRestThreshold = 100  // bpm threshold for rest detection
-
-        // Instruction video cycling (1.5.3):
-//         SMKitUIModel.instructionVideoConfig = InstructionVideoConfig()  // Default mode
-//         SMKitUIModel.instructionVideoConfig = InstructionVideoConfig(displayMode: .mediumCycle, mediumSizeCycles: 3)
-
-        // Skeleton visualisation – preset shortcut:
-//         SMKitUIModel.skeletonPreset = .neonGlow
-
-        // Fine-grained skeleton customisation:
-//         SMKitUIModel.skeletonHidden = false
-//         SMKitUIModel.skeletonConnectionStyle = .solid
-//         SMKitUIModel.skeletonJointShape = .circle
-//         SMKitUIModel.skeletonDotsOpacity = 1.0
-//         SMKitUIModel.skeletonConnectionsOpacity = 0.8
-//         SMKitUIModel.skeletonDotsGlow = 0.5
-//         SMKitUIModel.skeletonConnectionsGlow = 0.3
-//         SMKitUIModel.skeletonLineWidthScale = 1.0
-//         SMKitUIModel.skeletonOutlineScale = 1.0
-//         SMKitUIModel.skeletonSoftness = 0.0
-//         SMKitUIModel.skeletonAnimationDuration = 0.15
-//         SMKitUIModel.skeletonDotsInnerColorOption = .white
-//         SMKitUIModel.skeletonDotsOuterColorOption = .cyan
-//         SMKitUIModel.skeletonConnectionsInnerColorOption = .white
-//         SMKitUIModel.skeletonConnectionsOuterColorOption = .cyan
-        // ────────────────────────────────────────────────────────────────────
+        DemoSettingsStore.shared.applyToSDK()
 
         self.view.addSubview(mainView)
         NSLayoutConstraint.activate([
@@ -83,58 +38,71 @@ class ViewController: UIViewController {
         ])
     }
 
-    func startWasPressed(){
-        let intro = Bundle.main.path(forResource: "customWorkoutIntro", ofType: "mp3")
-        let soundtrack = Bundle.main.path(forResource: "full-body-long", ofType: "mp3")
-        let exercises:[SMExercise] = [
-            .init(
-                name: "High Knees",
-                exerciseIntro: nil, // Custom sound,
-                totalSeconds: 30,
-                videoInstruction: Bundle.main.path(forResource: "HighKnees", ofType: "mp4"),
-                uiElements: [.repsCounter, .timer],
-                detector: "HighKnees",
-                exerciseClosure: nil // Custom sound
-            ),
-            .init(
-                name: "Squat Regular Static",
-                exerciseIntro: nil, // Custom sound,
-                totalSeconds: 30,
-                videoInstruction: Bundle.main.path(forResource: "SquatRegularStatic", ofType: "mp4"),
-                uiElements: [.gaugeOfMotion, .timer],
-                detector: "SquatRegularStatic",
-                exerciseClosure: nil // Custom sound
-            ),
-            .init(
-                name: "Plank High Static",
-                exerciseIntro: nil, // Custom sound,
-                totalSeconds: 30,
-                videoInstruction: Bundle.main.path(forResource: "PlankHighStatic", ofType: "mp4"),
-                uiElements: [.repsCounter, .timer],
-                detector: "PlankHighStatic",
-                exerciseClosure: nil // Custom sound
-            )
-        ]
+    private func makeExercise(from config: BuiltWorkoutExercise) -> SMExercise {
+        let exercise = SMExercise(
+            name: config.detector,
+            exerciseIntro: nil,
+            totalSeconds: config.duration,
+            videoInstruction: config.detector,
+            uiElements: nil,
+            detector: config.detector,
+            exerciseClosure: nil,
+            quickMotionParams: nil,
+            playPreExerciseCountdown: config.playPreExerciseCountdown,
+            playRepMilestoneVoice: config.playRepMilestoneVoice,
+            repMilestoneInterval: config.repMilestoneInterval,
+            playSoundOnEachRep: config.playSoundOnEachRep,
+            stretchSetConfig: config.stretchSetConfig
+        )
+        exercise.phonePosition = config.phonePositionChoice.phonePosition
+        exercise.guidanceMode = config.guidanceChoice.boolValue
+        exercise.useWideAngleCamera = config.wideAngleChoice.boolValue
+        exercise.adaptiveRomFeedbackEnabled = config.adaptiveRomFeedbackEnabled
+        exercise.adaptiveRomWarmupReps = max(1, config.adaptiveRomWarmupReps)
+        exercise.shortIntro = config.shortIntro
+        return exercise
+    }
+
+    private func startWorkout(
+        from viewController: UIViewController,
+        named name: String,
+        exercises: [SMExercise],
+        continuationExercises: [SMExercise]? = nil
+    ) {
+        DemoSettingsStore.shared.applyToSDK()
+        let continuation = continuationExercises.flatMap { exercises -> SMWorkoutContinuation? in
+            guard !exercises.isEmpty else { return nil }
+            return SMWorkoutContinuation(introSoundKey: nil, interactionUnlockSoundKey: "", exercises: exercises)
+        }
         let workout = SMWorkout(
             id: "",
-            name: "TEST",
-            workoutIntro: intro,
-            soundtrack: soundtrack,
+            name: name,
+            workoutIntro: nil,
+            soundtrack: nil,
             exercises: exercises,
-            workoutClosure:nil // Custom sound
+            workoutClosure:nil,
+            continuation: continuation
         )
         do{
             try SMKitUIModel.startWorkout(
-                viewController: self,
+                viewController: viewController,
                 workout: workout,
                 delegate: self,
-                showPhoneCalibration: true  // Set to false to skip phone calibration
+                showPhoneCalibration: DemoSettingsStore.shared.showPhoneCalibration
             )
         }catch{
-            print("error")
+            showAlert(title: error.localizedDescription)
         }
     }
-    
+
+    func buildWorkoutWasPressed(){
+        let builder = BuildWorkoutViewController()
+        builder.delegate = self
+        let nav = UINavigationController(rootViewController: builder)
+        nav.modalPresentationStyle = .formSheet
+        present(nav, animated: true)
+    }
+
     func uiSettingsWasPressed() {
         let settingsVC = UISettingsViewController()
         let nav = UINavigationController(rootViewController: settingsVC)
@@ -143,6 +111,7 @@ class ViewController: UIViewController {
     }
 
     func startProgramWasPressed(){
+        DemoSettingsStore.shared.applyToSDK()
         let workoutConfig = WorkoutConfig(
             week: 6, // The program week
             bodyZone: .FullBody, // The program bodyZone
@@ -164,6 +133,7 @@ class ViewController: UIViewController {
     }
     
     func startAssessmentWasPressed(){
+        DemoSettingsStore.shared.applyToSDK()
         do{
             let userData = UserData(gender: .Female, birthday: Date()) // This is optinal if not provided the SDK will requst from the user his age and gender
             SMKitUIModel.setFeedbacksUIToExclude(feedbacksUIToExclude: [.pushupKneesOnFloor])
@@ -176,7 +146,7 @@ class ViewController: UIViewController {
                 onFailure: { error in
                     
                 },
-                showPhoneCalibration: true
+                showPhoneCalibration: DemoSettingsStore.shared.showPhoneCalibration
             )
         }catch{
             showAlert(title: error.localizedDescription)
@@ -184,6 +154,7 @@ class ViewController: UIViewController {
     }
     
     func startCustomAssessmet(){
+        DemoSettingsStore.shared.applyToSDK()
         // For target-based mode to work, ScoringParams must include:
         // - targetReps for dynamic exercises (like High Knees)
         // - targetTime for static exercises (like Plank, Squat Static)
@@ -254,7 +225,7 @@ class ViewController: UIViewController {
                 onFailure: { error in
                     self.showAlert(title: error.localizedDescription)
                 },
-                showPhoneCalibration: true
+                showPhoneCalibration: DemoSettingsStore.shared.showPhoneCalibration
             )
         }catch{
             showAlert(title: error.localizedDescription)
@@ -265,6 +236,25 @@ class ViewController: UIViewController {
 extension ViewController:AuthManagerDelegate{
     func didFailAuth() {
         self.showAlert(title: "Failed to connect to Sency Server", message: "Please check network connection and try again.")
+    }
+}
+
+extension ViewController: BuildWorkoutViewControllerDelegate {
+    func buildWorkoutViewController(
+        _ controller: BuildWorkoutViewController,
+        didStartWorkout exercises: [BuiltWorkoutExercise],
+        continuationExercises: [BuiltWorkoutExercise]
+    ) {
+        let mainExercises = exercises.map { makeExercise(from: $0) }
+        let continuation = continuationExercises.map { makeExercise(from: $0) }
+        let knownDetectors = Array(Set((exercises + continuationExercises).map(\.detector))).sorted()
+        SMKitUIModel.jinniAvailableMovementDetectors = knownDetectors
+        startWorkout(
+            from: controller,
+            named: "SMKitUI Build Workout",
+            exercises: mainExercises,
+            continuationExercises: DemoSettingsStore.shared.enableWorkoutContinuation ? continuation : []
+        )
     }
 }
 

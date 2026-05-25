@@ -10,19 +10,24 @@ import SMKitUI
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        SMKitUIModel.playPhoneCalibrationAudio = false
-        SMKitUIModel.playBodyCalibrationAudio = false
-        SMKitUIModel.startTimerOnFirstActivity = false
-        SMKitUIModel.enablePhoneMovementCountPrevention = false
+    private var smKitUIAuthKey: String {
+        (Bundle.main.object(forInfoDictionaryKey: "SMKitUIAuthKey") as? String ?? "")
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+    }
 
-        SMKitUIModel.configure(authKey: "") {
-            //The configurtion was seccessful
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        DemoSettingsStore.shared.applyToSDK()
+
+        SMKitUIModel.configure(
+            authKey: smKitUIAuthKey,
+            includesHighlights: false
+        ) {
+            // The configuration was successful.
             DispatchQueue.main.async {
                 AuthManager.shared.didFinishAuth = true
             }
         } onFailure: { error in
-            //The configurtion failed with error
+            // The configuration failed with error.
             DispatchQueue.main.async {
                 AuthManager.shared.didFaildAuth = true
             }
@@ -31,4 +36,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 }
-
