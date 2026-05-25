@@ -21,6 +21,8 @@
 		BE59E6682BA84A9A005205AA /* full-body-long.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BE59E6672BA84A9A005205AA /* full-body-long.mp3 */; };
 		BEE22D672BBE9D7F00A80369 /* Documentation.docc in Sources */ = {isa = PBXBuildFile; fileRef = BEE22D662BBE9D7F00A80369 /* Documentation.docc */; };
 		C65C4709C15078F191450BFF /* Pods_SMKitUIDemoApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22B2CB3A9CBF87275597A5C9 /* Pods_SMKitUIDemoApp.framework */; };
+		D21F7A522F619000005E11A1 /* DemoSettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D21F7A502F619000005E11A1 /* DemoSettingsStore.swift */; };
+		D21F7A532F619000005E11A1 /* BuildWorkoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D21F7A512F619000005E11A1 /* BuildWorkoutViewController.swift */; };
 		D238CADD2F50834F0071A476 /* UISettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D238CADC2F50834F0071A476 /* UISettingsViewController.swift */; };
 		D238CAE02F5083500071A476 /* SkeletonStylePreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D238CADF2F5083500071A476 /* SkeletonStylePreviewView.swift */; };
 		D2D6A69C2EF43A3300038DC6 /* customWorkoutIntro.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D2D6A69B2EF43A3300038DC6 /* customWorkoutIntro.mp3 */; };
@@ -45,6 +47,10 @@
 		BE59E6672BA84A9A005205AA /* full-body-long.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "full-body-long.mp3"; sourceTree = "<group>"; };
 		BEE22D662BBE9D7F00A80369 /* Documentation.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Documentation.docc; sourceTree = "<group>"; };
 		CBF7EA24582189D95E8CF0B2 /* Pods-SMKitUIDemoApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SMKitUIDemoApp.debug.xcconfig"; path = "Target Support Files/Pods-SMKitUIDemoApp/Pods-SMKitUIDemoApp.debug.xcconfig"; sourceTree = "<group>"; };
+		D21F7A462F618300005E11A1 /* SMKitUIDemoApp.debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = SMKitUIDemoApp.debug.xcconfig; sourceTree = "<group>"; };
+		D21F7A472F618300005E11A1 /* SMKitUIDemoApp.release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = SMKitUIDemoApp.release.xcconfig; sourceTree = "<group>"; };
+		D21F7A502F619000005E11A1 /* DemoSettingsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoSettingsStore.swift; sourceTree = "<group>"; };
+		D21F7A512F619000005E11A1 /* BuildWorkoutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildWorkoutViewController.swift; sourceTree = "<group>"; };
 		D238CADC2F50834F0071A476 /* UISettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UISettingsViewController.swift; sourceTree = "<group>"; };
 		D238CADF2F5083500071A476 /* SkeletonStylePreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeletonStylePreviewView.swift; sourceTree = "<group>"; };
 		D2D6A69B2EF43A3300038DC6 /* customWorkoutIntro.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = customWorkoutIntro.mp3; sourceTree = "<group>"; };
@@ -101,6 +107,9 @@
 		BE59E63A2BA838CE005205AA /* SMKitUIDemoApp */ = {
 			isa = PBXGroup;
 			children = (
+				D21F7A452F618300005E11A1 /* Config */,
+				D21F7A502F619000005E11A1 /* DemoSettingsStore.swift */,
+				D21F7A512F619000005E11A1 /* BuildWorkoutViewController.swift */,
 				D238CADC2F50834F0071A476 /* UISettingsViewController.swift */,
 				D238CADF2F5083500071A476 /* SkeletonStylePreviewView.swift */,
 				BE59E6672BA84A9A005205AA /* full-body-long.mp3 */,
@@ -119,6 +128,15 @@
 				D2D6A69B2EF43A3300038DC6 /* customWorkoutIntro.mp3 */,
 			);
 			path = SMKitUIDemoApp;
+			sourceTree = "<group>";
+		};
+		D21F7A452F618300005E11A1 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				D21F7A462F618300005E11A1 /* SMKitUIDemoApp.debug.xcconfig */,
+				D21F7A472F618300005E11A1 /* SMKitUIDemoApp.release.xcconfig */,
+			);
+			path = Config;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -245,6 +263,8 @@
 				D238CAE02F5083500071A476 /* SkeletonStylePreviewView.swift in Sources */,
 				BE59E6402BA838CE005205AA /* ViewController.swift in Sources */,
 				BEE22D672BBE9D7F00A80369 /* Documentation.docc in Sources */,
+				D21F7A522F619000005E11A1 /* DemoSettingsStore.swift in Sources */,
+				D21F7A532F619000005E11A1 /* BuildWorkoutViewController.swift in Sources */,
 				BE59E6502BA838DE005205AA /* MainView.swift in Sources */,
 				BE59E63C2BA838CE005205AA /* AppDelegate.swift in Sources */,
 				BE59E63E2BA838CE005205AA /* SceneDelegate.swift in Sources */,
@@ -395,7 +415,7 @@
 		};
 		BE59E64D2BA838CF005205AA /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CBF7EA24582189D95E8CF0B2 /* Pods-SMKitUIDemoApp.debug.xcconfig */;
+			baseConfigurationReference = D21F7A462F618300005E11A1 /* SMKitUIDemoApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -427,7 +447,7 @@
 		};
 		BE59E64E2BA838CF005205AA /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1A98C0FA821F476C6FB5B29D /* Pods-SMKitUIDemoApp.release.xcconfig */;
+			baseConfigurationReference = D21F7A472F618300005E11A1 /* SMKitUIDemoApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

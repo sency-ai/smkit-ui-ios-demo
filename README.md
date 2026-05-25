@@ -9,19 +9,19 @@
 6. [ Modifying Feedback Parameters ](#modify)
 7. [ Setting Text Language ](#language)
 8. [ Setting Pause Types ](#pause)
-9. [ Advanced Configuration (1.5.0) ](#advanced)
-10. [  MCP Server Access ](#mcp)
-10. [ Data ](https://github.com/sency-ai/smkit-ui-ios-demo/blob/main/DataTypes.md)
+9. [ Advanced Configuration (1.9.1) ](#advanced)
+10. [ Exercise and Workout Options ](#exercise-options)
+11. [ MCP Server Access ](#mcp)
+12. [ Data ](https://github.com/sency-ai/smkit-ui-ios-demo/blob/main/DataTypes.md)
 
 
 ## 1. Installation <a name="inst"></a>
 
 ### Cocoapods
-*Latest pod version: SMKitUI '1.6.5'*
+*Demo pod version: SMKitUI '1.9.1'*
 
-**New in 1.5.3:** Improved SDK error handling and enhanced instruction video cycling control.
+This native demo is pinned to SMKitUI 1.9.1 and exposes the relevant SDK controls through the in-app Settings screen.
 
-**New in 1.5.0:** Multiple new exercises, pause exercise by hovering palm on the X icon, intelligence rest and exercise modifications, external audio mixing control, accurate pose estimation mode, and a full skeleton visualisation customization system.
 ```ruby
 // [1] add the source to the top of your Podfile.
 source 'https://bitbucket.org/sencyai/ios_sdks_release.git'
@@ -30,7 +30,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 // [2] add the pod to your target
 target 'YourApp' do
   use_frameworks!
-  pod 'SMKitUI'
+  pod 'SMKitUI', '1.9.1'
 end
 
 // [3] add post_install hooks
@@ -52,7 +52,7 @@ Run ```pod install --repo-update```
 
 In your Package Dependencies add this url https://bitbucket.org/sencyai/smkit_ui_package and then press Add package
 
-Latest version: smkit_ui_package '1.5.3'
+Latest demo-aligned version: smkit_ui_package '1.9.1'
 
 ## 2. Setup <a name="setup"></a>
 Add camera permission request to `Info.plist`
@@ -74,6 +74,12 @@ SMKitUIModel.configure(authKey: "YOUR_KEY") {
 To reduce wait time we recommend to call `configure` on app launch.
 
 **⚠️ SMKitUI will not work if you don't first call configure.**
+
+The native demo app reads its auth key from `SMKitUIDemoApp/Config/AuthKey.local.xcconfig`, which is intentionally ignored by Git:
+
+```xcconfig
+SMKIT_UI_AUTH_KEY = YOUR_KEY
+```
 
 ## 4. Start <a name="start"></a>
 
@@ -119,8 +125,6 @@ let modifications: [String: Any] = [
 ]
 ```
 
-**Note:** We will release our feedbacks catalog soon. Feel free to reach us for assistant in applying modifications.
-
 ## 7. Setting Text Language <a name="language"></a>
 
 You can change the text language (default is English).
@@ -129,7 +133,8 @@ To do this, follow the example below:
 ```swift
 let lang = SencySupportedLanguage.English
 
-SMKitUIModel.setSessionLanguage(languge: lang)
+SMKitUIModel.setSessionLanguage(language: lang)
+SMKitUIModel.setPhoneCalibrationLanguage(language: lang)
 ```
 
 ## 8. Setting Pause Types <a name="pause"></a>
@@ -148,7 +153,7 @@ try SMKitUIModel.setAllowedPauseTypes(types: pauseTypes)
 | Skip                | will skip the exercise                |
 | Quit                | will quit the Assessmet               |
 
-## 9. Advanced Configuration (1.5.3) <a name="advanced"></a>
+## 9. Advanced Configuration (1.9.1) <a name="advanced"></a>
 
 These properties must be set **before** starting a session.
 
@@ -168,14 +173,25 @@ SMKitUIModel.showExternalAudioControl = true   // Show in-session audio source p
 SMKitUIModel.accuratePoseEstimation = true  // Higher accuracy, higher CPU cost
 ```
 
+### Session Behavior
+```swift
+SMKitUIModel.playPhoneCalibrationAudio = true
+SMKitUIModel.playBodyCalibrationAudio = true
+SMKitUIModel.startTimerOnFirstActivity = true
+SMKitUIModel.enablePhoneMovementCountPrevention = true
+SMKitUIModel.enableVariationMismatchFeedback = true
+SMKitUIModel.enableButtonTutorial = true
+SMKitUIModel.workoutContinuationTimerDuration = 8
+```
+
 ### Instruction Video Cycling
 Control how the instruction video transitions after the instruction phase ends:
 ```swift
 // Default mode: video shrinks to small corner immediately
-SMKitUIModel.instructionVideoConfig = InstructionVideoConfig()
+SMKitUIModel.instructionVideoConfig = SMKit.InstructionVideoConfig()
 
 // Medium cycle mode: video stays at 75% size while exercise video loops N times, then shrinks
-SMKitUIModel.instructionVideoConfig = InstructionVideoConfig(
+SMKitUIModel.instructionVideoConfig = SMKit.InstructionVideoConfig(
     displayMode: .mediumCycle,
     mediumSizeCycles: 3  // Video stays medium-sized for 3 loops (range 1-5)
 )
@@ -185,6 +201,21 @@ SMKitUIModel.instructionVideoConfig = InstructionVideoConfig(
 |------|----------|
 | `.default` | Instruction video immediately shrinks to small corner (original behavior) |
 | `.mediumCycle` | Instruction video transitions to 75% size, stays medium while exercise loops N times, then shrinks |
+
+### Talk-to-Jinni Host Hooks
+Host-provided speech/orb integrations are intentionally not exposed as editable demo settings. Wire them in app code only when the host app supplies real providers and assets.
+
+```swift
+SMKitUIModel.jinniSpeechProvider = hostSpeechProvider
+SMKitUIModel.showTalkToJinniControl = true
+SMKitUIModel.enableJinniWakeWord = true
+SMKitUIModel.alwaysOnJinniWakeWordDuringWorkout = true
+SMKitUIModel.jinniWakeWordPhrase = "wake up jinni"
+SMKitUIModel.jinniAvailableMovementDetectors = ["HighKnees", "SquatRegular", "JumpingJacks"]
+SMKitUIModel.setJinniOrbImage(UIImage(named: "YourOrb"))
+```
+
+`SMKitUIJinniSpeechProvider` is supplied by the host app. It handles speech authorization, passive wake listening, active conversation listening, and optional callbacks around SDK audio playback.
 
 ### Skeleton Visualisation
 Use a preset for quick theming:
@@ -211,7 +242,129 @@ SMKitUIModel.skeletonConnectionsInnerColorOption = .white
 SMKitUIModel.skeletonConnectionsOuterColorOption = .cyan
 ```
 
-## 10. MCP Server Access <a name="mcp"></a>
+## 10. Exercise and Workout Options <a name="exercise-options"></a>
+
+The demo app's Build Workout flow starts empty, loads supported SDK movements from `SMKitUIModel.getSupportedMovements()`, filters out Rowing, and lets you add, remove, reorder, configure, and start exercises.
+
+- **Build Workout**: a native builder for selecting supported exercises and setting per-exercise duration, phone position, guidance mode, intro, countdown, rep audio, adaptive ROM, and optional stretch-set configuration.
+
+### Built-In UI Defaults
+Set `uiElements` to `nil` to use the SDK defaults from `ExerciseUIDefaults`.
+
+```swift
+let exercise = SMExercise(
+    name: "Quick Feet",
+    exerciseIntro: nil,
+    totalSeconds: 20,
+    videoInstruction: "QuickFeet",
+    uiElements: nil,
+    detector: "QuickFeet",
+    exerciseClosure: nil
+)
+```
+
+### Quick Motion
+```swift
+let quickFeet = SMExercise(
+    name: "Quick Feet",
+    exerciseIntro: nil,
+    totalSeconds: 20,
+    videoInstruction: "QuickFeet",
+    detector: "QuickFeet",
+    exerciseClosure: nil,
+    quickMotionParams: QuickMotionParams(validityWindow: 1.5, checkInterval: 0.15)
+)
+```
+
+### Per-Exercise Audio Controls
+```swift
+let highKnees = SMExercise(
+    name: "High Knees",
+    exerciseIntro: nil,
+    totalSeconds: 30,
+    videoInstruction: "HighKnees",
+    detector: "HighKnees",
+    exerciseClosure: nil,
+    playPreExerciseCountdown: true,
+    playRepMilestoneVoice: true,
+    repMilestoneInterval: 5,
+    playSoundOnEachRep: true
+)
+```
+
+### Adaptive ROM
+```swift
+let squat = SMExercise(
+    name: "Squat Regular",
+    exerciseIntro: nil,
+    totalSeconds: 30,
+    videoInstruction: "SquatRegular",
+    detector: "SquatRegular",
+    exerciseClosure: nil
+)
+squat.adaptiveRomFeedbackEnabled = true
+squat.adaptiveRomWarmupReps = 2
+```
+
+### Guidance Video Segments
+```swift
+let sideBend = SMExercise(
+    name: "Standing Side Bend Right",
+    exerciseIntro: nil,
+    totalSeconds: 25,
+    videoInstruction: "StandingSideBendRight",
+    detector: "StandingSideBendRight",
+    exerciseClosure: nil,
+    guidanceMode: true
+)
+sideBend.guidanceVideoSegments = [
+    "phase1_orient": .freeze(at: 0),
+    "phase2_setup": .play(from: 0, to: 3),
+    "phase4_action": .play(from: 3, to: 8),
+    "phase5_hold": .freeze(at: 8)
+]
+```
+
+### Stretch Sets
+```swift
+let stretch = SMExercise(
+    name: "Downward Dog Prayer Stretch Set",
+    exerciseIntro: nil,
+    totalSeconds: 40,
+    videoInstruction: "DownwardDogPrayerStretch",
+    detector: "DownwardDogPrayerStretch",
+    exerciseClosure: nil,
+    stretchSetConfig: SMStretchSetConfig(
+        enabled: true,
+        repetitions: 3,
+        secondsPerStretch: 8,
+        restSecondsBetweenStretches: 4
+    )
+)
+```
+
+### Workout Continuation
+```swift
+let continuation = SMWorkoutContinuation(
+    introSoundKey: nil,
+    interactionUnlockSoundKey: "",
+    exercises: [
+        SMExercise(name: "Jumping Jacks", exerciseIntro: nil, totalSeconds: 20, videoInstruction: "JumpingJacks", detector: "JumpingJacks", exerciseClosure: nil)
+    ]
+)
+
+let workout = SMWorkout(
+    id: "",
+    name: "Built Workout",
+    workoutIntro: nil,
+    soundtrack: nil,
+    exercises: [stretch],
+    workoutClosure: nil,
+    continuation: continuation
+)
+```
+
+## 11. MCP Server Access <a name="mcp"></a>
 
 - Cursor: add the server definition below to `~/.cursor/mcp.json` and reload Cursor.
 [Contact us](mailto:support@sency.ai) to receive your API key.
