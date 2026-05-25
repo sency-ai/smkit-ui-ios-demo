@@ -140,24 +140,9 @@ final class DemoSettingsStore {
         set { set(newValue, "showExternalAudioControl") }
     }
 
-    var showTalkToJinniControl: Bool {
-        get { bool("showTalkToJinniControl", default: false) }
-        set { set(newValue, "showTalkToJinniControl") }
-    }
-
     var enableButtonTutorial: Bool {
         get { bool("enableButtonTutorial", default: false) }
         set { set(newValue, "enableButtonTutorial") }
-    }
-
-    var enableJinniWakeWord: Bool {
-        get { bool("enableJinniWakeWord", default: false) }
-        set { set(newValue, "enableJinniWakeWord") }
-    }
-
-    var alwaysOnJinniWakeWordDuringWorkout: Bool {
-        get { bool("alwaysOnJinniWakeWordDuringWorkout", default: false) }
-        set { set(newValue, "alwaysOnJinniWakeWordDuringWorkout") }
     }
 
     var enableIntelligenceRest: Bool {
@@ -305,24 +290,6 @@ final class DemoSettingsStore {
         set { set(clamp(newValue, 0...(Self.counterOptions.count - 1)), "counterPreferenceIndex") }
     }
 
-    var jinniWakeWordPhrase: String {
-        get {
-            let value = defaults.string(forKey: key("jinniWakeWordPhrase")) ?? "wake up jinni"
-            return value.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? "wake up jinni" : value
-        }
-        set { defaults.set(newValue, forKey: key("jinniWakeWordPhrase")) }
-    }
-
-    var jinniVoiceSilenceSeconds: Double {
-        get { double("jinniVoiceSilenceSeconds", default: 2) }
-        set { set(clamp(newValue, 0.5...5), "jinniVoiceSilenceSeconds") }
-    }
-
-    var jinniWakeWordGuidanceGuardSeconds: Double {
-        get { double("jinniWakeWordGuidanceGuardSeconds", default: 1.25) }
-        set { set(clamp(newValue, 0...5), "jinniWakeWordGuidanceGuardSeconds") }
-    }
-
     var skeletonDotsInnerColorIndex: Int {
         get { optionalColorIndex("skeletonDotsInnerColorIndex") }
         set { set(newValue, "skeletonDotsInnerColorIndex") }
@@ -394,13 +361,7 @@ final class DemoSettingsStore {
         SMKitUIModel.workoutContinuationTimerDuration = workoutContinuationTimerDuration
         SMKitUIModel.allowAudioMixing = allowAudioMixing
         SMKitUIModel.showExternalAudioControl = showExternalAudioControl
-        SMKitUIModel.showTalkToJinniControl = false
         SMKitUIModel.enableButtonTutorial = enableButtonTutorial
-        SMKitUIModel.enableJinniWakeWord = false
-        SMKitUIModel.alwaysOnJinniWakeWordDuringWorkout = false
-        SMKitUIModel.jinniWakeWordPhrase = "Hey Jinni"
-        SMKitUIModel.jinniVoiceSilenceSeconds = 1.2
-        SMKitUIModel.jinniWakeWordGuidanceGuardSeconds = 1
         SMKitUIModel.enableIntelligenceRest = enableIntelligenceRest
         SMKitUIModel.playPhoneCalibrationAudio = playPhoneCalibrationAudio
         SMKitUIModel.playBodyCalibrationAudio = playBodyCalibrationAudio
