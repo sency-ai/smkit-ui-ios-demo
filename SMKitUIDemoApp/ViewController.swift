@@ -247,8 +247,6 @@ extension ViewController: BuildWorkoutViewControllerDelegate {
     ) {
         let mainExercises = exercises.map { makeExercise(from: $0) }
         let continuation = continuationExercises.map { makeExercise(from: $0) }
-        let knownDetectors = Array(Set((exercises + continuationExercises).map(\.detector))).sorted()
-        SMKitUIModel.jinniAvailableMovementDetectors = knownDetectors
         startWorkout(
             from: controller,
             named: "SMKitUI Build Workout",

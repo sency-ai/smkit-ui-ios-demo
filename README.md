@@ -202,21 +202,6 @@ SMKitUIModel.instructionVideoConfig = SMKit.InstructionVideoConfig(
 | `.default` | Instruction video immediately shrinks to small corner (original behavior) |
 | `.mediumCycle` | Instruction video transitions to 75% size, stays medium while exercise loops N times, then shrinks |
 
-### Talk-to-Jinni Host Hooks
-Host-provided speech/orb integrations are intentionally not exposed as editable demo settings. Wire them in app code only when the host app supplies real providers and assets.
-
-```swift
-SMKitUIModel.jinniSpeechProvider = hostSpeechProvider
-SMKitUIModel.showTalkToJinniControl = true
-SMKitUIModel.enableJinniWakeWord = true
-SMKitUIModel.alwaysOnJinniWakeWordDuringWorkout = true
-SMKitUIModel.jinniWakeWordPhrase = "wake up jinni"
-SMKitUIModel.jinniAvailableMovementDetectors = ["HighKnees", "SquatRegular", "JumpingJacks"]
-SMKitUIModel.setJinniOrbImage(UIImage(named: "YourOrb"))
-```
-
-`SMKitUIJinniSpeechProvider` is supplied by the host app. It handles speech authorization, passive wake listening, active conversation listening, and optional callbacks around SDK audio playback.
-
 ### Skeleton Visualisation
 Use a preset for quick theming:
 ```swift
