@@ -18,9 +18,9 @@
 ## 1. Installation <a name="inst"></a>
 
 ### Cocoapods
-*Demo pod version: SMKitUI '1.9.1'*
+*Demo pod version: SMKitUI '1.9.5'*
 
-This native demo is pinned to SMKitUI 1.9.1 and exposes the relevant SDK controls through the in-app Settings screen.
+This native demo is pinned to SMKitUI 1.9.5 and exposes the relevant SDK controls through the in-app Settings screen.
 
 ```ruby
 // [1] add the source to the top of your Podfile.
@@ -30,7 +30,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 // [2] add the pod to your target
 target 'YourApp' do
   use_frameworks!
-  pod 'SMKitUI', '1.9.1'
+  pod 'SMKitUI', '1.9.5'
 end
 
 // [3] add post_install hooks
@@ -52,7 +52,7 @@ Run ```pod install --repo-update```
 
 In your Package Dependencies add this url https://bitbucket.org/sencyai/smkit_ui_package and then press Add package
 
-Latest demo-aligned version: smkit_ui_package '1.9.1'
+Latest demo-aligned version: smkit_ui_package '1.9.5'
 
 ## 2. Setup <a name="setup"></a>
 Add camera permission request to `Info.plist`
