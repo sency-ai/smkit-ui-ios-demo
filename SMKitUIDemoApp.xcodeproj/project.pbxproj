@@ -23,6 +23,10 @@
 		C65C4709C15078F191450BFF /* Pods_SMKitUIDemoApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22B2CB3A9CBF87275597A5C9 /* Pods_SMKitUIDemoApp.framework */; };
 		D21F7A522F619000005E11A1 /* DemoSettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D21F7A502F619000005E11A1 /* DemoSettingsStore.swift */; };
 		D21F7A532F619000005E11A1 /* BuildWorkoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D21F7A512F619000005E11A1 /* BuildWorkoutViewController.swift */; };
+		D2A000012F619100005E11A1 /* ExerciseCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A000002F619100005E11A1 /* ExerciseCatalog.swift */; };
+		D2A000032F619100005E11A1 /* BuildAssessmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A000022F619100005E11A1 /* BuildAssessmentViewController.swift */; };
+		D2A000052F619100005E11A1 /* BuiltInAssessmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A000042F619100005E11A1 /* BuiltInAssessmentViewController.swift */; };
+		D2A000072F619100005E11A1 /* GuidanceModeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A000062F619100005E11A1 /* GuidanceModeViewController.swift */; };
 		D238CADD2F50834F0071A476 /* UISettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D238CADC2F50834F0071A476 /* UISettingsViewController.swift */; };
 		D238CAE02F5083500071A476 /* SkeletonStylePreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D238CADF2F5083500071A476 /* SkeletonStylePreviewView.swift */; };
 		D2D6A69C2EF43A3300038DC6 /* customWorkoutIntro.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D2D6A69B2EF43A3300038DC6 /* customWorkoutIntro.mp3 */; };
@@ -51,6 +55,10 @@
 		D21F7A472F618300005E11A1 /* SMKitUIDemoApp.release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = SMKitUIDemoApp.release.xcconfig; sourceTree = "<group>"; };
 		D21F7A502F619000005E11A1 /* DemoSettingsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoSettingsStore.swift; sourceTree = "<group>"; };
 		D21F7A512F619000005E11A1 /* BuildWorkoutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildWorkoutViewController.swift; sourceTree = "<group>"; };
+		D2A000002F619100005E11A1 /* ExerciseCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseCatalog.swift; sourceTree = "<group>"; };
+		D2A000022F619100005E11A1 /* BuildAssessmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildAssessmentViewController.swift; sourceTree = "<group>"; };
+		D2A000042F619100005E11A1 /* BuiltInAssessmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuiltInAssessmentViewController.swift; sourceTree = "<group>"; };
+		D2A000062F619100005E11A1 /* GuidanceModeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidanceModeViewController.swift; sourceTree = "<group>"; };
 		D238CADC2F50834F0071A476 /* UISettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UISettingsViewController.swift; sourceTree = "<group>"; };
 		D238CADF2F5083500071A476 /* SkeletonStylePreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeletonStylePreviewView.swift; sourceTree = "<group>"; };
 		D2D6A69B2EF43A3300038DC6 /* customWorkoutIntro.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = customWorkoutIntro.mp3; sourceTree = "<group>"; };
@@ -109,7 +117,11 @@
 			children = (
 				D21F7A452F618300005E11A1 /* Config */,
 				D21F7A502F619000005E11A1 /* DemoSettingsStore.swift */,
+				D2A000002F619100005E11A1 /* ExerciseCatalog.swift */,
 				D21F7A512F619000005E11A1 /* BuildWorkoutViewController.swift */,
+				D2A000022F619100005E11A1 /* BuildAssessmentViewController.swift */,
+				D2A000042F619100005E11A1 /* BuiltInAssessmentViewController.swift */,
+				D2A000062F619100005E11A1 /* GuidanceModeViewController.swift */,
 				D238CADC2F50834F0071A476 /* UISettingsViewController.swift */,
 				D238CADF2F5083500071A476 /* SkeletonStylePreviewView.swift */,
 				BE59E6672BA84A9A005205AA /* full-body-long.mp3 */,
@@ -265,6 +277,10 @@
 				BEE22D672BBE9D7F00A80369 /* Documentation.docc in Sources */,
 				D21F7A522F619000005E11A1 /* DemoSettingsStore.swift in Sources */,
 				D21F7A532F619000005E11A1 /* BuildWorkoutViewController.swift in Sources */,
+				D2A000012F619100005E11A1 /* ExerciseCatalog.swift in Sources */,
+				D2A000032F619100005E11A1 /* BuildAssessmentViewController.swift in Sources */,
+				D2A000052F619100005E11A1 /* BuiltInAssessmentViewController.swift in Sources */,
+				D2A000072F619100005E11A1 /* GuidanceModeViewController.swift in Sources */,
 				BE59E6502BA838DE005205AA /* MainView.swift in Sources */,
 				BE59E63C2BA838CE005205AA /* AppDelegate.swift in Sources */,
 				BE59E63E2BA838CE005205AA /* SceneDelegate.swift in Sources */,
