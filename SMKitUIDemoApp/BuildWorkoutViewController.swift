@@ -137,10 +137,7 @@ final class BuildWorkoutViewController: UIViewController {
     }
 
     private func loadAvailableExercises() {
-        let supported = SMKitUIModel.getSupportedMovements() ?? []
-        availableDetectors = Array(Set(supported))
-            .filter { $0.caseInsensitiveCompare("Rowing") != .orderedSame }
-            .sorted { Self.displayName(for: $0) < Self.displayName(for: $1) }
+        availableDetectors = ExerciseCatalog.allSupportedEntries().map(\.detector)
         filteredDetectors = availableDetectors
     }
 
@@ -292,10 +289,12 @@ final class BuildWorkoutViewController: UIViewController {
     }
 
     private static func defaultDuration(for detector: String) -> Int {
-        if (try? SMKitUIModel.getExerciseType(type: detector)) == .Mobility {
+        switch ExerciseCatalog.entry(for: detector).kind {
+        case .static, .mobility, .bodyAssessment:
             return 10
+        case .dynamic, .other:
+            return 20
         }
-        return 20
     }
 
     @objc private func closeTapped() {
@@ -319,10 +318,7 @@ final class BuildWorkoutViewController: UIViewController {
     }
 
     fileprivate static func displayName(for detector: String) -> String {
-        detector
-            .replacingOccurrences(of: "QL", with: "Q L")
-            .replacingOccurrences(of: "IT", with: "I T")
-            .replacingOccurrences(of: "([a-z0-9])([A-Z])", with: "$1 $2", options: .regularExpression)
+        ExerciseCatalog.displayName(for: detector)
     }
 }
 

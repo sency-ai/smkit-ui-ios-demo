@@ -9,7 +9,7 @@
 6. [ Modifying Feedback Parameters ](#modify)
 7. [ Setting Text Language ](#language)
 8. [ Setting Pause Types ](#pause)
-9. [ Advanced Configuration (1.9.1) ](#advanced)
+9. [ Advanced Configuration (2.0.3) ](#advanced)
 10. [ Exercise and Workout Options ](#exercise-options)
 11. [ MCP Server Access ](#mcp)
 12. [ Data ](https://github.com/sency-ai/smkit-ui-ios-demo/blob/main/DataTypes.md)
@@ -18,9 +18,9 @@
 ## 1. Installation <a name="inst"></a>
 
 ### Cocoapods
-*Demo pod version: SMKitUI '1.9.5'*
+*Demo pod version: SMKitUI '2.0.3'*
 
-This native demo is pinned to SMKitUI 1.9.5 and exposes the relevant SDK controls through the in-app Settings screen.
+This native demo is pinned to SMKitUI 2.0.3 and exposes the relevant SDK controls through the in-app Settings screen.
 
 ```ruby
 // [1] add the source to the top of your Podfile.
@@ -30,7 +30,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 // [2] add the pod to your target
 target 'YourApp' do
   use_frameworks!
-  pod 'SMKitUI', '1.9.5'
+  pod 'SMKitUI', '2.0.3'
 end
 
 // [3] add post_install hooks
@@ -52,7 +52,7 @@ Run ```pod install --repo-update```
 
 In your Package Dependencies add this url https://bitbucket.org/sencyai/smkit_ui_package and then press Add package
 
-Latest demo-aligned version: smkit_ui_package '1.9.5'
+Latest demo-aligned version: smkit_ui_package '2.0.3'
 
 ## 2. Setup <a name="setup"></a>
 Add camera permission request to `Info.plist`
@@ -153,7 +153,7 @@ try SMKitUIModel.setAllowedPauseTypes(types: pauseTypes)
 | Skip                | will skip the exercise                |
 | Quit                | will quit the Assessmet               |
 
-## 9. Advanced Configuration (1.9.1) <a name="advanced"></a>
+## 9. Advanced Configuration (2.0.3) <a name="advanced"></a>
 
 These properties must be set **before** starting a session.
 

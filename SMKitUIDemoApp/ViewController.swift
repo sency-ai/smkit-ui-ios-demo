@@ -15,8 +15,10 @@ class ViewController: UIViewController {
     lazy var mainView:UIView = {
         guard let view = UIHostingController(rootView: MainView(
             buildWorkoutWasPressed: buildWorkoutWasPressed,
+            buildAssessmentWasPressed: buildAssessmentWasPressed,
             startAssessmentWasPressed: startAssessmentWasPressed,
             startCustomAssessmet: startCustomAssessmet,
+            guidanceModeWasPressed: guidanceModeWasPressed,
             uiSettingsWasPressed: uiSettingsWasPressed
         )).view else {return UIView()}
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -63,6 +65,75 @@ class ViewController: UIViewController {
         return exercise
     }
 
+    private func makeExercise(from assessmentExercise: BuiltAssessmentExercise) -> SMExercise {
+        SMExercise(
+            name: assessmentExercise.entry.displayName,
+            exerciseIntro: nil,
+            totalSeconds: assessmentExercise.duration,
+            videoInstruction: assessmentExercise.entry.videoInstruction,
+            uiElements: nil,
+            detector: assessmentExercise.entry.detector,
+            exerciseClosure: nil
+        )
+    }
+
+    private func makeAssessmentExercise(
+        from config: BuiltAssessmentExercise,
+        targetRepsProgress: Bool
+    ) -> SMAssessmentExercise {
+        let scoringParams: ScoringParams
+        let uiElements: Set<UIElement>?
+        let showTargetProgress: Bool
+
+        switch config.scoringMode {
+        case .reps:
+            scoringParams = ScoringParams(
+                type: .reps,
+                scoreFactor: 0.5,
+                targetTime: nil,
+                targetReps: config.targetReps,
+                targetRom: nil
+            )
+            uiElements = targetRepsProgress ? [.repsCounter] : nil
+            showTargetProgress = targetRepsProgress
+        case .time:
+            scoringParams = ScoringParams(
+                type: .time,
+                scoreFactor: 0.5,
+                targetTime: config.targetTime,
+                targetReps: nil,
+                targetRom: nil
+            )
+            uiElements = nil
+            showTargetProgress = false
+        case .rom:
+            scoringParams = ScoringParams(
+                type: .rom,
+                scoreFactor: 0.5,
+                targetTime: nil,
+                targetReps: nil,
+                targetRom: config.entry.targetRom ?? ""
+            )
+            uiElements = nil
+            showTargetProgress = false
+        }
+
+        return SMAssessmentExercise(
+            name: config.entry.displayName,
+            exerciseIntro: nil,
+            totalSeconds: config.duration,
+            videoInstruction: config.entry.videoInstruction,
+            uiElements: uiElements,
+            detector: config.entry.detector,
+            exerciseClosure: nil,
+            summaryTitle: config.entry.displayName,
+            summarySubTitle: config.entry.kind.title,
+            summaryTitleMainMetric: config.scoringMode.title,
+            scoringParams: scoringParams,
+            showTargetProgress: showTargetProgress
+        )
+    }
+
     private func startWorkout(
         from viewController: UIViewController,
         named name: String,
@@ -103,6 +174,22 @@ class ViewController: UIViewController {
         present(nav, animated: true)
     }
 
+    func buildAssessmentWasPressed() {
+        let builder = BuildAssessmentViewController()
+        builder.delegate = self
+        let nav = UINavigationController(rootViewController: builder)
+        nav.modalPresentationStyle = .formSheet
+        present(nav, animated: true)
+    }
+
+    func guidanceModeWasPressed() {
+        let guidance = GuidanceModeViewController()
+        guidance.delegate = self
+        let nav = UINavigationController(rootViewController: guidance)
+        nav.modalPresentationStyle = .formSheet
+        present(nav, animated: true)
+    }
+
     func uiSettingsWasPressed() {
         let settingsVC = UISettingsViewController()
         let nav = UINavigationController(rootViewController: settingsVC)
@@ -133,18 +220,26 @@ class ViewController: UIViewController {
     }
     
     func startAssessmentWasPressed(){
+        let picker = BuiltInAssessmentViewController()
+        picker.delegate = self
+        let nav = UINavigationController(rootViewController: picker)
+        nav.modalPresentationStyle = .formSheet
+        present(nav, animated: true)
+    }
+
+    private func startBuiltInAssessment(type: AssessmentTypes, from viewController: UIViewController) {
         DemoSettingsStore.shared.applyToSDK()
         do{
             let userData = UserData(gender: .Female, birthday: Date()) // This is optinal if not provided the SDK will requst from the user his age and gender
             SMKitUIModel.setFeedbacksUIToExclude(feedbacksUIToExclude: [.pushupKneesOnFloor])
             //Start a Assessment workout with AssessmentTypes
             try SMKitUIModel.startAssessmet(
-                viewController: self,
-                type: AssessmentTypes.Fitness,
+                viewController: viewController,
+                type: type,
                 userData: userData,
                 delegate: self,
-                onFailure: { error in
-                    
+                onFailure: { [weak self] error in
+                    self?.showAlert(title: error.localizedDescription)
                 },
                 showPhoneCalibration: DemoSettingsStore.shared.showPhoneCalibration
             )
@@ -252,6 +347,88 @@ extension ViewController: BuildWorkoutViewControllerDelegate {
             named: "SMKitUI Build Workout",
             exercises: mainExercises,
             continuationExercises: DemoSettingsStore.shared.enableWorkoutContinuation ? continuation : []
+        )
+    }
+}
+
+extension ViewController: BuildAssessmentViewControllerDelegate {
+    func buildAssessmentViewController(
+        _ controller: BuildAssessmentViewController,
+        didStartAssessment exercises: [BuiltAssessmentExercise],
+        targetRepsProgress: Bool
+    ) {
+        DemoSettingsStore.shared.applyToSDK()
+        SMKitUIModel.setEndExercisePreferences(
+            endExercisePreferences: targetRepsProgress ? .TargetBased : .Default
+        )
+
+        let assessment = SMWorkoutAssessment(
+            id: "built-assessment",
+            name: "Built Assessment",
+            workoutIntro: nil,
+            soundtrack: nil,
+            assessmentsExercises: exercises.map {
+                makeAssessmentExercise(from: $0, targetRepsProgress: targetRepsProgress)
+            },
+            workoutClosure: nil
+        )
+
+        do {
+            try SMKitUIModel.startCustomAssessment(
+                viewController: controller,
+                assessment: assessment,
+                userData: UserData(gender: .Other, birthday: Date()),
+                delegate: self,
+                onFailure: { [weak self] error in
+                    self?.showAlert(title: error.localizedDescription)
+                },
+                showPhoneCalibration: DemoSettingsStore.shared.showPhoneCalibration
+            )
+        } catch {
+            showAlert(title: error.localizedDescription)
+        }
+    }
+
+    func buildAssessmentViewController(
+        _ controller: BuildAssessmentViewController,
+        didStartRepTimerWorkout exercises: [BuiltAssessmentExercise]
+    ) {
+        startWorkout(
+            from: controller,
+            named: "Rep Timer Assessment",
+            exercises: exercises.map { makeExercise(from: $0) }
+        )
+    }
+}
+
+extension ViewController: BuiltInAssessmentViewControllerDelegate {
+    func builtInAssessmentViewController(
+        _ controller: BuiltInAssessmentViewController,
+        didSelect type: AssessmentTypes
+    ) {
+        startBuiltInAssessment(type: type, from: controller)
+    }
+}
+
+extension ViewController: GuidanceModeViewControllerDelegate {
+    func guidanceModeViewController(
+        _ controller: GuidanceModeViewController,
+        didStart detector: String
+    ) {
+        var exercise = SMExercise(
+            name: ExerciseCatalog.displayName(for: detector),
+            exerciseIntro: nil,
+            totalSeconds: max(10, ExerciseCatalog.entry(for: detector).defaultDuration),
+            videoInstruction: "\(detector)InstructionVideo",
+            uiElements: nil,
+            detector: detector,
+            exerciseClosure: nil
+        )
+        exercise.guidanceMode = true
+        startWorkout(
+            from: controller,
+            named: "Guidance Mode",
+            exercises: [exercise]
         )
     }
 }

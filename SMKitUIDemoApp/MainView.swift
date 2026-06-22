@@ -10,8 +10,10 @@ import SwiftUI
 struct MainView: View {
     @ObservedObject var authModel = AuthManager.shared
     let buildWorkoutWasPressed:()->Void
+    let buildAssessmentWasPressed:()->Void
     let startAssessmentWasPressed:()->Void
     let startCustomAssessmet:()->Void
+    let guidanceModeWasPressed:()->Void
     let uiSettingsWasPressed:()->Void
 
     private func workoutButton(_ title: String, action: @escaping ()->Void) -> some View {
@@ -19,11 +21,14 @@ struct MainView: View {
             if authModel.didFinishAuth { action() }
         } label: {
             Text(title)
-                .font(.title)
+                .font(.headline)
                 .fontWeight(.bold)
+                .multilineTextAlignment(.center)
                 .padding()
-                .background(RoundedRectangle(cornerRadius: 15).stroke())
+                .frame(maxWidth: .infinity, minHeight: 48)
+                .background(RoundedRectangle(cornerRadius: 12).stroke())
         }
+        .padding(.horizontal, 24)
         .overlay(
             ZStack {
                 if !authModel.didFinishAuth {
@@ -38,22 +43,36 @@ struct MainView: View {
     }
 
     var body: some View {
-        VStack(spacing: 16) {
-            workoutButton("BUILD WORKOUT", action: buildWorkoutWasPressed)
-            workoutButton("START ASSESSMENT", action: startAssessmentWasPressed)
-            workoutButton("START CUSTOM ASSESSMENT", action: startCustomAssessmet)
+        ScrollView {
+            VStack(spacing: 16) {
+                workoutButton("BUILD WORKOUT", action: buildWorkoutWasPressed)
+                workoutButton("BUILD ASSESSMENT", action: buildAssessmentWasPressed)
+                workoutButton("START BUILT-IN ASSESSMENT", action: startAssessmentWasPressed)
+                workoutButton("START SAMPLE ASSESSMENT", action: startCustomAssessmet)
+                workoutButton("GUIDANCE MODE", action: guidanceModeWasPressed)
 
-            Button(action: uiSettingsWasPressed) {
-                Label("UI Settings", systemImage: "slider.horizontal.3")
-                    .font(.headline)
-                    .padding()
-                    .background(RoundedRectangle(cornerRadius: 15).stroke(Color.secondary))
-                    .foregroundColor(.secondary)
+                Button(action: uiSettingsWasPressed) {
+                    Label("UI Settings", systemImage: "slider.horizontal.3")
+                        .font(.headline)
+                        .padding()
+                        .frame(maxWidth: .infinity, minHeight: 48)
+                        .background(RoundedRectangle(cornerRadius: 12).stroke(Color.secondary))
+                        .foregroundColor(.secondary)
+                }
+                .padding(.horizontal, 24)
             }
+            .padding(.vertical, 24)
         }
     }
 }
 
 #Preview {
-    MainView(buildWorkoutWasPressed: {}, startAssessmentWasPressed: {}, startCustomAssessmet: {}, uiSettingsWasPressed: {})
+    MainView(
+        buildWorkoutWasPressed: {},
+        buildAssessmentWasPressed: {},
+        startAssessmentWasPressed: {},
+        startCustomAssessmet: {},
+        guidanceModeWasPressed: {},
+        uiSettingsWasPressed: {}
+    )
 }
