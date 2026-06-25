@@ -9,7 +9,7 @@
 6. [ Modifying Feedback Parameters ](#modify)
 7. [ Setting Text Language ](#language)
 8. [ Setting Pause Types ](#pause)
-9. [ Advanced Configuration (2.0.3) ](#advanced)
+9. [ Advanced Configuration (2.0.6) ](#advanced)
 10. [ Exercise and Workout Options ](#exercise-options)
 11. [ MCP Server Access ](#mcp)
 12. [ Data ](https://github.com/sency-ai/smkit-ui-ios-demo/blob/main/DataTypes.md)
@@ -18,19 +18,21 @@
 ## 1. Installation <a name="inst"></a>
 
 ### Cocoapods
-*Demo pod version: SMKitUI '2.0.3'*
+*Demo pod version: SMKitUI '2.0.6'*
 
-This native demo is pinned to SMKitUI 2.0.3 and exposes the relevant SDK controls through the in-app Settings screen.
+This native demo is pinned to SMKitUI 2.0.6 and exposes the relevant SDK controls through the in-app Settings screen.
 
 ```ruby
 // [1] add the source to the top of your Podfile.
+platform :ios, '16.0'
+
 source 'https://bitbucket.org/sencyai/ios_sdks_release.git'
 source 'https://github.com/CocoaPods/Specs.git'
 
 // [2] add the pod to your target
 target 'YourApp' do
   use_frameworks!
-  pod 'SMKitUI', '2.0.3'
+  pod 'SMKitUI', '2.0.6'
 end
 
 // [3] add post_install hooks
@@ -39,7 +41,7 @@ post_install do |installer|
     target.build_configurations.each do |config|
       config.build_settings['BUILD_LIBRARY_FOR_DISTRIBUTION'] = 'YES'
       config.build_settings['EXCLUDED_ARCHS[sdk=iphonesimulator*]'] = 'arm64'
-      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '14.5'
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '16.0'
     end
   end
 end
@@ -52,7 +54,7 @@ Run ```pod install --repo-update```
 
 In your Package Dependencies add this url https://bitbucket.org/sencyai/smkit_ui_package and then press Add package
 
-Latest demo-aligned version: smkit_ui_package '2.0.3'
+Latest demo-aligned version: smkit_ui_package '2.0.6'
 
 ## 2. Setup <a name="setup"></a>
 Add camera permission request to `Info.plist`
@@ -153,7 +155,7 @@ try SMKitUIModel.setAllowedPauseTypes(types: pauseTypes)
 | Skip                | will skip the exercise                |
 | Quit                | will quit the Assessmet               |
 
-## 9. Advanced Configuration (2.0.3) <a name="advanced"></a>
+## 9. Advanced Configuration (2.0.6) <a name="advanced"></a>
 
 These properties must be set **before** starting a session.
 
