@@ -14,7 +14,9 @@ final class DemoSettingsStore {
     private let defaults = UserDefaults.standard
     private let prefix = "smkitui.demo.settings."
 
-    private init() {}
+    private init() {
+        enableBodyCalibrationAudioByDefaultIfNeeded()
+    }
 
     struct Option<Value> {
         let title: String
@@ -156,7 +158,7 @@ final class DemoSettingsStore {
     }
 
     var playBodyCalibrationAudio: Bool {
-        get { bool("playBodyCalibrationAudio", default: false) }
+        get { bool("playBodyCalibrationAudio", default: true) }
         set { set(newValue, "playBodyCalibrationAudio") }
     }
 
@@ -393,6 +395,13 @@ final class DemoSettingsStore {
     private func bool(_ name: String, default defaultValue: Bool) -> Bool {
         let fullKey = key(name)
         return defaults.object(forKey: fullKey) == nil ? defaultValue : defaults.bool(forKey: fullKey)
+    }
+
+    private func enableBodyCalibrationAudioByDefaultIfNeeded() {
+        let migrationKey = key("migration.playBodyCalibrationAudioDefaultTrue")
+        guard defaults.object(forKey: migrationKey) == nil else { return }
+        defaults.set(true, forKey: key("playBodyCalibrationAudio"))
+        defaults.set(true, forKey: migrationKey)
     }
 
     private func double(_ name: String, default defaultValue: Double) -> Double {

@@ -43,8 +43,6 @@ extension ViewController:SMKitUIWorkoutDelegate{
 let dynamicScoringParams = ScoringParams(type: .reps, scoreFactor: 0.8, targetTime: nil, targetReps: 10, targetRom: nil)
 let staticScoringParams = ScoringParams(type: .time, scoreFactor: 0.8, targetTime: 10, targetReps: 0, targetRom: nil)
 
-let intro = Bundle.main.path(forResource: "customWorkoutIntro", ofType: "mp3")
-let soundtrack = Bundle.main.path(forResource: "full-body-long", ofType: "mp3")
 let exercises:[SMAssessmentExercise] = [
     .init(
         name: "High Knees",
@@ -95,8 +93,8 @@ let exercises:[SMAssessmentExercise] = [
 let assessment = SMWorkoutAssessmet(
     id: "",
     name: "TEST",
-    workoutIntro: intro,
-    soundtrack: soundtrack,
+    workoutIntro: nil,
+    soundtrack: nil,
     assessmentsExercises: exercises,
     workoutClosure:nil // Custom sound
 )

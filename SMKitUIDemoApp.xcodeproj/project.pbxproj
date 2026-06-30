@@ -18,7 +18,8 @@
 		BE59E6562BA84795005205AA /* HighKnees.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = BE59E6532BA84795005205AA /* HighKnees.mp4 */; };
 		BE59E6572BA84795005205AA /* SquatRegularStatic.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = BE59E6542BA84795005205AA /* SquatRegularStatic.mp4 */; };
 		BE59E6582BA84795005205AA /* PlankHighStatic.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = BE59E6552BA84795005205AA /* PlankHighStatic.mp4 */; };
-		BE59E6682BA84A9A005205AA /* full-body-long.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BE59E6672BA84A9A005205AA /* full-body-long.mp3 */; };
+		BEA100012F72F00000F00101 /* FutureIntro.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BEA100002F72F00000F00101 /* FutureIntro.mp3 */; };
+		BEA100032F72F00000F00101 /* FutureOutro.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BEA100022F72F00000F00101 /* FutureOutro.mp3 */; };
 		BEE22D672BBE9D7F00A80369 /* Documentation.docc in Sources */ = {isa = PBXBuildFile; fileRef = BEE22D662BBE9D7F00A80369 /* Documentation.docc */; };
 		C65C4709C15078F191450BFF /* Pods_SMKitUIDemoApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22B2CB3A9CBF87275597A5C9 /* Pods_SMKitUIDemoApp.framework */; };
 		D21F7A522F619000005E11A1 /* DemoSettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D21F7A502F619000005E11A1 /* DemoSettingsStore.swift */; };
@@ -29,7 +30,6 @@
 		D2A000072F619100005E11A1 /* GuidanceModeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2A000062F619100005E11A1 /* GuidanceModeViewController.swift */; };
 		D238CADD2F50834F0071A476 /* UISettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D238CADC2F50834F0071A476 /* UISettingsViewController.swift */; };
 		D238CAE02F5083500071A476 /* SkeletonStylePreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D238CADF2F5083500071A476 /* SkeletonStylePreviewView.swift */; };
-		D2D6A69C2EF43A3300038DC6 /* customWorkoutIntro.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D2D6A69B2EF43A3300038DC6 /* customWorkoutIntro.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,7 +48,8 @@
 		BE59E6532BA84795005205AA /* HighKnees.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = HighKnees.mp4; sourceTree = "<group>"; };
 		BE59E6542BA84795005205AA /* SquatRegularStatic.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = SquatRegularStatic.mp4; sourceTree = "<group>"; };
 		BE59E6552BA84795005205AA /* PlankHighStatic.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = PlankHighStatic.mp4; sourceTree = "<group>"; };
-		BE59E6672BA84A9A005205AA /* full-body-long.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "full-body-long.mp3"; sourceTree = "<group>"; };
+		BEA100002F72F00000F00101 /* FutureIntro.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = FutureIntro.mp3; sourceTree = "<group>"; };
+		BEA100022F72F00000F00101 /* FutureOutro.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = FutureOutro.mp3; sourceTree = "<group>"; };
 		BEE22D662BBE9D7F00A80369 /* Documentation.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Documentation.docc; sourceTree = "<group>"; };
 		CBF7EA24582189D95E8CF0B2 /* Pods-SMKitUIDemoApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SMKitUIDemoApp.debug.xcconfig"; path = "Target Support Files/Pods-SMKitUIDemoApp/Pods-SMKitUIDemoApp.debug.xcconfig"; sourceTree = "<group>"; };
 		D21F7A462F618300005E11A1 /* SMKitUIDemoApp.debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = SMKitUIDemoApp.debug.xcconfig; sourceTree = "<group>"; };
@@ -61,7 +62,6 @@
 		D2A000062F619100005E11A1 /* GuidanceModeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuidanceModeViewController.swift; sourceTree = "<group>"; };
 		D238CADC2F50834F0071A476 /* UISettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UISettingsViewController.swift; sourceTree = "<group>"; };
 		D238CADF2F5083500071A476 /* SkeletonStylePreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeletonStylePreviewView.swift; sourceTree = "<group>"; };
-		D2D6A69B2EF43A3300038DC6 /* customWorkoutIntro.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = customWorkoutIntro.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,7 +124,8 @@
 				D2A000062F619100005E11A1 /* GuidanceModeViewController.swift */,
 				D238CADC2F50834F0071A476 /* UISettingsViewController.swift */,
 				D238CADF2F5083500071A476 /* SkeletonStylePreviewView.swift */,
-				BE59E6672BA84A9A005205AA /* full-body-long.mp3 */,
+				BEA100002F72F00000F00101 /* FutureIntro.mp3 */,
+				BEA100022F72F00000F00101 /* FutureOutro.mp3 */,
 				BE59E6532BA84795005205AA /* HighKnees.mp4 */,
 				BE59E6552BA84795005205AA /* PlankHighStatic.mp4 */,
 				BE59E6542BA84795005205AA /* SquatRegularStatic.mp4 */,
@@ -137,7 +138,6 @@
 				BE59E6492BA838CF005205AA /* Info.plist */,
 				BE59E64F2BA838DE005205AA /* MainView.swift */,
 				BE59E6512BA83C44005205AA /* AuthManager.swift */,
-				D2D6A69B2EF43A3300038DC6 /* customWorkoutIntro.mp3 */,
 			);
 			path = SMKitUIDemoApp;
 			sourceTree = "<group>";
@@ -212,12 +212,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				BE59E6482BA838CF005205AA /* LaunchScreen.storyboard in Resources */,
-				BE59E6682BA84A9A005205AA /* full-body-long.mp3 in Resources */,
 				BE59E6572BA84795005205AA /* SquatRegularStatic.mp4 in Resources */,
 				BE59E6452BA838CF005205AA /* Assets.xcassets in Resources */,
+				BEA100012F72F00000F00101 /* FutureIntro.mp3 in Resources */,
+				BEA100032F72F00000F00101 /* FutureOutro.mp3 in Resources */,
 				BE59E6562BA84795005205AA /* HighKnees.mp4 in Resources */,
 				BE59E6582BA84795005205AA /* PlankHighStatic.mp4 in Resources */,
-				D2D6A69C2EF43A3300038DC6 /* customWorkoutIntro.mp3 in Resources */,
 				BE59E6432BA838CE005205AA /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

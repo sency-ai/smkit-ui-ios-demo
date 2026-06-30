@@ -16,17 +16,35 @@ struct MainView: View {
     let guidanceModeWasPressed:()->Void
     let uiSettingsWasPressed:()->Void
 
-    private func workoutButton(_ title: String, action: @escaping ()->Void) -> some View {
+    private func workoutButton(_ title: String, isProminent: Bool = false, action: @escaping ()->Void) -> some View {
         Button {
             if authModel.didFinishAuth { action() }
         } label: {
-            Text(title)
+            HStack(spacing: 8) {
+                if isProminent {
+                    Image(systemName: "sparkles")
+                }
+                Text(title)
+            }
                 .font(.headline)
                 .fontWeight(.bold)
                 .multilineTextAlignment(.center)
                 .padding()
                 .frame(maxWidth: .infinity, minHeight: 48)
-                .background(RoundedRectangle(cornerRadius: 12).stroke())
+                .foregroundStyle(isProminent ? .white : .primary)
+                .background(
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(isProminent ? Color.accentColor : Color.clear)
+                )
+                .overlay(
+                    RoundedRectangle(cornerRadius: 12)
+                        .stroke(isProminent ? Color.accentColor.opacity(0.3) : Color.primary, lineWidth: 1)
+                )
+                .shadow(
+                    color: isProminent ? Color.accentColor.opacity(0.28) : Color.clear,
+                    radius: isProminent ? 10 : 0,
+                    y: isProminent ? 4 : 0
+                )
         }
         .padding(.horizontal, 24)
         .overlay(
@@ -48,7 +66,7 @@ struct MainView: View {
                 workoutButton("BUILD WORKOUT", action: buildWorkoutWasPressed)
                 workoutButton("BUILD ASSESSMENT", action: buildAssessmentWasPressed)
                 workoutButton("START BUILT-IN ASSESSMENT", action: startAssessmentWasPressed)
-                workoutButton("START SAMPLE ASSESSMENT", action: startCustomAssessmet)
+                workoutButton("Start Future Assessment", isProminent: true, action: startCustomAssessmet)
                 workoutButton("GUIDANCE MODE", action: guidanceModeWasPressed)
 
                 Button(action: uiSettingsWasPressed) {

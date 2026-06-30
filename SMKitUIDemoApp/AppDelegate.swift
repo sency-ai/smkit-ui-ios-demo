@@ -20,7 +20,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         SMKitUIModel.configure(
             authKey: smKitUIAuthKey,
-            includesHighlights: false
+            includesHighlights: false,
+            includeAssessmentInsights: true
         ) {
             // The configuration was successful.
             DispatchQueue.main.async {
