@@ -86,6 +86,7 @@ class ViewController: UIViewController {
     ]
 
     private var isRunningDemoAssessment = false
+    private var isCompletingDemoAssessment = false
     private var pendingDemoAssessmentSummary: WorkoutSummaryData?
     private var didOverrideDemoAssessmentSkeletonStyle = false
     private var demoAssessmentOutroPlayer: AVAudioPlayer?
@@ -96,6 +97,7 @@ class ViewController: UIViewController {
             buildAssessmentWasPressed: buildAssessmentWasPressed,
             startAssessmentWasPressed: startAssessmentWasPressed,
             startCustomAssessmet: startCustomAssessmet,
+            summaryHistoryItemWasPressed: summaryHistoryItemWasPressed,
             guidanceModeWasPressed: guidanceModeWasPressed,
             uiSettingsWasPressed: uiSettingsWasPressed
         )).view else {return UIView()}
@@ -361,6 +363,7 @@ class ViewController: UIViewController {
         applyDemoAssessmentSkeletonStyle()
         SMKitUIModel.setEndExercisePreferences(endExercisePreferences: .Default)
         isRunningDemoAssessment = true
+        isCompletingDemoAssessment = false
         pendingDemoAssessmentSummary = nil
         demoAssessmentOutroPlayer?.stop()
         demoAssessmentOutroPlayer = nil
@@ -402,6 +405,7 @@ class ViewController: UIViewController {
     private func resetDemoAssessmentState() {
         restoreDemoAssessmentSkeletonStyleIfNeeded()
         isRunningDemoAssessment = false
+        isCompletingDemoAssessment = false
         pendingDemoAssessmentSummary = nil
     }
 
@@ -426,18 +430,13 @@ class ViewController: UIViewController {
         DemoSettingsStore.shared.applyToSDK()
     }
 
-    private func presentDemoAssessmentSummaryAfterSDKExit() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) { [weak self] in
-            self?.presentDemoAssessmentSummary()
-        }
-    }
-
     private func playDemoAssessmentOutro() {
         guard let url = Bundle.main.url(forResource: "FutureOutro", withExtension: "mp3") else {
             return
         }
 
         do {
+            demoAssessmentOutroPlayer?.stop()
             demoAssessmentOutroPlayer = try AVAudioPlayer(contentsOf: url)
             demoAssessmentOutroPlayer?.prepareToPlay()
             demoAssessmentOutroPlayer?.play()
@@ -446,11 +445,109 @@ class ViewController: UIViewController {
         }
     }
 
-    private func presentDemoAssessmentSummary() {
+    private func recordAndPresentPendingDemoAssessmentSummaryAfterSDKExit() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) { [weak self] in
+            self?.recordAndPresentPendingDemoAssessmentSummary()
+        }
+    }
+
+    private func recordAndPresentPendingDemoAssessmentSummary() {
         guard isRunningDemoAssessment else { return }
         let summary = pendingDemoAssessmentSummary
+        let item = makeDemoAssessmentSummaryHistoryItem(summary: summary)
+        DemoAssessmentSummaryHistoryStore.shared.add(item)
         resetDemoAssessmentState()
+        presentDemoAssessmentSummary(summary, playOutro: true)
+    }
 
+    private func makeDemoAssessmentSummaryHistoryItem(summary: WorkoutSummaryData?) -> DemoAssessmentSummaryHistoryItem {
+        DemoAssessmentSummaryHistoryItem(
+            completedAt: Date(),
+            summary: summary,
+            score: demoAssessmentScore(for: summary),
+            completedCount: demoAssessmentCompletedCount(for: summary),
+            totalCount: Self.demoAssessmentExercises.count,
+            duration: summary?.totalTime ?? 0
+        )
+    }
+
+    private func demoAssessmentScore(for summary: WorkoutSummaryData?) -> Int? {
+        if let score = summary?.scoreSegmented ?? summary?.score {
+            return score
+        }
+
+        let scores = Self.demoAssessmentExercises.compactMap { spec -> Float? in
+            guard let data = demoAssessmentData(for: spec, in: summary),
+                  isDemoAssessmentExerciseCompleted(data, spec: spec) else {
+                return nil
+            }
+            return data.totalScoreSegmented ?? data.totalScore
+        }
+        guard !scores.isEmpty else { return nil }
+        return Int(scores.reduce(0, +) / Float(scores.count))
+    }
+
+    private func demoAssessmentCompletedCount(for summary: WorkoutSummaryData?) -> Int {
+        Self.demoAssessmentExercises
+            .filter { spec in
+                guard let data = demoAssessmentData(for: spec, in: summary) else { return false }
+                return isDemoAssessmentExerciseCompleted(data, spec: spec)
+            }
+            .count
+    }
+
+    private func demoAssessmentData(for spec: DemoAssessmentExerciseSpec, in summary: WorkoutSummaryData?) -> ExerciseData? {
+        summary?.exercises.first {
+            $0.exerciseId == spec.detector ||
+            $0.name == spec.detector ||
+            $0.name == spec.title ||
+            $0.prettyName == spec.title
+        }
+    }
+
+    private func isDemoAssessmentExerciseCompleted(_ data: ExerciseData, spec: DemoAssessmentExerciseSpec) -> Bool {
+        if let timeInPosition = demoAssessmentEffectiveTimeInPosition(for: data) {
+            guard timeInPosition >= spec.minimumCompletionTimeInPosition else { return false }
+
+            if spec.scoringType == .rom {
+                return hasCompletedDemoAssessmentRom(data, spec: spec)
+            }
+
+            return true
+        }
+
+        if spec.scoringType == .reps, let dynamicData = data as? ExerciseDynamicData {
+            return dynamicData.dynamicInfo?.performedReps.isEmpty == false || (data.repsPerformed ?? 0) > 0
+        }
+
+        return false
+    }
+
+    private func hasCompletedDemoAssessmentRom(_ data: ExerciseData, spec: DemoAssessmentExerciseSpec) -> Bool {
+        let peakRomScore = data.peakRangeOfMotionScore ?? 0
+        let sustainedRomScore = data.performanceScoreSegmented ?? data.performanceScore ?? 0
+        return peakRomScore >= spec.minimumCompletionRomScore &&
+            sustainedRomScore >= spec.minimumCompletionRomScore
+    }
+
+    private func demoAssessmentEffectiveTimeInPosition(for data: ExerciseData) -> Double? {
+        if let timeInPosition = data.timeInPosition {
+            return timeInPosition
+        }
+
+        if let staticData = data as? ExerciseStaticData,
+           let staticInfo = staticData.staticInfo {
+            return staticInfo.timeInPosition
+        }
+
+        return nil
+    }
+
+    private func summaryHistoryItemWasPressed(_ item: DemoAssessmentSummaryHistoryItem) {
+        presentDemoAssessmentSummary(item.summary)
+    }
+
+    private func presentDemoAssessmentSummary(_ summary: WorkoutSummaryData?, playOutro: Bool = false) {
         let summaryView = DemoAssessmentSummaryView(
             summary: summary,
             plannedExercises: Self.demoAssessmentExercises
@@ -465,11 +562,16 @@ class ViewController: UIViewController {
             sheet.preferredCornerRadius = 24
         }
 
+        let onPresented = { [weak self] in
+            guard playOutro else { return }
+            self?.playDemoAssessmentOutro()
+        }
+
         if presentedViewController == nil {
-            present(hostingController, animated: true)
+            present(hostingController, animated: true, completion: onPresented)
         } else {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { [weak self] in
-                self?.present(hostingController, animated: true)
+                self?.present(hostingController, animated: true, completion: onPresented)
             }
         }
     }
@@ -590,15 +692,21 @@ extension ViewController:SMKitUIWorkoutDelegate{
     //When the user finishes the workout, this function will be called.
     func workoutDidFinish() {
         let shouldShowDemoSummary = isRunningDemoAssessment
+        if shouldShowDemoSummary {
+            isCompletingDemoAssessment = true
+        }
         //Will close SMKitUI.
         SMKitUIModel.exitSDK()
         if shouldShowDemoSummary {
-            playDemoAssessmentOutro()
-            presentDemoAssessmentSummaryAfterSDKExit()
+            recordAndPresentPendingDemoAssessmentSummaryAfterSDKExit()
         }
     }
     //When the user exits the workout before finishing, this function will be called.
     func didExitWorkout() {
+        if isCompletingDemoAssessment {
+            return
+        }
+
         resetDemoAssessmentState()
         //Will close SMKitUI.
         SMKitUIModel.exitSDK()
