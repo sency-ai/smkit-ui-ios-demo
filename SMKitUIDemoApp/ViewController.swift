@@ -40,14 +40,6 @@ class ViewController: UIViewController {
             internalInsightsKey: "SquatRegularOverheadStatic"
         ),
         .init(
-            detector: "JeffersonCurl",
-            title: "Jefferson Curl",
-            subtitle: "Posterior-chain reach",
-            scoringType: .rom,
-            targetRom: "JeffersonCurlHandsReach",
-            internalInsightsKey: "JeffersonCurl"
-        ),
-        .init(
             detector: "HipExternalRotationRight",
             title: "Hip External Rotation Right",
             subtitle: "Right hip mobility",
