@@ -220,7 +220,10 @@ class ViewController: UIViewController {
         )
     }
 
-    private func makeDemoAssessmentExercise(from spec: DemoAssessmentExerciseSpec) -> SMAssessmentExercise {
+    private func makeDemoAssessmentExercise(
+        from spec: DemoAssessmentExerciseSpec,
+        guidanceModeEnabled: Bool
+    ) -> SMAssessmentExercise {
         let scoringParams = ScoringParams(
             type: spec.scoringType,
             scoreFactor: 0.5,
@@ -242,7 +245,7 @@ class ViewController: UIViewController {
             scoringParams: scoringParams,
             internalInsightsKey: spec.internalInsightsKey
         )
-        exercise.guidanceMode = true
+        exercise.guidanceMode = guidanceModeEnabled
         exercise.side = spec.side
         return exercise
     }
@@ -361,7 +364,7 @@ class ViewController: UIViewController {
         }
     }
     
-    func startCustomAssessmet(){
+    func startCustomAssessmet(guidanceModeEnabled: Bool = true){
         DemoSettingsStore.shared.applyToSDK()
         applyDemoAssessmentSkeletonStyle()
         SMKitUIModel.setEndExercisePreferences(endExercisePreferences: .Default)
@@ -371,7 +374,9 @@ class ViewController: UIViewController {
         demoAssessmentOutroPlayer = nil
 
         let intro = Bundle.main.path(forResource: "FutureIntro", ofType: "mp3")
-        let exercises = Self.demoAssessmentExercises.map(makeDemoAssessmentExercise(from:))
+        let exercises = Self.demoAssessmentExercises.map {
+            makeDemoAssessmentExercise(from: $0, guidanceModeEnabled: guidanceModeEnabled)
+        }
         let assessment = SMWorkoutAssessment (
             id: "future-assessment",
             name: "Future Assessment",

@@ -9,10 +9,12 @@ import SwiftUI
 
 struct MainView: View {
     @ObservedObject var authModel = AuthManager.shared
+    @State private var futureAssessmentGuidanceEnabled = true
+
     let buildWorkoutWasPressed:()->Void
     let buildAssessmentWasPressed:()->Void
     let startAssessmentWasPressed:()->Void
-    let startCustomAssessmet:()->Void
+    let startCustomAssessmet:(Bool)->Void
     let guidanceModeWasPressed:()->Void
     let uiSettingsWasPressed:()->Void
 
@@ -60,13 +62,29 @@ struct MainView: View {
         )
     }
 
+    private var futureAssessmentControls: some View {
+        VStack(spacing: 10) {
+            workoutButton("Start Future Assessment", isProminent: true) {
+                startCustomAssessmet(futureAssessmentGuidanceEnabled)
+            }
+
+            Toggle(isOn: $futureAssessmentGuidanceEnabled) {
+                Label("Future Assessment Guidance", systemImage: "figure.walk.motion")
+                    .font(.subheadline.weight(.semibold))
+            }
+            .toggleStyle(.switch)
+            .disabled(!authModel.didFinishAuth)
+            .padding(.horizontal, 24)
+        }
+    }
+
     var body: some View {
         ScrollView {
             VStack(spacing: 16) {
                 workoutButton("BUILD WORKOUT", action: buildWorkoutWasPressed)
                 workoutButton("BUILD ASSESSMENT", action: buildAssessmentWasPressed)
                 workoutButton("START BUILT-IN ASSESSMENT", action: startAssessmentWasPressed)
-                workoutButton("Start Future Assessment", isProminent: true, action: startCustomAssessmet)
+                futureAssessmentControls
                 workoutButton("GUIDANCE MODE", action: guidanceModeWasPressed)
 
                 Button(action: uiSettingsWasPressed) {
@@ -89,7 +107,7 @@ struct MainView: View {
         buildWorkoutWasPressed: {},
         buildAssessmentWasPressed: {},
         startAssessmentWasPressed: {},
-        startCustomAssessmet: {},
+        startCustomAssessmet: { _ in },
         guidanceModeWasPressed: {},
         uiSettingsWasPressed: {}
     )
