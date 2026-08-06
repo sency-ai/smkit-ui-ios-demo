@@ -18,13 +18,15 @@
 ## 1. Installation <a name="inst"></a>
 
 ### Cocoapods
-*Demo pod version: SMKitUI '2.0.6'*
+*Demo pod version: SMKitUI '2.2.9'*
 
-This native demo is pinned to SMKitUI 2.0.6 and exposes the relevant SDK controls through the in-app Settings screen.
+This native demo is pinned to SMKitUI 2.2.9 and exposes the relevant SDK controls through the in-app Settings screen.
+
+Support: iOS 15 or later; officially validated on iPhone X and newer. This device policy documents the validated support matrix; the SDK does not add a runtime model gate.
 
 ```ruby
 // [1] add the source to the top of your Podfile.
-platform :ios, '16.0'
+platform :ios, '15.0'
 
 source 'https://bitbucket.org/sencyai/ios_sdks_release.git'
 source 'https://github.com/CocoaPods/Specs.git'
@@ -32,7 +34,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 // [2] add the pod to your target
 target 'YourApp' do
   use_frameworks!
-  pod 'SMKitUI', '2.0.6'
+  pod 'SMKitUI', '2.2.9'
 end
 
 // [3] add post_install hooks
@@ -41,7 +43,7 @@ post_install do |installer|
     target.build_configurations.each do |config|
       config.build_settings['BUILD_LIBRARY_FOR_DISTRIBUTION'] = 'YES'
       config.build_settings['EXCLUDED_ARCHS[sdk=iphonesimulator*]'] = 'arm64'
-      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '16.0'
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '15.0'
     end
   end
 end
@@ -54,7 +56,7 @@ Run ```pod install --repo-update```
 
 In your Package Dependencies add this url https://bitbucket.org/sencyai/smkit_ui_package and then press Add package
 
-Latest demo-aligned version: smkit_ui_package '2.0.6'
+Current SPM package version: smkit_ui_package '2.0.6' (unchanged by the CocoaPods 2.2.9 release)
 
 ## 2. Setup <a name="setup"></a>
 Add camera permission request to `Info.plist`
