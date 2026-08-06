@@ -10,18 +10,22 @@
 
 ## 1. Installation <a name="inst"></a>
 
-*Latest pod version: SMKitUI '1.3.8'*
+*Latest pod version: SMKitUI '2.2.9'*
+
+Support: iOS 15 or later; officially validated on iPhone X and newer. This device policy documents the validated support matrix; the SDK does not add a runtime model gate.
 
 ### Cocoapods
 ```ruby
 // [1] add the source to the top of your Podfile.
+platform :ios, '15.0'
+
 source 'https://bitbucket.org/sencyai/ios_sdks_release.git'
 source 'https://github.com/CocoaPods/Specs.git'
 
 // [2] add the pod to your target
 target 'YourApp' do
   use_frameworks!
-  pod 'SMKitUI'
+  pod 'SMKitUI', '2.2.9'
 end
 
 // [3] add post_install hooks
@@ -30,7 +34,7 @@ post_install do |installer|
     target.build_configurations.each do |config|
       config.build_settings['BUILD_LIBRARY_FOR_DISTRIBUTION'] = 'YES'
       config.build_settings['EXCLUDED_ARCHS[sdk=iphonesimulator*]'] = 'arm64'
-      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '14.5'
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '15.0'
     end
   end
 end
