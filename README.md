@@ -5,22 +5,24 @@
 2. [ Setup ](#setup)
 3. [ Configure ](#conf)
 4. [ Start ](#start)
-5. [ Excluding Feedback ](#feedback)
-6. [ Modifying Feedback Parameters ](#modify)
-7. [ Setting Text Language ](#language)
-8. [ Setting Pause Types ](#pause)
-9. [ Advanced Configuration (2.0.6) ](#advanced)
-10. [ Exercise and Workout Options ](#exercise-options)
-11. [ MCP Server Access ](#mcp)
-12. [ Data ](https://github.com/sency-ai/smkit-ui-ios-demo/blob/main/DataTypes.md)
+5. [ Native Demo Features ](#demo-features)
+6. [ Model and Asset Delivery ](#asset-delivery)
+7. [ Excluding Feedback ](#feedback)
+8. [ Modifying Feedback Parameters ](#modify)
+9. [ Setting Text Language ](#language)
+10. [ Setting Pause Types ](#pause)
+11. [ Advanced Configuration ](#advanced)
+12. [ Exercise and Workout Options ](#exercise-options)
+13. [ MCP Server Access ](#mcp)
+14. [ Data ](https://github.com/sency-ai/smkit-ui-ios-demo/blob/main/DataTypes.md)
 
 
 ## 1. Installation <a name="inst"></a>
 
 ### Cocoapods
-*Demo pod version: SMKitUI '2.2.9'*
+*Demo pod version: SMKitUI '2.3.6'*
 
-This native demo is pinned to SMKitUI 2.2.9 and exposes the relevant SDK controls through the in-app Settings screen.
+This native demo is pinned to SMKitUI 2.3.6 and exposes the relevant SDK controls through the in-app Settings screen.
 
 Support: iOS 15 or later; officially validated on iPhone X and newer. This device policy documents the validated support matrix; the SDK does not add a runtime model gate.
 
@@ -34,7 +36,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 // [2] add the pod to your target
 target 'YourApp' do
   use_frameworks!
-  pod 'SMKitUI', '2.2.9'
+  pod 'SMKitUI', '2.3.6'
 end
 
 // [3] add post_install hooks
@@ -56,7 +58,7 @@ Run ```pod install --repo-update```
 
 In your Package Dependencies add this url https://bitbucket.org/sencyai/smkit_ui_package and then press Add package
 
-Current SPM package version: smkit_ui_package '2.0.6' (unchanged by the CocoaPods 2.2.9 release)
+Current SPM package version: smkit_ui_package '2.3.6'
 
 ## 2. Setup <a name="setup"></a>
 Add camera permission request to `Info.plist`
@@ -67,7 +69,10 @@ Add camera permission request to `Info.plist`
 
 ## 3. Configure <a name="conf"></a>
 ```Swift
-SMKitUIModel.configure(authKey: "YOUR_KEY") {
+SMKitUIModel.configure(
+    authKey: "YOUR_KEY",
+    modelDownloadPolicy: .waitForRemoteModelsThenFallback
+) {
     // The configuration was successful
     // Your Code
 } onFailure: { error in
@@ -93,7 +98,23 @@ SMKIT_UI_AUTH_KEY = YOUR_KEY
 
 - [Build Your Own Assessment](https://github.com/sency-ai/smkit-ui-ios-demo/blob/main/CustomizedAssessment.md)
 
-## 5. Excluding Feedback <a name="feedback"></a>
+## 5. Native Demo Features <a name="demo-features"></a>
+
+The app is a working catalog of the main SMKitUI flows, not only a collection of code snippets:
+
+- **Build Workout** loads the supported SDK movements and lets you add, reorder, and configure exercises before starting.
+- **Build Assessment** creates a custom assessment with reps, time, or ROM scoring, optional target-reps progress, and a rep-timer workout mode.
+- **Start Built-In Assessment** lets you choose a Fitness, Body 360, Cardio, Strength, or Custom assessment.
+- **Guidance Mode** lists the supported guided movements and starts the selected movement with guidance enabled.
+- **UI Settings** persists appearance, audio, calibration, pause, and session-behavior choices between launches.
+
+## 6. Model and Asset Delivery <a name="asset-delivery"></a>
+
+SMKitUI 2.3.6 downloads models and required SDK assets from the server during configuration and before a relevant session begins. The SDK does not include bundled fallback models. Keep the device online for the first configuration and asset download; a valid, previously downloaded cache can be used offline later.
+
+`SMModelDownloadPolicy` controls how configuration uses the downloaded cache. Its fallback is a previously server-downloaded cache only, never an embedded model.
+
+## 7. Excluding Feedback <a name="feedback"></a>
 
 You have the ability to exclude specific exercise feedbacks.
 To do this, follow the example below:
@@ -112,7 +133,7 @@ SMKitUIModel.setFeedbacksUIToExclude(feedbacksUIToExclude: excludedFeedbacks)
 
 ```
 
-## 6. Modifying Feedback Parameters <a name="modify"></a>
+## 8. Modifying Feedback Parameters <a name="modify"></a>
 
 You have the ability to modify specific feedback parameters for exercises.
 This allows you to customize the thresholds and ranges for feedback detection.
@@ -129,7 +150,7 @@ let modifications: [String: Any] = [
 ]
 ```
 
-## 7. Setting Text Language <a name="language"></a>
+## 9. Setting Text Language <a name="language"></a>
 
 You can change the text language (default is English).
 To do this, follow the example below:
@@ -141,7 +162,7 @@ SMKitUIModel.setSessionLanguage(language: lang)
 SMKitUIModel.setPhoneCalibrationLanguage(language: lang)
 ```
 
-## 8. Setting Pause Types <a name="pause"></a>
+## 10. Setting Pause Types <a name="pause"></a>
 In SMKitUI you have the ability to choose what buttons will appear on the pause alert to do so you need to call setAllowedPauseTypes before the session starts like so:
 
 ```swift
@@ -156,8 +177,10 @@ try SMKitUIModel.setAllowedPauseTypes(types: pauseTypes)
 | StartOver           | will start over the exercise          |
 | Skip                | will skip the exercise                |
 | Quit                | will quit the Assessmet               |
+| Rest                | will show the rest action             |
+| Switch              | will show the switch action           |
 
-## 9. Advanced Configuration (2.0.6) <a name="advanced"></a>
+## 11. Advanced Configuration <a name="advanced"></a>
 
 These properties must be set **before** starting a session.
 
@@ -176,6 +199,40 @@ SMKitUIModel.showExternalAudioControl = true   // Show in-session audio source p
 ```swift
 SMKitUIModel.accuratePoseEstimation = true  // Higher accuracy, higher CPU cost
 ```
+
+### Theme and Phone Calibration
+```swift
+SMKitUIModel.colorTheme = .green
+
+try SMKitUIModel.startWorkout(
+    viewController: self,
+    workout: workout,
+    delegate: self,
+    showPhoneCalibration: false
+)
+```
+
+`showPhoneCalibration` can also be passed to built-in and custom assessment starts. The demo exposes this choice in **UI Settings**.
+
+### Watch Companion and Heart-Rate Rest
+```swift
+SMKitUIModel.enableWatchCompanion = true
+SMKitUIModel.enableHeartRateRest = true
+SMKitUIModel.heartRateRestThreshold = 140
+```
+
+Enable these only when your app has the required Apple Watch/heart-rate integration. The demo exposes the SDK switches, but does not include a Watch app target.
+
+### Assessment End and Counter Preferences
+```swift
+// End an assessment exercise when its configured target is reached, or when its timer expires.
+SMKitUIModel.setEndExercisePreferences(endExercisePreferences: .TargetBased)
+
+// Count only reps performed without form feedback.
+SMKitUIModel.setCounterPreferences(counterPreferences: .PerfectOnly)
+```
+
+Use target-based ending only when the assessment has the relevant `ScoringParams` target: `targetReps` for dynamic exercises or `targetTime` for static exercises.
 
 ### Session Behavior
 ```swift
@@ -231,11 +288,11 @@ SMKitUIModel.skeletonConnectionsInnerColorOption = .white
 SMKitUIModel.skeletonConnectionsOuterColorOption = .cyan
 ```
 
-## 10. Exercise and Workout Options <a name="exercise-options"></a>
+## 12. Exercise and Workout Options <a name="exercise-options"></a>
 
 The demo app's Build Workout flow starts empty, loads supported SDK movements from `SMKitUIModel.getSupportedMovements()`, filters out Rowing, and lets you add, remove, reorder, configure, and start exercises.
 
-- **Build Workout**: a native builder for selecting supported exercises and setting per-exercise duration, phone position, guidance mode, intro, countdown, rep audio, adaptive ROM, and optional stretch-set configuration.
+- **Build Workout**: a native builder for selecting supported exercises and setting per-exercise duration, phone position, guidance mode, wide-angle camera, short intro, countdown, rep audio, adaptive ROM, and optional stretch-set configuration.
 
 ### Built-In UI Defaults
 Set `uiElements` to `nil` to use the SDK defaults from `ExerciseUIDefaults`.
@@ -353,7 +410,7 @@ let workout = SMWorkout(
 )
 ```
 
-## 11. MCP Server Access <a name="mcp"></a>
+## 13. MCP Server Access <a name="mcp"></a>
 
 - Cursor: add the server definition below to `~/.cursor/mcp.json` and reload Cursor.
 [Contact us](mailto:support@sency.ai) to receive your API key.
