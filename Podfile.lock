@@ -1,14 +1,14 @@
 PODS:
-  - SMBase (2.3.6)
-  - SMKit (2.3.6):
-    - SMBase (= 2.3.6)
-  - SMKitUI (2.3.6):
-    - SMKit (= 2.3.6)
+  - SMBase (2.5.1)
+  - SMKit (2.5.1):
+    - SMBase (= 2.5.1)
+  - SMKitUI (2.5.1):
+    - SMKit (= 2.5.1)
     - ZIPFoundation
   - ZIPFoundation (0.9.20)
 
 DEPENDENCIES:
-  - SMKitUI (= 2.3.6)
+  - SMKitUI (= 2.5.1)
 
 SPEC REPOS:
   https://bitbucket.org/sencyai/ios_sdks_release.git:
@@ -19,11 +19,11 @@ SPEC REPOS:
     - ZIPFoundation
 
 SPEC CHECKSUMS:
-  SMBase: 185235983595ea972a69dde6f3bc768cddc675b1
-  SMKit: b7a079a01bcb391dc046ebb850c4fe67c991770d
-  SMKitUI: ffb94c9f565a5424dc04b9aa1678fcf7885b9777
+  SMBase: 781c36a269a2329925bf8fd864564b291fb063fd
+  SMKit: 782b9ba7d0f800ddeea065afbd972be0a7ede946
+  SMKitUI: bda36b46745eddd1e0e73a5ec710cf5fb6ce2fb8
   ZIPFoundation: dfd3d681c4053ff7e2f7350bc4e53b5dba3f5351
 
-PODFILE CHECKSUM: 740a24b8d65779a048a60f69e0fb480ca5dfd1a4
+PODFILE CHECKSUM: f00e775990e96d0b29d816ed759b5ffd85482bb7
 
 COCOAPODS: 1.16.2
