@@ -20,26 +20,26 @@
 ## 1. Installation <a name="inst"></a>
 
 ### Cocoapods
-*Demo pod version: SMKitUI '2.3.6'*
+*Demo pod version: SMKitUI '2.5.1'*
 
-This native demo is pinned to SMKitUI 2.3.6 and exposes the relevant SDK controls through the in-app Settings screen.
+This native demo targets SMKitUI 2.5.1 and exposes the relevant SDK controls through the in-app Settings screen.
 
 Support: iOS 15 or later; officially validated on iPhone X and newer. This device policy documents the validated support matrix; the SDK does not add a runtime model gate.
 
 ```ruby
-// [1] add the source to the top of your Podfile.
+# [1] add the source to the top of your Podfile.
 platform :ios, '15.0'
 
 source 'https://bitbucket.org/sencyai/ios_sdks_release.git'
 source 'https://github.com/CocoaPods/Specs.git'
 
-// [2] add the pod to your target
+# [2] add the pod to your target
 target 'YourApp' do
   use_frameworks!
-  pod 'SMKitUI', '2.3.6'
+  pod 'SMKitUI', '= 2.5.1'
 end
 
-// [3] add post_install hooks
+# [3] add post_install hooks
 post_install do |installer|
   installer.pods_project.targets.each do |target|
     target.build_configurations.each do |config|
@@ -51,14 +51,14 @@ post_install do |installer|
 end
 ```
 
-Run ```pod install --repo-update```
+Run ```pod install --repo-update``` to resolve SMKitUI, SMKit, and SMBase 2.5.1 from the release CocoaPods source.
 
 
 ### SPM
 
 In your Package Dependencies add this url https://bitbucket.org/sencyai/smkit_ui_package and then press Add package
 
-Current SPM package version: smkit_ui_package '2.3.6'
+SPM package version: smkit_ui_package '2.5.1'
 
 ## 2. Setup <a name="setup"></a>
 Add camera permission request to `Info.plist`
@@ -110,7 +110,7 @@ The app is a working catalog of the main SMKitUI flows, not only a collection of
 
 ## 6. Model and Asset Delivery <a name="asset-delivery"></a>
 
-SMKitUI 2.3.6 downloads models and required SDK assets from the server during configuration and before a relevant session begins. The SDK does not include bundled fallback models. Keep the device online for the first configuration and asset download; a valid, previously downloaded cache can be used offline later.
+SMKitUI 2.5.1 downloads models and required SDK assets from the server during configuration and before a relevant session begins. The SDK does not include bundled fallback models. Keep the device online for the first configuration and asset download; a valid, previously downloaded cache can be used offline later.
 
 `SMModelDownloadPolicy` controls how configuration uses the downloaded cache. Its fallback is a previously server-downloaded cache only, never an embedded model.
 

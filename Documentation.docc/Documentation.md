@@ -10,25 +10,25 @@
 
 ## 1. Installation <a name="inst"></a>
 
-*Latest pod version: SMKitUI '2.3.6'*
+*Pod version: SMKitUI '2.5.1'*
 
 Support: iOS 15 or later; officially validated on iPhone X and newer. This device policy documents the validated support matrix; the SDK does not add a runtime model gate.
 
 ### Cocoapods
 ```ruby
-// [1] add the source to the top of your Podfile.
+# [1] add the source to the top of your Podfile.
 platform :ios, '15.0'
 
 source 'https://bitbucket.org/sencyai/ios_sdks_release.git'
 source 'https://github.com/CocoaPods/Specs.git'
 
-// [2] add the pod to your target
+# [2] add the pod to your target
 target 'YourApp' do
   use_frameworks!
-  pod 'SMKitUI', '2.3.6'
+  pod 'SMKitUI', '= 2.5.1'
 end
 
-// [3] add post_install hooks
+# [3] add post_install hooks
 post_install do |installer|
   installer.pods_project.targets.each do |target|
     target.build_configurations.each do |config|
@@ -46,7 +46,7 @@ Run ```pod install --repo-update```
 
 In your Package Dependencies add this url https://bitbucket.org/sencyai/smkit_ui_package and then press Add package
 
-Latest version: smkit_ui_package '2.3.6'
+Version: smkit_ui_package '2.5.1'
 
 ## 2. Setup <a name="setup"></a>
 Add camera permission request to `Info.plist`
