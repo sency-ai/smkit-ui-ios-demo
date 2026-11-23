@@ -110,6 +110,9 @@ final class BuildWorkoutViewController: UIViewController {
     private let addTargetControl = UISegmentedControl(items: ["Workout", "Continuation"])
     private var startButton: UIBarButtonItem!
     private var clearButton: UIBarButtonItem!
+    private var downloadButton: UIBarButtonItem!
+    private var assetDownload: Task<Void, Never>?
+    deinit { assetDownload?.cancel() }
     private var addTargetHeightConstraint: NSLayoutConstraint?
     private var tableTopConstraint: NSLayoutConstraint?
     private var availableDetectors: [String] = []
@@ -145,7 +148,8 @@ final class BuildWorkoutViewController: UIViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(closeTapped))
         startButton = UIBarButtonItem(title: "Start", style: .done, target: self, action: #selector(startTapped))
         clearButton = UIBarButtonItem(title: "Clear", style: .plain, target: self, action: #selector(clearTapped))
-        navigationItem.rightBarButtonItems = [startButton, editButtonItem, clearButton]
+        downloadButton = UIBarButtonItem(title: "Download", style: .plain, target: self, action: #selector(downloadTapped))
+        navigationItem.rightBarButtonItems = [startButton, downloadButton, editButtonItem, clearButton]
     }
 
     private func configureLayout() {
@@ -285,6 +289,7 @@ final class BuildWorkoutViewController: UIViewController {
 
     private func updateStartState() {
         startButton?.isEnabled = !selectedExercises.isEmpty
+        downloadButton?.isEnabled = !selectedExercises.isEmpty && assetDownload == nil
         clearButton?.isEnabled = !selectedExercises.isEmpty || !continuationExercises.isEmpty
     }
 
@@ -306,6 +311,29 @@ final class BuildWorkoutViewController: UIViewController {
         continuationExercises.removeAll()
         tableView.reloadData()
         updateStartState()
+    }
+
+    @objc private func downloadTapped() {
+        guard assetDownload == nil, !selectedExercises.isEmpty else { return }
+        let exercises = selectedExercises + (settings.enableWorkoutContinuation ? continuationExercises : [])
+        let detectors = Array(Set(exercises.map(\.detector))).sorted()
+        downloadButton.isEnabled = false
+        assetDownload = SMKitUIModel.predownloadWorkoutAssets(detectors: detectors, progress: { [weak self] done, total in
+            DispatchQueue.main.async { self?.downloadButton.title = total > 0 ? "\(Int(100 * done / total))%" : "Downloading" }
+        }, completion: { [weak self] result in
+            DispatchQueue.main.async {
+                guard let self else { return }
+                self.assetDownload = nil; self.downloadButton.title = "Download"; self.updateStartState()
+                let message: String
+                switch result {
+                case .success(true): message = "Workout UI assets are ready. Offline starts also require cached models and a valid 10-day authorization from online configuration."
+                case .success(false): message = "Configure the SDK successfully before downloading workout assets."
+                case .failure(let error): message = error.localizedDescription
+                }
+                let alert = UIAlertController(title: "Workout download", message: message, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default)); self.present(alert, animated: true)
+            }
+        })
     }
 
     @objc private func startTapped() {
