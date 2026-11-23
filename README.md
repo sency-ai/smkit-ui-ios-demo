@@ -19,10 +19,10 @@
 
 ## 1. Installation <a name="inst"></a>
 
-### Cocoapods
-*Demo pod version: SMKitUI '2.5.1'*
+### CocoaPods
+*Demo pod version: SMKitUI '2.7.1'*
 
-This native demo targets SMKitUI 2.5.1 and exposes the relevant SDK controls through the in-app Settings screen.
+This native demo targets SMKitUI 2.7.1 and exposes the relevant SDK controls through the in-app Settings screen.
 
 Support: iOS 15 or later; officially validated on iPhone X and newer. This device policy documents the validated support matrix; the SDK does not add a runtime model gate.
 
@@ -36,7 +36,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 # [2] add the pod to your target
 target 'YourApp' do
   use_frameworks!
-  pod 'SMKitUI', '= 2.5.1'
+  pod 'SMKitUI', '= 2.7.1'
 end
 
 # [3] add post_install hooks
@@ -51,14 +51,14 @@ post_install do |installer|
 end
 ```
 
-Run ```pod install --repo-update``` to resolve SMKitUI, SMKit, and SMBase 2.5.1 from the release CocoaPods source.
+Run ```pod install --repo-update``` to resolve SMKitUI, SMKit, and SMBase 2.7.1 from the release CocoaPods source.
 
 
 ### SPM
 
 In your Package Dependencies add this url https://bitbucket.org/sencyai/smkit_ui_package and then press Add package
 
-SPM package version: smkit_ui_package '2.5.1'
+SPM package version: smkit_ui_package '2.7.1'
 
 ## 2. Setup <a name="setup"></a>
 Add camera permission request to `Info.plist`
@@ -110,7 +110,7 @@ The app is a working catalog of the main SMKitUI flows, not only a collection of
 
 ## 6. Model and Asset Delivery <a name="asset-delivery"></a>
 
-SMKitUI 2.5.1 downloads models and required SDK assets from the server during configuration and before a relevant session begins. The SDK does not include bundled fallback models. Keep the device online for the first configuration and asset download; a valid, previously downloaded cache can be used offline later.
+SMKitUI 2.7.1 downloads models and required SDK assets from the server during configuration and before a relevant session begins. The SDK does not include bundled fallback models. Keep the device online for the first configuration and asset download; a valid, previously downloaded cache can be used offline later.
 
 `SMModelDownloadPolicy` controls how configuration uses the downloaded cache. Its fallback is a previously server-downloaded cache only, never an embedded model.
 
@@ -435,3 +435,11 @@ let workout = SMWorkout(
 --------
 
 Having issues? [Contact us](mailto:support@sency.ai) and let us know what the problem is.
+
+
+### Pre-download and offline testing
+
+Configure online, build/select the custom workout, and use the new **Download** control before starting it. Wait for successful completion. Required models must also have completed preparation. Then switch to airplane mode and start the same workout. Offline authorization is valid for 10 days; reconnect and configure again when it expires. A successful asset download alone does not establish model or authorization readiness.
+
+Cancelled or failed downloads preserve completed cache files. Superseded vocals are reclaimed only after verified replacements are available; active and saved offline workout references remain protected.
+

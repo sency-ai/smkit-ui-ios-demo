@@ -7,7 +7,12 @@ workspace 'SMKitUIDemo.xcworkspace'
 
 target 'SMKitUIDemoApp' do
   use_frameworks!
-  pod 'SMKitUI', '= 2.5.1'
+  if ENV['SMKIT_LOCAL_SDK_ROOT']
+    require File.join(ENV.fetch('SMKIT_LOCAL_SDK_ROOT'), 'scripts', 'local-sdk-pods')
+    SMKitLocalPods.install(self, root: ENV.fetch('SMKIT_LOCAL_SDK_ROOT'), include_ui: true, version: '2.7.0')
+  else
+    pod 'SMKitUI', '= 2.7.1'
+  end
 end
 
 post_install do |installer|
