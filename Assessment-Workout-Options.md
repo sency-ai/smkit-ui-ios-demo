@@ -4,7 +4,7 @@ This document explains the various workout options available during assessments.
 
 ## EndExercisePreferences
 
-### Explention
+### Explanation
 
 `EndExercisePreferences` defines how each exercise session ends.
 
@@ -17,7 +17,7 @@ This document explains the various workout options available during assessments.
 
 Before starting an assessment, set the exercise end preference by calling the `setEndExercisePreferences` method:
 
-```swif
+```swift
     SMKitUIModel.setEndExercisePreferences(endExercisePreferences: .TargetBased)
 ```
 
@@ -25,7 +25,7 @@ Before starting an assessment, set the exercise end preference by calling the `s
 
 ## CounterPreferences
 
-### Explention
+### Explanation
 
 `CounterPreferences` determines which movement data will be tracked in the user interface.
 
