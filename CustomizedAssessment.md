@@ -92,7 +92,7 @@ let exercises:[SMAssessmentExercise] = [
 ]
 
 // [2] Create assessment with the list of exerxises
-let assessment = SMWorkoutAssessmet(
+let assessment = SMWorkoutAssessment(
     id: "",
     name: "TEST",
     workoutIntro: intro,
@@ -102,11 +102,63 @@ let assessment = SMWorkoutAssessmet(
 )
 
 do{
-// [3] call startCustomAssessment function with the cystom assessmet from step 2
-    try SMKitUIModel.startCustomAssessment(viewController: self, assessment: assessment, delegate: self) { error in
-        self.showAlert(title: error.localizedDescription)
-    }
+// [3] call startCustomAssessment function with the custom assessment from step 2
+    try SMKitUIModel.startCustomAssessment(
+        viewController: self,
+        assessment: assessment,
+        userData: nil,                 // Optional. When nil, the SDK asks the user for age and gender.
+        forceShowUserDataScreen: false, // If true, the user-data screen is always shown.
+        showSummary: true,             // If true, the summary screen is shown at the end.
+        delegate: self,
+        onFailure: { error in
+            self.showAlert(title: error.localizedDescription)
+        },
+        modifications: nil,            // Optional feedback-parameter modifications (see README §9).
+        showPhoneCalibration: true     // Set false to skip the phone-calibration screen.
+    )
 }catch{
     showAlert(title: error.localizedDescription)
 }
+```
+
+### ScoringParams
+
+| Parameter | Description |
+|-----------|-------------|
+| `type` | `.reps` (dynamic exercises), `.time` (static/hold exercises), or `.rom` (range-of-motion exercises). |
+| `scoreFactor` | Weight of the performance score versus the technique score, in the range 0–1. |
+| `targetReps` | Required for `.reps`. The rep count that represents a full performance score. |
+| `targetTime` | Required for `.time`. The hold time, in seconds, that represents a full performance score. |
+| `targetRom` | Required for `.rom`. The ROM feedback name to score against, for example `"AnklesMobilityBendLeg"` for `AnkleMobilityLeft`. |
+| `passCriteria` | Optional list of form-feedback names used as pass criteria for static exercises. |
+
+```swift
+let romScoringParams = ScoringParams(
+    type: .rom,
+    scoreFactor: 0.5,
+    targetTime: nil,
+    targetReps: nil,
+    targetRom: "AnklesMobilityBendLeg"
+)
+```
+
+### Target progress
+
+Set `showTargetProgress: true` on a reps-scored `SMAssessmentExercise` to show the rep counter as progress toward `targetReps`. Combine it with `SMKitUIModel.setEndExercisePreferences(endExercisePreferences: .TargetBased)` so the exercise ends when the target is reached. See [Assessment Workout Options](https://github.com/sency-ai/smkit-ui-ios-demo/blob/main/Assessment-Workout-Options.md).
+
+```swift
+let exercise = SMAssessmentExercise(
+    name: "High Knees",
+    exerciseIntro: nil,
+    totalSeconds: 30,
+    videoInstruction: "HighKnees",
+    uiElements: [.repsCounter],
+    detector: "HighKnees",
+    exerciseClosure: nil,
+    summaryTitle: "High Knees",
+    summarySubTitle: "Dynamic",
+    summaryTitleMainMetric: "Reps",
+    scoringParams: dynamicScoringParams,
+    showTargetProgress: true
+)
 ```

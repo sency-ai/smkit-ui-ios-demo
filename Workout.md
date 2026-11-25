@@ -54,7 +54,7 @@ let workout = SMWorkout(
     workoutIntro: "", // (optinal) a path to intro audio file
     soundtrack: "", // (optinal) a path to a soundtrack audio file
     exercises: exercises, // sequence of exercises
-    workoutClosure: "", // (optinal) a path to outro audio file
+    workoutClosure: "" // (optional) a path to outro audio file
 )
 
 do{

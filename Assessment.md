@@ -69,7 +69,7 @@ func startCustomAssessment(){
         try SMKitUIModel.startAssessmet(
         viewController: self,
         type: AssessmentTypes.Custom,
-        customAssessmentID: "YOUR_CUSTOM_ASSESSMENT" // This is optional if you have multiple 'Custom Assessment' you can provide the assessment ID in order to start the assessment
+        customAssessmentID: "YOUR_CUSTOM_ASSESSMENT", // This is optional if you have multiple 'Custom Assessment' you can provide the assessment ID in order to start the assessment
         userData: userData,
         delegate: self,
         onFailure: { error in
@@ -80,6 +80,8 @@ func startCustomAssessment(){
     }
 }
 ```
+
+`startAssessmet` also accepts `modifications:` (feedback-parameter modifications, see README §9) and `showPhoneCalibration:` (pass `false` to skip the phone-calibration screen).
 
 ### Blueprint AssessmentTypes <a name="assessment-types"></a>
 | Name (enum)         | Description |More info|
