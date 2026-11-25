@@ -9,6 +9,9 @@ import SwiftUI
 
 struct MainView: View {
     @ObservedObject var authModel = AuthManager.shared
+    @ObservedObject var presetState: DemoPresetState
+    let mobilityFlowWasPressed:()->Void
+    let exampleWorkoutWasPressed:()->Void
     let buildWorkoutWasPressed:()->Void
     let buildAssessmentWasPressed:()->Void
     let startAssessmentWasPressed:()->Void
@@ -42,9 +45,35 @@ struct MainView: View {
         )
     }
 
+    private func presetButton(_ title: String, systemImage: String, disabled: Bool = false, action: @escaping ()->Void) -> some View {
+        Button {
+            if authModel.didFinishAuth { action() }
+        } label: {
+            Label(title, systemImage: systemImage)
+                .font(.headline)
+                .padding()
+                .frame(maxWidth: .infinity, minHeight: 48)
+                .background(RoundedRectangle(cornerRadius: 12).fill(Color.accentColor))
+                .foregroundColor(.white)
+        }
+        .disabled(disabled)
+        .opacity(disabled ? 0.6 : 1)
+        .padding(.horizontal, 24)
+    }
+
     var body: some View {
         ScrollView {
             VStack(spacing: 16) {
+                presetButton(
+                    presetState.preparingPreset == DemoPresets.mobilityFlowName
+                        ? "Preparing Mobility Flow…"
+                        : DemoPresets.mobilityFlowName,
+                    systemImage: "figure.walk",
+                    disabled: presetState.preparingPreset != nil,
+                    action: mobilityFlowWasPressed
+                )
+                presetButton(DemoPresets.exampleWorkoutName, systemImage: "flame.fill", action: exampleWorkoutWasPressed)
+
                 workoutButton("BUILD WORKOUT", action: buildWorkoutWasPressed)
                 workoutButton("BUILD ASSESSMENT", action: buildAssessmentWasPressed)
                 workoutButton("START BUILT-IN ASSESSMENT", action: startAssessmentWasPressed)
@@ -68,6 +97,9 @@ struct MainView: View {
 
 #Preview {
     MainView(
+        presetState: DemoPresetState(),
+        mobilityFlowWasPressed: {},
+        exampleWorkoutWasPressed: {},
         buildWorkoutWasPressed: {},
         buildAssessmentWasPressed: {},
         startAssessmentWasPressed: {},

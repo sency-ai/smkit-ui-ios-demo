@@ -12,8 +12,15 @@ import SMBase
 
 class ViewController: UIViewController {
 
+    private let presetState = DemoPresetState()
+    private var presetThemeActive = false
+    private var guidanceSuggestionBeforePreset: Bool?
+
     lazy var mainView:UIView = {
         guard let view = UIHostingController(rootView: MainView(
+            presetState: presetState,
+            mobilityFlowWasPressed: mobilityFlowWasPressed,
+            exampleWorkoutWasPressed: exampleWorkoutWasPressed,
             buildWorkoutWasPressed: buildWorkoutWasPressed,
             buildAssessmentWasPressed: buildAssessmentWasPressed,
             startAssessmentWasPressed: startAssessmentWasPressed,
@@ -163,6 +170,74 @@ class ViewController: UIViewController {
             )
         }catch{
             showAlert(title: error.localizedDescription)
+        }
+    }
+
+    func mobilityFlowWasPressed() {
+        let workout = DemoPresets.mobilityFlow()
+        DemoSettingsStore.shared.applyToSDK()
+        // SMKitUI 2.7.3 plays its opening prompts as soon as a session starts. If
+        // the Mobility Flow voice files are still downloading, it falls back to the
+        // main voice ("Building your session"). Preparing the same workout first
+        // downloads them; if preparing fails, the session downloads what it needs.
+        presetState.preparingPreset = DemoPresets.mobilityFlowName
+        // A first download can take ~25 s; on stage, start after 15 s anyway.
+        // Whichever comes first starts the session; the other is ignored.
+        var started = false
+        let startOnce: () -> Void = { [weak self] in
+            guard let self, !started else { return }
+            started = true
+            self.presetState.preparingPreset = nil
+            self.startPreset(workout)
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 15) {
+            if !started { print("predownloadWorkoutAssets(Mobility Flow) still running after 15 s; starting") }
+            startOnce()
+        }
+        SMKitUIModel.predownloadWorkoutAssets(workout: workout, progress: { _, _ in }) { result in
+            DispatchQueue.main.async {
+                if case .failure(let error) = result {
+                    print("predownloadWorkoutAssets(Mobility Flow) failed: \(error)")
+                }
+                startOnce()
+            }
+        }
+    }
+
+    func exampleWorkoutWasPressed() {
+        startPreset(DemoPresets.exampleWorkout(), guidanceSuggestion: true)
+    }
+
+    /// Starts a home-screen preset with the current UI settings, but always in
+    /// the blue color theme. The demo's settings are restored when it ends.
+    private func startPreset(_ workout: SMWorkout, guidanceSuggestion: Bool = false) {
+        DemoSettingsStore.shared.applyToSDK()
+        presetThemeActive = true
+        SMKitUIModel.colorTheme = .blue
+        if guidanceSuggestion {
+            guidanceSuggestionBeforePreset = SMKitUIModel.enableGuidanceModeSuggestion
+            SMKitUIModel.enableGuidanceModeSuggestion = true
+        }
+        do {
+            try SMKitUIModel.startWorkout(
+                viewController: self,
+                workout: workout,
+                delegate: self,
+                showPhoneCalibration: DemoSettingsStore.shared.showPhoneCalibration
+            )
+        } catch {
+            restoreSettingsAfterPreset()
+            showAlert(title: "Could not start \(workout.name ?? "preset")", message: error.localizedDescription)
+        }
+    }
+
+    private func restoreSettingsAfterPreset() {
+        guard presetThemeActive else { return }
+        presetThemeActive = false
+        DemoSettingsStore.shared.applyToSDK()
+        if let guidanceSuggestion = guidanceSuggestionBeforePreset {
+            SMKitUIModel.enableGuidanceModeSuggestion = guidanceSuggestion
+            guidanceSuggestionBeforePreset = nil
         }
     }
 
@@ -436,15 +511,17 @@ extension ViewController: GuidanceModeViewControllerDelegate {
 extension ViewController:SMKitUIWorkoutDelegate{
     //If there is an error during runtime, it will be received here.
     func handleWorkoutErrors(error: Error) {
-        
+        restoreSettingsAfterPreset()
     }
     //When the user finishes the workout, this function will be called.
     func workoutDidFinish() {
+        restoreSettingsAfterPreset()
         //Will close SMKitUI.
         SMKitUIModel.exitSDK()
     }
     //When the user exits the workout before finishing, this function will be called.
     func didExitWorkout() {
+        restoreSettingsAfterPreset()
         //Will close SMKitUI.
         SMKitUIModel.exitSDK()
     }
@@ -455,5 +532,6 @@ extension ViewController:SMKitUIWorkoutDelegate{
     
     // When the summary is avilable this function will be called.
     func didReceiveSummaryData(data: WorkoutSummaryData?) {
+        restoreSettingsAfterPreset()
     }
 }
